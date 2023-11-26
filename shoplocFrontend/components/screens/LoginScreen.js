@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = ({ navigation }) => {
 
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Bienvenue</Text>
