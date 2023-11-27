@@ -14,7 +14,6 @@ const CreateAccountScreen = () => {
           <CustomInput type={"password"} label={"Votre mot de passe"} placeholder={"Votre mot de passe"}/>
           <CustomInput type={"password"} label={"Confirmation - Votre mot de passe"} placeholder={"Votre mot de passe"}/>
           <CustomButton text={"Créer un compte"}/>
-
           <Text style={styles.footer}>
               ShopLoc by SEQI
           </Text>
