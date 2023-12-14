@@ -10,12 +10,10 @@ import java.util.Set;
 @Singleton
 public class AuthJwtService {
 
-    public String generateJwt() {
-        Set<String> roles = new HashSet<>(Arrays.asList("admin", "user"));
-
+    public String generateJwtForUser(Long userId) {
         return Jwt.issuer("auth")
-                .subject("shoploc-manager")
-                .groups(roles)
+                .subject(String.valueOf(userId))
+                .groups("user")
                 .expiresAt(
                         System.currentTimeMillis() + 3600
                 )
