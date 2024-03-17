@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import colors  from './../assets/colors';
 
-const ProductCard = ({ navigation, name, id, quantity, description, imageUrl }) => {
+const ProductCard = ({ navigation, name, id, quantity, description, imageUrl, price }) => {
   const [cartQuantity, setCartQuantity] = useState(0);
 
   const handleAddToCart = () => {
@@ -19,6 +19,7 @@ const ProductCard = ({ navigation, name, id, quantity, description, imageUrl }) 
     <View style={styles.card}>
         <Image source={{ uri: imageUrl }} style={styles.image} />
         <Text style={styles.name}>{name}</Text>
+        <Text style={styles.description}>{price}</Text>
         <Text style={[styles.quantity, { color: quantity === 0 ? colors.error : colors.valid }]}>
           {quantity === 0 ? 'Rupture de stock' : `En stock: ${quantity}`}
         </Text>

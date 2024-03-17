@@ -63,12 +63,13 @@ const ShopScreen = ({ route, navigation }) => {
         {products.map((product) => (
           <ProductCard
             key={product.id}
-            name={product.nom}
-            quantity={product.disponibilite}
+            name={product.name}
+            quantity={product.availability}
             description={product.description}
-            imageUrl={product.image}
+            imageUrl={product.imageUrl}
             navigation={navigation}
             id={product.id}
+            price={product.price}
           />
         ))}
       </ScrollView>

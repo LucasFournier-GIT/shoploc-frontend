@@ -58,10 +58,10 @@ const HomeScreen = ({ navigation }) => {
                 
                 <ShopCard
                     key={shop.id}
-                    name={shop.nom} 
-                    status={shop.status}
-                    hours={shop.horairesOuverture}
-                    imageUrl={shop.image}
+                    name={shop.name} 
+                    status={true}
+                    hours={shop.opening_hours}
+                    imageUrl={shop.image_url}
                     navigation={navigation}
                     id={shop.id}
                 />
