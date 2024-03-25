@@ -3,13 +3,14 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import CartItem from './CartItem';
 import colors from "./../assets/colors";
 
-const ShopCartSummary = ({ store, navigation }) => {
+const ShopCartSummary = ({ store, navigation, shopName }) => {
   const removeFromCart = (productIdToRemove) => {
     // Logique pour retirer un produit du panier
   };
 
 // Fonction pour augmenter la quantité d'un produit dans le panier
 const handleIncrease = (productId) => {
+  console.log("Ajout du produit d'id : ", productId)
   // Trouver le produit dans le panier en fonction de son ID (productId)
   //const updatedProducts = store.products.map((product) => {
   //  if (product.id === productId) {
@@ -24,6 +25,8 @@ const handleIncrease = (productId) => {
 
 // Fonction pour diminuer la quantité d'un produit dans le panier
 const handleDecrease = (productId) => {
+  console.log("Retrait du produit d'id : ", productId)
+
   // Trouver le produit dans le panier en fonction de son ID (productId)
   //const updatedProducts = store.products.map((product) => {
   //  if (product.id === productId && product.quantity > 0) {
@@ -45,12 +48,15 @@ const handleValidate = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading2}>{store.name}</Text>
+      <Text style={styles.heading2}>{shopName}</Text>
 
-      {store.products.map((product) => (
+      {store.map((product) => (
         <CartItem
           key={product.id}
-          product={product}
+          name={product.productName}
+          price={product.price}
+          quantity={product.quantity}
+          imageUrl={product.imageUrl}
           handleIncrease={() => handleIncrease(product.id)}
           handleDecrease={() => handleDecrease(product.id)}
           removeFromCart={() => removeFromCart(product.id)}
