@@ -13,7 +13,7 @@ const CartScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchUserCarts = async () => {
       try {
-        const response = await fetch('http://localhost:8080/product_in_cart/user_carts', {
+        const response = await fetch('http://localhost:8080/api/product_in_cart', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -45,19 +45,22 @@ const CartScreen = ({ navigation }) => {
             }, 0)
           );
         }, 0);
-
         navigation.navigate("RecapCartScreen", { TotalAmount: totalAmount, navigation: navigation });
-
       };
+
+      const handleVoir = () => {
+          console.log (userCarts);
+    }
       
   return (
     <View style={styles.container}>
         <Text style={styles.heading}>Paniers</Text>
-        <Text>{token}</Text>
         <ScrollView style={styles.card}>
 
           {userCarts.map((cart) => (
-            <ShopCartSummary navigation={navigation} key={cart.id} store={cart} />
+            <ShopCartSummary navigation={navigation}
+                             shopName={cart.shopName}
+                             key={cart.id} store={cart.products} />
           ))}
       </ScrollView>
 

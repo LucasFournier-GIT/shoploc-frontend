@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import {View, Text, Button, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import colors from "./../assets/colors";
 
-const CartItem = ({ product, handleIncrease, handleDecrease }) => {
+const CartItem = ({ handleIncrease, handleDecrease, name,  price, quantity, imageUrl}) => {
+
   return (
     <View style={styles.container}>
-      <Text style={styles.productName}>{product.name}</Text>
-      <Text>{product.price * product.quantity}€</Text>
+      <Image source={{ uri: imageUrl }} style={styles.image} />
+      <Text style={styles.productName}>{name}</Text>
+      <Text>{price * quantity}€</Text>
       <View style={styles.quantityContainer}>
         <TouchableOpacity style={styles.button} onPress={handleIncrease}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
-        <Text style={styles.quantityText}>{product.quantity}</Text>
+        <Text style={styles.quantityText}>{quantity}</Text>
         <TouchableOpacity style={styles.button} onPress={handleDecrease}>
           <Text style={styles.buttonText}>-</Text>
         </TouchableOpacity>
@@ -57,6 +59,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white"
+  },
+  image:{
+    width:"50px",
+    height:"50px"
   }
 });
 
