@@ -10,6 +10,9 @@ import ShopScreen from './components/screens/ShopScreen';
 import CartScreen from './components/screens/CartScreen';
 import PaymentScreen from './components/screens/PaymentScreen';
 import RecapCart from './components/screens/RecapCartScreen';
+import ShopProductsScreen from './components/shop/shopScreens/ShopProductsScreen';
+import ShopOrdersScreen from './components/shop/shopScreens/ShopOrdersScreen';
+import ShopProfileScreen from './components/shop/shopScreens/ShopProfileScreen';
 import { AuthProvider } from './components/AuthContext';
 
 const Stack = createStackNavigator();
@@ -27,7 +30,9 @@ export default function App() {
           <Stack.Screen name="CartScreen" component={CartScreen} options={{headerShown: false}} />
           <Stack.Screen name="RecapCartScreen" component={RecapCart} options={{headerShown: false}} />
           <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{headerShown: false}} />
-
+          <Stack.Screen name="ShopProductsScreen" component={ShopProductsScreen} options={{headerShown: false}} />
+          <Stack.Screen name="ShopOrdersScreen" component={ShopOrdersScreen} options={{headerShown: false}} />
+          <Stack.Screen name="ShopProfileScreen" component={ShopProfileScreen} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>
