@@ -65,7 +65,7 @@ const ShopProductsScreen = ({ navigation }) => {
             />
             <View style={styles.head} >
               <Image source={logo} style={styles.logo} />
-              <Text style={styles.title}>Products</Text>
+              <Text style={styles.title}>Mes produits</Text>
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
 
