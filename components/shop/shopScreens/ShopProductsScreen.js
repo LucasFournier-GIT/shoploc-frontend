@@ -74,6 +74,7 @@ const ShopProductsScreen = ({ navigation }) => {
                     {products.map(product => (
                         <ShopProduct
                             key={product.id}
+                            id={product.id}
                             navigation={navigation}
                             imageUrl={product.imageUrl}
                             name={product.name}

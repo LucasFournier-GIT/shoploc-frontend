@@ -3,9 +3,13 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 //import colors from './../assets/colors';
 
-const ShopProduct = ({ imageUrl, name, quantity, price, description }) => {
+const ShopProduct = ({ navigation, id, imageUrl, name, quantity, price, description }) => {
     const truncatedDescription = description.length > 30 ? `${description.substring(0, 27)}...` : description;
-    console.log(imageUrl);
+
+    function handleUpdate(id) {
+        navigation.navigate('ShopUpdateProduct', { id });
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.productContainer}>
@@ -19,7 +23,7 @@ const ShopProduct = ({ imageUrl, name, quantity, price, description }) => {
                     <Text style={styles.description}>{truncatedDescription}</Text>
                 </View>
             </View>
-            <TouchableOpacity style={styles.editButton}>
+            <TouchableOpacity style={styles.editButton} onPress={() => handleUpdate(id)}>
                 <Ionicons name="pencil" size={24} color="white" />
             </TouchableOpacity>
         </View>

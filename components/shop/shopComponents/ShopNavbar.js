@@ -62,6 +62,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
+        position:"absolute",
+        width:"90%",
+        bottom:"0px",
+        alignSelf:"center",
     },
     active: {
         backgroundColor: colors.primary,

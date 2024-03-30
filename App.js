@@ -14,6 +14,7 @@ import ShopProductsScreen from './components/shop/shopScreens/ShopProductsScreen
 import ShopOrdersScreen from './components/shop/shopScreens/ShopOrdersScreen';
 import ShopProfileScreen from './components/shop/shopScreens/ShopProfileScreen';
 import { AuthProvider } from './components/AuthContext';
+import ShopUpdateProduct from "./components/shop/shopScreens/ShopUpdateProduct";
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ export default function App() {
           <Stack.Screen name="ShopProductsScreen" component={ShopProductsScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopOrdersScreen" component={ShopOrdersScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopProfileScreen" component={ShopProfileScreen} options={{headerShown: false}} />
+          <Stack.Screen name="ShopUpdateProduct" component={ShopUpdateProduct} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>
