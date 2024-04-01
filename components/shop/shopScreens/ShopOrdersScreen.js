@@ -16,6 +16,11 @@ const ShopOrdersScreen = ({ navigation }) => {
         { id: 3, date: '2024-03-23', status: 'en préparation', montant: 75, estPayee: true, listProducts: [{ name: 'Product 5' }, { name: 'Product 6' }], idUser: 3 }
     ];
 
+
+    function handleOrderPressed(orderId) {
+        navigation.navigate('ShopOrderDetailsScreen', { orderId, navigation });
+    }
+
     return (
         <View style={styles.container}>
             <StatusBar
@@ -28,7 +33,7 @@ const ShopOrdersScreen = ({ navigation }) => {
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 {orders.map(order => (
-                    <ShopOrder key={order.id} order={order} onPress={(orderId) => console.log("Order clicked:", orderId)} />
+                    <ShopOrder key={order.id} order={order} onPress={(orderId) => handleOrderPressed(orderId)} />
                 ))}
             </ScrollView>
             <ShopNavbar navigation={navigation} screen="ShopOrdersScreen" />
