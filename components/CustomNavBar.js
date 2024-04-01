@@ -1,11 +1,7 @@
-import { Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { View } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons'; 
-import { Entypo } from '@expo/vector-icons'; 
-import { useState } from "react";
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons'; 
 import colors from "./../assets/colors";
