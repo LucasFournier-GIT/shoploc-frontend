@@ -1,17 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Image, StatusBar, View } from "react-native";
-import { StyleSheet } from "react-native";
+import React, { useContext } from "react";
+import { Image, StatusBar, View, StyleSheet, ScrollView } from "react-native";
 import { Text } from "react-native";
-import { SearchBar } from 'react-native-elements';
-import { ScrollView } from "react-native";
-import logo from "./../../../assets/logo.png";
-import colors from "../../../assets/colors";
-import { AuthContext } from "./../../AuthContext";
+import { AuthContext } from "../../AuthContext";
 import ShopNavbar from './../shopComponents/ShopNavbar';
-const ShopOrdersScreen = ({ navigation }) => {
+import ShopOrder from './../shopComponents/ShopOrder';
+import colors from "../../../assets/colors";
+import logo from "./../../../assets/logo.png";
 
-    const { token, updateToken } = useContext(AuthContext);
-    
+const ShopOrdersScreen = ({ navigation }) => {
+    const { token } = useContext(AuthContext);
+
+    const orders = [
+        { id: 1, date: '2024-03-25', status: 'en cours', montant: 50, estPayee: false, listProducts: [{ name: 'Product 1' }, { name: 'Product 2' }], idUser: 1 },
+        { id: 2, date: '2024-03-24', status: 'terminée', montant: 100, estPayee: true, listProducts: [{ name: 'Product 3' }, { name: 'Product 4' }], idUser: 2 },
+        { id: 3, date: '2024-03-23', status: 'en préparation', montant: 75, estPayee: true, listProducts: [{ name: 'Product 5' }, { name: 'Product 6' }], idUser: 3 }
+    ];
 
     return (
         <View style={styles.container}>
@@ -20,11 +23,13 @@ const ShopOrdersScreen = ({ navigation }) => {
                 backgroundColor={colors.primary}
             />
             <View style={styles.head} >
-              <Image source={logo} style={styles.logo} />
-              <Text>Orders</Text>
+                <Image source={logo} style={styles.logo} />
+                <Text style={styles.title}>Orders</Text>
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                
+                {orders.map(order => (
+                    <ShopOrder key={order.id} order={order} onPress={(orderId) => console.log("Order clicked:", orderId)} />
+                ))}
             </ScrollView>
             <ShopNavbar navigation={navigation} screen="ShopOrdersScreen" />
         </View>
@@ -36,24 +41,15 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background,
     },
-    searchBarContainer: {
-        backgroundColor: colors.background,
-        borderWidth: 1.5,
-        borderColor: colors.primary,
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-        paddingHorizontal: 10,
-        height: "150%",
-        flexDirection: "row",
-        flex: 1,
-    },
     scrollViewContent: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-evenly',
-        paddingHorizontal: 5, 
-        paddingBottom: "25%", 
-        backgroundColor: colors.background,
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: 100,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: colors.primary,
     },
     logo: {
         width: 50,
@@ -64,11 +60,14 @@ const styles = StyleSheet.create({
     head: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         backgroundColor: colors.background,
-        position: 'sticky',
-        top: 0,
-        zIndex: 1, 
-    }
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingBottom: 10,
+        borderBottomWidth: 3,
+        borderBottomColor: colors.primary,
+    },
 });
 
 export default ShopOrdersScreen;
