@@ -25,7 +25,7 @@ const ShopOrder = ({ order, onPress }) => {
         <View style={[containerStyle, { borderBottomColor: borderColor }]}>
             <TouchableOpacity onPress={handlePress}>
                 <View style={styles.innerContainer}>
-                    <Text style={textStyle}>Commande #{id}</Text>
+                    <Text style={textStyle}><b>Commande #{id}</b></Text>
                     <Text style={textStyle}>{listProducts.length} produit(s) | {statusText} | {estPayee ? 'Payée' : 'Non payée'}</Text>
                 </View>
             </TouchableOpacity>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
         borderRadius: 32.5,
         elevation: 10,
-        marginBottom: 20,
+        marginBottom: 25,
         borderBottomWidth: 10,
     },
     innerContainer: {
