@@ -64,12 +64,13 @@ const ShopScreen = ({ route, navigation }) => {
           <ProductCard
             key={product.id}
             name={product.name}
-            quantity={product.availability}
+            availability={product.availability}
             description={product.description}
             imageUrl={product.imageUrl}
             navigation={navigation}
             id={product.id}
             price={product.price}
+            quantity={0}//TODO CHANGER
           />
         ))}
       </ScrollView>

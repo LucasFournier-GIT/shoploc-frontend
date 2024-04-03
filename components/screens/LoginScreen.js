@@ -41,7 +41,6 @@ const LoginScreen = ({ navigation }) => {
         const receivedToken = data.token;
         setToken(receivedToken);
         updateToken(receivedToken);
-        console.log('Token reçu : ', receivedToken);
         navigation.navigate('HomeScreen');
       }else if (response.status === 403) {
         setIsModalVisible(true); 
