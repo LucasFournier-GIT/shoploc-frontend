@@ -3,27 +3,28 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 //import colors from './../assets/colors';
 
-const ShopProduct = ({ navigation, id, imageUrl, name, quantity, price, description }) => {
-    const truncatedDescription = description.length > 30 ? `${description.substring(0, 27)}...` : description;
+const ShopProduct = ({ navigation, product, refreshProducts }) => {
+    const truncatedDescription = product.description.length > 30 ? `${product.description.substring(0, 27)}...` : product.description;
 
-    function handleUpdate(id) {
-        navigation.navigate('ShopUpdateProduct', { id });
+    function handleUpdate(product) {
+        navigation.navigate('ShopUpdateProduct', { product, refreshProducts });
     }
+
 
     return (
         <View style={styles.container}>
             <View style={styles.productContainer}>
-                <Image source={{ uri: imageUrl }} style={styles.image} />
+                <Image source={{ uri: product.imageUrl }} style={styles.image} />
                 <View style={styles.productInfo}>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{name} -</Text>
-                        <Text style={styles.details}>{quantity} -</Text>
-                        <Text style={styles.details}>{price}€</Text>
+                        <Text style={styles.title}>{product.name} -</Text>
+                        <Text style={styles.details}>{product.availability} -</Text>
+                        <Text style={styles.details}>{product.price}€</Text>
                     </View>
                     <Text style={styles.description}>{truncatedDescription}</Text>
                 </View>
             </View>
-            <TouchableOpacity style={styles.editButton} onPress={() => handleUpdate(id)}>
+            <TouchableOpacity style={styles.editButton} onPress={() => handleUpdate(product)}>
                 <Ionicons name="pencil" size={24} color="white" />
             </TouchableOpacity>
         </View>

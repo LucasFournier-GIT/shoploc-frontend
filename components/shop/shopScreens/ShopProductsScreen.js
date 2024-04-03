@@ -13,49 +13,36 @@ import ShopProduct from "../shopComponents/ShopProduct";
 const ShopProductsScreen = ({ navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
 
-    //TODO recuperer le token du magasin 
-    //const [products, setProducts] = useState([]);
+    let shopId = 1;
+    const [products, setProducts] = useState([]);
 
-    /*useEffect(() => {
-        // Fonction pour récupérer les produits du magasin
-        const fetchShopProducts = async () => {
-            try {
-                // Assurez-vous d'ajuster l'URL en fonction de votre API
-                const response = await fetch(`http://localhost:8080/api/product/shop/${token}`);
-                if (response.ok) {
-                    const data = await response.json();
-                    // Mettez à jour l'état avec les produits récupérés
-                    setProducts(data.products);
-                } else {
-                    console.error('Erreur lors de la récupération des produits');
+    const fetchShopProducts = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/product/shop/${shopId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
-            } catch (error) {
-                console.error('Erreur lors de la récupération des produits : ', error);
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setProducts(data);
+            } else {
+                console.error('Erreur lors de la récupération des produits');
             }
-        };
+        } catch (error) {
+            console.error('Erreur lors de la récupération des produits : ', error);
+        }
+    };
 
-        // Appelez la fonction pour récupérer les produits lorsque le composant est monté
+    useEffect(() => {
         fetchShopProducts();
-    }, [token]); // Assurez-vous de passer [token] comme dépendance pour que cette requête soit effectuée à chaque changement de token
-     */
-    const products = [
-        {
-            id: 1,
-            name: 'Product 1',
-            description: 'Description du produit 1',
-            imageUrl: 'https://i-sam.unimedias.fr/2023/02/09/istock-1222018207.jpg?auto=format%2Ccompress&crop=faces&cs=tinysrgb&fit=crop&h=501&w=890',
-            price: '$10.00',
-            quantity: 5,
-        },
-        {
-            id: 2,
-            name: 'Product 2',
-            description: 'Longue description pour le produit numero 2',
-            imageUrl: 'https://leblogdulait.fr/wp-content/uploads/2015/06/bouteils-de-lait.jpg',
-            price: '$15.00',
-            quantity: 0,
-        },
-    ];
+    }, [shopId, token]);
+
+    const refreshProducts = () => {
+        fetchShopProducts();
+    };
+
 
     return (
         <View style={styles.container}>
@@ -74,13 +61,9 @@ const ShopProductsScreen = ({ navigation }) => {
                     {products.map(product => (
                         <ShopProduct
                             key={product.id}
-                            id={product.id}
                             navigation={navigation}
-                            imageUrl={product.imageUrl}
-                            name={product.name}
-                            quantity={product.quantity}
-                            price={product.price}
-                            description={product.description}
+                            product={product}
+                            refreshProducts={refreshProducts}
                         />
                     ))}
                 </View>
