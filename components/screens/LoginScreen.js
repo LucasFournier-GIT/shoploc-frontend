@@ -22,7 +22,8 @@ const LoginScreen = ({ navigation }) => {
 
   const handleUserTypeChange = (value) => { setUserType(value); };
 
-  const backendUrl = Config.BACKEND_URL;
+  //const backendUrl = Config.BACKEND_URL;
+  const backendUrl = "http://localhost:8080";
 
   const handleConnexion = async () => {
 
