@@ -13,7 +13,8 @@ const ProfileInfo = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  const backendUrl = Config.BACKEND_URL;
+  //const backendUrl = Config.BACKEND_URL;
+  const backendUrl = "http://localhost:8080";
 
   useEffect(() => {
     const fetchUserInfo = async () => {

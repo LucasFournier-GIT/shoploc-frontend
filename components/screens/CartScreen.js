@@ -11,9 +11,11 @@ const CartScreen = ({ navigation }) => {
   const [userCarts, setUserCarts] = useState([]);
   const { token, updateToken } = useContext(AuthContext);
 
-    const backendUrl = Config.BACKEND_URL;
+  //const backendUrl = Config.BACKEND_URL;
+    const backendUrl = "http://localhost:8080";
 
-  useEffect(() => {
+
+    useEffect(() => {
     const fetchUserCarts = async () => {
       try {
         const response = await fetch('http://localhost:8080/api/product_in_cart', {

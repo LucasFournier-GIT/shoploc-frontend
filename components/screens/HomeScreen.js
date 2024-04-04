@@ -15,7 +15,8 @@ const HomeScreen = ({ navigation }) => {
     const [shops, setShops] = useState([]);
     const { token, updateToken } = useContext(AuthContext);
 
-    const backendUrl = Config.BACKEND_URL;
+    //const backendUrl = Config.BACKEND_URL;
+    const backendUrl = "http://localhost:8080";
 
     useEffect(() => {
       const fetchShopData = async () => {

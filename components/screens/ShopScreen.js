@@ -17,7 +17,8 @@ const ShopScreen = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
 
-  const backendUrl = Config.BACKEND_URL;
+  //const backendUrl = Config.BACKEND_URL;
+  const backendUrl = "http://localhost:8080";
 
   useEffect(() => {
     const fetchProducts = async () => {

@@ -17,7 +17,6 @@ const ProductCard = ({ name, id, availability, description, imageUrl, price, qty
           'Content-Type': 'application/json',
         },
       });
-
       if (response.ok) {
         console.log('Produit ajouté au panier avec succès !');
         setQuantity(prevQuantity => prevQuantity + 1);
@@ -40,7 +39,6 @@ const ProductCard = ({ name, id, availability, description, imageUrl, price, qty
             'Content-Type': 'application/json',
           },
         });
-
         if (response.ok) {
           console.log('Produit supprimé du panier avec succès !');
           setQuantity(prevQuantity => prevQuantity - 1);
