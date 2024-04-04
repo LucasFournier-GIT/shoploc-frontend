@@ -9,64 +9,34 @@ import colors from "../../../assets/colors";
 
 const ShopUpdateProduct = ({ route, navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
-    const { id } = route.params;
-
-    console.log(token);
-
-    const [product, setProduct] = useState(null);
-    const [name, setName] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [price, setPrice] = useState('');
-    const [description, setDescription] = useState('');
-
-
-    useEffect(() => {
-        const fetchProductData = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/api/product/${id}`, {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                if (response.ok) {
-                    const data = await response;
-                    console.log("data", response);
-                    setProduct(data);
-                    setName(data.name);
-                    setQuantity(data.quantity.toString());
-                    setPrice(data.price.toString());
-                    setDescription(data.description);
-                } else {
-                    console.error('Erreur lors de la récupération des informations du produit');
-                }
-            } catch (error) {
-                console.error('Erreur lors de la récupération des informations du produit : ', error);
-            }
-        };
-
-        fetchProductData();
-    }, [id, token]);
+    const {product, refreshProducts} = route.params;
+    const [ id, setId ] = useState(product.id);
+    const [name, setName] = useState(product.name);
+    const [availability, setAvailability] = useState(product.availability);
+    const [price, setPrice] = useState(product.price);
+    const [description, setDescription] = useState(product.description);
+    const [imageUrl, setImageUrl] = useState(product.imageUrl);
 
     const handleUpdateProduct = async () => {
         try {
+            console.log(name, availability, price, description, imageUrl);
             const response = await fetch(`http://localhost:8080/api/product/${id}`, {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     name,
-                    quantity: parseInt(quantity),
+                    availability: parseInt(availability),
                     price: parseFloat(price),
                     description,
+                    imageUrl
                 }),
             });
             if (response.ok) {
                 console.log('Produit mis à jour avec succès');
-                // Rediriger vers une autre page ou effectuer une action supplémentaire si nécessaire
+                await refreshProducts();
             } else {
                 console.error('Erreur lors de la mise à jour du produit');
             }
@@ -93,6 +63,7 @@ const ShopUpdateProduct = ({ route, navigation }) => {
             });
             if (response.ok) {
                 console.log('Produit supprimé avec succès');
+                await refreshProducts();
                 navigation.navigate("ShopProductsScreen");
             } else {
                 console.error('Erreur lors de la suppression du produit');
@@ -101,7 +72,6 @@ const ShopUpdateProduct = ({ route, navigation }) => {
             console.error('Erreur lors de la suppression du produit : ', error);
         }
     };
-
 
     return (
         <View style={styles.container}>
@@ -119,8 +89,8 @@ const ShopUpdateProduct = ({ route, navigation }) => {
             />
             <TextInput
                 style={styles.input}
-                value={quantity}
-                onChangeText={setQuantity}
+                value={availability}
+                onChangeText={setAvailability}
                 placeholder="Quantité"
                 keyboardType="numeric"
             />
@@ -138,8 +108,18 @@ const ShopUpdateProduct = ({ route, navigation }) => {
                 placeholder="Description"
                 multiline={true}
             />
-            <TouchableOpacity style={styles.button} onPress={handleUpdateProduct}>
-                <Text style={styles.buttonText}>Enregistrer</Text>
+            <TextInput
+                style={[styles.input, styles.input]}
+                value={imageUrl}
+                onChangeText={setImageUrl}
+                placeholder="UR de l'image"
+            />
+            <Image
+                source={imageUrl ? { uri: imageUrl } : require('../../assets/logo.png')}
+                style={styles.image}
+            />
+            <TouchableOpacity style={styles.button} >
+                <Text style={styles.buttonText} onPress={handleUpdateProduct} s>Enregistrer</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteProduct}>
                 <Text style={styles.deleteButtonText}>Supprimer le produit</Text>
@@ -214,6 +194,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 10,
+        marginBottom: 10,
+    },
+
 });
 
 export default ShopUpdateProduct;
