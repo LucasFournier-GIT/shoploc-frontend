@@ -7,6 +7,7 @@ import logo from './../../assets/logo.png';
 import { Octicons } from '@expo/vector-icons';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
+import Config from "react-native-config";
 
 
 const ShopScreen = ({ route, navigation }) => {
@@ -16,15 +17,22 @@ const ShopScreen = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
 
+  const backendUrl = Config.BACKEND_URL;
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/product/shop/${shopId}`, {
+        const response = await fetch(`${backendUrl}/api/product/shop/${shopId}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
+        }).then((res)=> {
+          return res.json();
+        }).then((data)=>{
+          setProducts(data);
+          console.log("THE DATA", data);
         });
         if (response.ok) {
           const data = await response.json();
@@ -158,5 +166,4 @@ const styles = StyleSheet.create({
     height:"9%"
   },
 });
-
 export default ShopScreen;

@@ -9,7 +9,17 @@ const ShopCard = ({ navigation, name, id, status, hours, imageUrl }) => {
     navigation.navigate('ShopScreen', { shopId: id });
   };
 
+  const [start, end] = hours.split('-');
+  const current_time = new Date();
+  const current_day = current_time.getDay();
+  const [openingHour, openingMinute] = start.trim().split(':').map(Number);
+  const [closingHour, closingMinute] = end.trim().split(':').map(Number);
+  const opening_hour = new Date();
+  opening_hour.setHours(openingHour, openingMinute, 0);
+  const closing_hour = new Date();
+  closing_hour.setHours(closingHour, closingMinute, 0);
 
+  status = current_time >= opening_hour && current_time <= closing_hour
 
   return (
     <View style={styles.card} >
