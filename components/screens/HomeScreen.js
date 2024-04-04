@@ -8,16 +8,14 @@ import logo from "./../../assets/logo.png";
 import colors from "./../../assets/colors";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../AuthContext";
-import * as dotenv from "dotenv";
+import Config from "react-native-config";
 
 const HomeScreen = ({ navigation }) => {
 
     const [shops, setShops] = useState([]);
     const { token, updateToken } = useContext(AuthContext);
 
-    dotenv.config()
-
-    const backendUrl = process.env.BACKEND_URL;
+    const backendUrl = Config.BACKEND_URL;
 
     useEffect(() => {
       const fetchShopData = async () => {

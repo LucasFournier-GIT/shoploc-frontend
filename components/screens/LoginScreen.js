@@ -6,7 +6,7 @@ import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
 import CustomModal from '../CustomModal';
 import { RadioButton } from 'react-native-paper';
-import * as dotenv from "dotenv";
+import Config from "react-native-config";
 
 const LoginScreen = ({ navigation }) => {
 
@@ -22,9 +22,7 @@ const LoginScreen = ({ navigation }) => {
 
   const handleUserTypeChange = (value) => { setUserType(value); };
 
-  dotenv.config()
-
-  const backendUrl = process.env.BACKEND_URL;
+  const backendUrl = Config.BACKEND_URL;
 
   const handleConnexion = async () => {
     console.log(email);

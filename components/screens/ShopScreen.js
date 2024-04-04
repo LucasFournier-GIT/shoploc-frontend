@@ -7,7 +7,7 @@ import logo from './../../assets/logo.png';
 import { Octicons } from '@expo/vector-icons';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
-import * as dotenv from "dotenv";
+import Config from "react-native-config";
 
 
 const ShopScreen = ({ route, navigation }) => {
@@ -16,9 +16,7 @@ const ShopScreen = ({ route, navigation }) => {
 
   const [products, setProducts] = useState([]);
 
-  dotenv.config()
-
-  const backendUrl = process.env.BACKEND_URL;
+  const backendUrl = Config.BACKEND_URL;
 
   useEffect(() => {
     const fetchProducts = async () => {

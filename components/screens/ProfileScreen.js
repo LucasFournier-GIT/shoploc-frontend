@@ -6,16 +6,14 @@ import logo from "../../assets/logo.png";
 import CustomNavBar from "../CustomNavBar";
 import EditProfileForm from "../Profile/EditProfileForm";
 import {MaterialIcons} from "@expo/vector-icons";
-import * as dotenv from "dotenv";
+import Config from "react-native-config";
 
 const ProfileInfo = () => {
   const { token } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  dotenv.config()
-
-  const backendUrl = process.env.BACKEND_URL;
+  const backendUrl = Config.BACKEND_URL;
 
   useEffect(() => {
     const fetchUserInfo = async () => {

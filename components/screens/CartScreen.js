@@ -1,19 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, ScrollViewBase } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import ShopCartSummary from './../ShopCartSummary';
 import CustomNavBar from '../CustomNavBar';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
-import * as dotenv from "dotenv";
+import Config from "react-native-config";
 
 const CartScreen = ({ navigation }) => {
 
   const [userCarts, setUserCarts] = useState([]);
   const { token, updateToken } = useContext(AuthContext);
 
-    dotenv.config()
-
-    const backendUrl = process.env.BACKEND_URL;
+    const backendUrl = Config.BACKEND_URL;
 
   useEffect(() => {
     const fetchUserCarts = async () => {

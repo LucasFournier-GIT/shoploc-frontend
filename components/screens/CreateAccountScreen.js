@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { useEffect } from 'react';
 import { AuthContext } from '../AuthContext';
 import CustomModal from '../CustomModal';
-import * as dotenv from "dotenv";
+import Config from "react-native-config";
 
 const CreateAccountScreen = ({navigation}) => {
 
@@ -23,9 +23,7 @@ const CreateAccountScreen = ({navigation}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalText, setModalText] = useState('');
 
-  dotenv.config()
-
-  const backendUrl = process.env.BACKEND_URL;
+  const backendUrl = Config.BACKEND_URL;
 
   const handleChangeNom = (value) => {
     console.log("HELLO0");
