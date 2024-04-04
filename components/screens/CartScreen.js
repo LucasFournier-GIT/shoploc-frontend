@@ -16,7 +16,8 @@ const CartScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchUserCarts = async () => {
       try {
-        const response = await fetch(`${backendUrl}/product_in_cart/user_carts`, {
+        const response = await fetch('http://localhost:8080/api/product_in_cart', {
+
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -26,7 +27,6 @@ const CartScreen = ({ navigation }) => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log('Données des paniers de l\'utilisateur :', data);
           setUserCarts(data);
         } else {
           console.error('La requête a échoué');
@@ -48,19 +48,18 @@ const CartScreen = ({ navigation }) => {
             }, 0)
           );
         }, 0);
-
         navigation.navigate("RecapCartScreen", { TotalAmount: totalAmount, navigation: navigation });
-
       };
 
   return (
     <View style={styles.container}>
         <Text style={styles.heading}>Paniers</Text>
-        <Text>{token}</Text>
         <ScrollView style={styles.card}>
 
           {userCarts.map((cart) => (
-            <ShopCartSummary navigation={navigation} key={cart.id} store={cart} />
+            <ShopCartSummary navigation={navigation}
+                             shopName={cart.shopName}
+                             key={cart.id} store={cart.products} />
           ))}
       </ScrollView>
 
@@ -98,7 +97,8 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
       position: 'absolute',
-      bottom: 85,
+      bottom: 95,
+
       width: '100%',
       alignItems: 'center',
 

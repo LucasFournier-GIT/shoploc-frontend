@@ -25,9 +25,7 @@ const LoginScreen = ({ navigation }) => {
   const backendUrl = Config.BACKEND_URL;
 
   const handleConnexion = async () => {
-    console.log(email);
-    console.log(password);
-    console.log(userType);
+
     switch (userType) {
       case "client":
         try {
