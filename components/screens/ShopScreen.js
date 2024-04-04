@@ -4,9 +4,10 @@ import CustomSearchBar from './../CustomSearchBar';
 import CustomNavBar from './../CustomNavBar';
 import ProductCard from './../ProductCard';
 import logo from './../../assets/logo.png';
-import { Octicons } from '@expo/vector-icons'; 
+import { Octicons } from '@expo/vector-icons';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
+import * as dotenv from "dotenv";
 
 
 const ShopScreen = ({ route, navigation }) => {
@@ -15,17 +16,21 @@ const ShopScreen = ({ route, navigation }) => {
 
   const [products, setProducts] = useState([]);
 
+  dotenv.config()
+
+  const backendUrl = process.env.BACKEND_URL;
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/product/shop/${shopId}`, {
+        const response = await fetch(`${backendUrl}/api/product/shop/${shopId}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         }).then((res)=> {
-          return res.json(); 
+          return res.json();
         }).then((data)=>{
           setProducts(data);
           console.log("THE DATA", data);

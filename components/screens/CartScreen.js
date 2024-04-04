@@ -4,16 +4,21 @@ import ShopCartSummary from './../ShopCartSummary';
 import CustomNavBar from '../CustomNavBar';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
+import * as dotenv from "dotenv";
 
 const CartScreen = ({ navigation }) => {
-    
+
   const [userCarts, setUserCarts] = useState([]);
   const { token, updateToken } = useContext(AuthContext);
+
+    dotenv.config()
+
+    const backendUrl = process.env.BACKEND_URL;
 
   useEffect(() => {
     const fetchUserCarts = async () => {
       try {
-        const response = await fetch('http://localhost:8080/product_in_cart/user_carts', {
+        const response = await fetch(`${backendUrl}/product_in_cart/user_carts`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -49,7 +54,7 @@ const CartScreen = ({ navigation }) => {
         navigation.navigate("RecapCartScreen", { TotalAmount: totalAmount, navigation: navigation });
 
       };
-      
+
   return (
     <View style={styles.container}>
         <Text style={styles.heading}>Paniers</Text>
@@ -75,7 +80,6 @@ const styles = StyleSheet.create({
       flex: 1,
       top: 0,
       backgroundColor: colors.background,
-      
     },
     content: {
       bottom: 125,
@@ -96,12 +100,12 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
       position: 'absolute',
-      bottom: 85, 
+      bottom: 85,
       width: '100%',
       alignItems: 'center',
-      
+
     },
   });
-  
+
 
 export default CartScreen;

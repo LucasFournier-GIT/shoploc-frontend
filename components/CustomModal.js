@@ -1,7 +1,6 @@
 import React from 'react';
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, StyleSheet, Text, View } from 'react-native';
 import CustomButton from './CustomButton';
-import colors from "./../assets/colors";
 
 const CustomModal = ({ isVisible, onClose, modalText }) => {
   return (
