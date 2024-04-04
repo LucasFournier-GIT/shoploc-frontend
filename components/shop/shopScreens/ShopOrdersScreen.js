@@ -1,17 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Image, StatusBar, View } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native";
-import { SearchBar } from 'react-native-elements';
 import { ScrollView } from "react-native";
-import logo from "./../../../assets/logo.png";
+import logo from "../../../assets/logo.png";
 import colors from "../../../assets/colors";
-import { AuthContext } from "./../../AuthContext";
-import ShopNavbar from './../shopComponents/ShopNavbar';
+import { AuthContext } from "../../AuthContext";
+import ShopNavbar from '../shopComponents/ShopNavbar';
 const ShopOrdersScreen = ({ navigation }) => {
 
     const { token, updateToken } = useContext(AuthContext);
-    
+
 
     return (
         <View style={styles.container}>
@@ -24,7 +23,7 @@ const ShopOrdersScreen = ({ navigation }) => {
               <Text>Orders</Text>
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                
+
             </ScrollView>
             <ShopNavbar navigation={navigation} screen="ShopOrdersScreen" />
         </View>
@@ -51,8 +50,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-        paddingHorizontal: 5, 
-        paddingBottom: "25%", 
+        paddingHorizontal: 5,
+        paddingBottom: "25%",
         backgroundColor: colors.background,
     },
     logo: {
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
         position: 'sticky',
         top: 0,
-        zIndex: 1, 
+        zIndex: 1,
     }
 });
 

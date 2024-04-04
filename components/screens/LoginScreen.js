@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import CustomInput from '../CustomInput';
 import CustomButton from '../CustomButton';
-import { useNavigation } from '@react-navigation/native';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
-import { Modal } from 'react-native';
 import CustomModal from '../CustomModal';
 import { RadioButton } from 'react-native-paper';
+import Config from "react-native-config";
 
 const LoginScreen = ({ navigation }) => {
 
@@ -19,9 +18,11 @@ const LoginScreen = ({ navigation }) => {
   const handleEmailChange = (value) => { setEmail(value); };
   const handlePasswordChange = (value) => { setPassword(value); };
   const { updateToken } = useContext(AuthContext);
-  const [userType, setUserType] = useState('client'); 
+  const [userType, setUserType] = useState('client');
 
-  const handleUserTypeChange = (value) => { setUserType(value); }; 
+  const handleUserTypeChange = (value) => { setUserType(value); };
+
+  const backendUrl = Config.BACKEND_URL;
 
   const handleConnexion = async () => {
     console.log(email);
@@ -30,7 +31,7 @@ const LoginScreen = ({ navigation }) => {
     switch (userType) {
       case "client":
         try {
-          const response = await fetch('http://localhost:8080/api/auth/authenticate', {
+          const response = await fetch(`${backendUrl}/api/auth/authenticate`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ const LoginScreen = ({ navigation }) => {
             console.log('Token reçu : ', receivedToken);
             navigation.navigate('HomeScreen');
           }else if (response.status === 403) {
-            setIsModalVisible(true); 
+            setIsModalVisible(true);
           }else {
             console.error('La requête a échoué');
           }
@@ -60,7 +61,7 @@ const LoginScreen = ({ navigation }) => {
       case "shop":
         try {
           //TODO connexion en tant que magasin
-          const response = await fetch('http://localhost:8080/api/auth/authenticate', {
+          const response = await fetch(`${backendUrl}/api/auth/authenticate`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -93,7 +94,7 @@ const LoginScreen = ({ navigation }) => {
         console.error('Erreur lors de la requête : Mauvais userType selectionné');
         break;
       }
-    
+
   };
 
   return (
@@ -116,10 +117,10 @@ const LoginScreen = ({ navigation }) => {
           type={"password"}
           label={"Votre mot de passe"}
           placeholder={"Entrez votre mot de passe"}
-          onChange={handlePasswordChange} 
+          onChange={handlePasswordChange}
         />
         <View style={styles.radioButtonGroup}>
-          
+
           <RadioButton.Group onValueChange={handleUserTypeChange} value={userType}>
             <View style={styles.radioButton}>
               <RadioButton value="admin" color={colors.primary} />
@@ -175,13 +176,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     padding:'10%',
-    
+
   },
   createAccountText: {
     marginTop: 10,
     color: colors.primary,
     fontSize: 15,
-    alignSelf: 'flex-end', 
+    alignSelf: 'flex-end',
   },
   createAccountLink: {
     fontWeight: 'bold',

@@ -1,9 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from './../../AuthContext';
 import ShopNavbar from "../shopComponents/ShopNavbar";
-import ShopProductsScreen from "./ShopProductsScreen";
 import logo from "../../../assets/logo.png";
 import colors from "../../../assets/colors";
 
@@ -115,7 +113,7 @@ const ShopUpdateProduct = ({ route, navigation }) => {
                 placeholder="UR de l'image"
             />
             <Image
-                source={imageUrl ? { uri: imageUrl } : require('../../assets/logo.png')}
+                source={imageUrl ? { uri: imageUrl } : require('../../../assets/logo.png')}
                 style={styles.image}
             />
             <TouchableOpacity style={styles.button} >

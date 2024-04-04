@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/screens/LoginScreen';
 import CreateAccountScreen from './components/screens/CreateAccountScreen';
-import { StatusBar, View } from 'react-native';
-import { AppLoading } from 'expo';
 import Homescreen from './components/screens/HomeScreen';
 import ShopScreen from './components/screens/ShopScreen';
 import CartScreen from './components/screens/CartScreen';
@@ -13,8 +11,9 @@ import RecapCart from './components/screens/RecapCartScreen';
 import ShopProductsScreen from './components/shop/shopScreens/ShopProductsScreen';
 import ShopOrdersScreen from './components/shop/shopScreens/ShopOrdersScreen';
 import ShopProfileScreen from './components/shop/shopScreens/ShopProfileScreen';
-import { AuthProvider } from './components/AuthContext';
+import {AuthProvider} from './components/AuthContext';
 import ShopUpdateProduct from "./components/shop/shopScreens/ShopUpdateProduct";
+import ProfileScreen from "./components/screens/ProfileScreen";
 
 const Stack = createStackNavigator();
 
@@ -35,6 +34,7 @@ export default function App() {
           <Stack.Screen name="ShopOrdersScreen" component={ShopOrdersScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopProfileScreen" component={ShopProfileScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopUpdateProduct" component={ShopUpdateProduct} options={{headerShown: false}} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

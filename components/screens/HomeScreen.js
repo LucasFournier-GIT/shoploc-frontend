@@ -2,31 +2,32 @@ import { Image, StatusBar, View } from "react-native";
 import CustomNavBar from "./../CustomNavBar";
 import CustomSearchBar from "./../CustomSearchBar"
 import { StyleSheet } from "react-native";
-import { Text } from "react-native";
-import { SearchBar } from 'react-native-elements';
 import { ScrollView } from "react-native";
 import ShopCard from "../ShopCard";
 import logo from "./../../assets/logo.png";
 import colors from "./../../assets/colors";
-import { useContext, useEffect, useState } from "react";  
-import { AuthContext } from "./../AuthContext";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../AuthContext";
+import Config from "react-native-config";
 
 const HomeScreen = ({ navigation }) => {
 
     const [shops, setShops] = useState([]);
     const { token, updateToken } = useContext(AuthContext);
 
+    const backendUrl = Config.BACKEND_URL;
+
     useEffect(() => {
       const fetchShopData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/shop', {
+          const response = await fetch(`${backendUrl}/api/shop`, {
             method: 'GET',
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
           }).then((res)=> {
-            return res.json(); 
+            return res.json();
           }).then((data)=>{
             setShops(data);
             console.log("THE DATA", data);
@@ -37,14 +38,14 @@ const HomeScreen = ({ navigation }) => {
           console.error('Erreur lors de la requête : ', error);
         }
       };
-    
+
       fetchShopData();
     }, [token]);
-    
+
 
     return (
         <View style={styles.View}>
-          
+
             <StatusBar
                 animated={true}
                 backgroundColor={colors.primary}
@@ -55,10 +56,10 @@ const HomeScreen = ({ navigation }) => {
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 {shops.map((shop) => (
-                
+
                 <ShopCard
                     key={shop.id}
-                    name={shop.name} 
+                    name={shop.name}
                     status={true}
                     hours={shop.opening_hours}
                     imageUrl={shop.image_url}
@@ -76,7 +77,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     View: {
         flex: 1,
-        backgroundColor: "colors.background",
+        backgroundColor: colors.background,
         height: "100%"
     },
     searchBarContainer: {
@@ -94,8 +95,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-        paddingHorizontal: 5, 
-        paddingBottom: "25%", 
+        paddingHorizontal: 5,
+        paddingBottom: "25%",
         backgroundColor: colors.background,
       },
     logo:{
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
       backgroundColor: colors.background,
       position: 'sticky',
       top: 0,
-      zIndex: 1, 
+      zIndex: 1,
       }
 });
 
