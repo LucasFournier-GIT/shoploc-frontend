@@ -23,7 +23,6 @@ const CartScreen = ({ navigation }) => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log('Données des paniers de l\'utilisateur :', data);
           setUserCarts(data);
         } else {
           console.error('La requête a échoué');
@@ -48,10 +47,7 @@ const CartScreen = ({ navigation }) => {
         navigation.navigate("RecapCartScreen", { TotalAmount: totalAmount, navigation: navigation });
       };
 
-      const handleVoir = () => {
-          console.log (userCarts);
-    }
-      
+
   return (
     <View style={styles.container}>
         <Text style={styles.heading}>Paniers</Text>
@@ -99,7 +95,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
       position: 'absolute',
-      bottom: 85, 
+      bottom: 95,
       width: '100%',
       alignItems: 'center',
       

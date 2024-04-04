@@ -27,7 +27,6 @@ export default function App() {
           <Stack.Screen name="CartScreen" component={CartScreen} options={{headerShown: false}} />
           <Stack.Screen name="RecapCartScreen" component={RecapCart} options={{headerShown: false}} />
           <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{headerShown: false}} />
-
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

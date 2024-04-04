@@ -4,7 +4,7 @@ import CustomSearchBar from './../CustomSearchBar';
 import CustomNavBar from './../CustomNavBar';
 import ProductCard from './../ProductCard';
 import logo from './../../assets/logo.png';
-import { Octicons } from '@expo/vector-icons'; 
+import { Octicons } from '@expo/vector-icons';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
 
@@ -14,6 +14,7 @@ const ShopScreen = ({ route, navigation }) => {
   const { token } = useContext(AuthContext);
 
   const [products, setProducts] = useState([]);
+  const [cartProducts, setCartProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,59 +25,86 @@ const ShopScreen = ({ route, navigation }) => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-        }).then((res)=> {
-          return res.json(); 
-        }).then((data)=>{
-          setProducts(data);
-          console.log("THE DATA", data);
         });
-
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data);
+        } else {
+          console.error('Error fetching products:', response.status);
+        }
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
 
     fetchProducts();
-  }, [shopId, token]);
 
+    const fetchCartProducts = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/product_in_cart/shop/${shopId}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length > 0) {
+            setCartProducts(data[0].products);
+          }
+        } else {
+          console.error('Error fetching cart products:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching cart products:', error);
+      }
+    };
 
+    fetchCartProducts();
+  }, [token]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <Image source={logo} style={styles.logo} />
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <Image source={logo} style={styles.logo} />
+          </View>
+          <View style={styles.headerMiddle}>
+            <Text style={styles.heading2}>Magasin n°{shopId}</Text>
+          </View>
+          <TouchableOpacity style={styles.headerRight}>
+            <Octicons name="info" size={24} color={colors.primary} />
+          </TouchableOpacity>
         </View>
-        <View style={styles.headerMiddle}>
-          <Text style={styles.heading2}>Magasin °{shopId}</Text>
+
+        <View style={styles.searchBarContainer}>
+          <CustomSearchBar />
         </View>
-        <TouchableOpacity style={styles.headerRight}>
-          <Octicons name="info" size={24} color={colors.primary} />
-        </TouchableOpacity>
+
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          {cartProducts.length > 0 && products.map((product) => {
+          const cartProduct = cartProducts.find((cartProduct) => cartProduct.id === product.id);
+          const quantity = cartProduct ? cartProduct.quantity : 0;
+          return (
+              <ProductCard
+                  key={product.id}
+                  name={product.name}
+                  availability={product.availability}
+                  description={product.description}
+                  imageUrl={product.imageUrl}
+                  navigation={navigation}
+                  id={product.id}
+                  price={product.price}
+                  qty={quantity}
+              />
+          );
+        })}
+
+        </ScrollView>
+
+        <CustomNavBar navigation={navigation} screen="HomeScreen" />
       </View>
-
-      <View style={styles.searchBarContainer}>
-        <CustomSearchBar />
-      </View>
-
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            name={product.name}
-            availability={product.availability}
-            description={product.description}
-            imageUrl={product.imageUrl}
-            navigation={navigation}
-            id={product.id}
-            price={product.price}
-            quantity={0}//TODO CHANGER
-          />
-        ))}
-      </ScrollView>
-
-      <CustomNavBar navigation={navigation} screen="HomeScreen" />
-    </View>
   );
 };
 
@@ -130,6 +158,5 @@ const styles = StyleSheet.create({
     height:"9%"
   },
 });
-
 
 export default ShopScreen;

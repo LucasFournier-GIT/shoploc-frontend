@@ -15,15 +15,12 @@ const LoginScreen = ({ navigation }) => {
   const [token, setToken] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-
   const handleEmailChange = (value) => { setEmail(value); };
   const handlePasswordChange = (value) => { setPassword(value); };
   const { updateToken } = useContext(AuthContext);
 
 
   const handleConnexion = async () => {
-    console.log(email);
-    console.log(password);
     try {
       const response = await fetch('http://localhost:8080/api/auth/authenticate', {
         method: 'POST',

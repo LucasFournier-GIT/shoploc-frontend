@@ -1,17 +1,12 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import colors  from './../assets/colors';
 import {AuthContext} from "./AuthContext";
 
-const ProductCard = ({ navigation, name, id, availability, description, imageUrl, price, quantity }) => {
+const ProductCard = ({ name, id, availability, description, imageUrl, price, qty }) => {
+  console.log("qty", qty)
   const { token, updateToken } = useContext(AuthContext);
-  const [cartQuantity, setCartQuantity] = useState(quantity);
-
-  //TODO recuperer la quantité de ce produit dans le panier
-
-  useEffect(() => {
-    handleAddToCart();
-  }, [id, token]);
+  const [quantity, setQuantity] = useState(qty)
 
   const handleAddToCart = async () => {
     try {
@@ -25,7 +20,8 @@ const ProductCard = ({ navigation, name, id, availability, description, imageUrl
 
       if (response.ok) {
         console.log('Produit ajouté au panier avec succès !');
-        setCartQuantity(cartQuantity + 1);
+        setQuantity(prevQuantity => prevQuantity + 1);
+        console.log('quantity : ', quantity)
       } else {
         console.error('Erreur lors de la requête : ', response.status);
       }
@@ -35,7 +31,7 @@ const ProductCard = ({ navigation, name, id, availability, description, imageUrl
   };
 
   const handleRemoveFromCart = async () => {
-    if (cartQuantity > 0) {
+    if (quantity > 0) {
       try {
         const response = await fetch(`http://localhost:8080/api/product_in_cart/remove/${id}`, {
           method: 'DELETE',
@@ -47,8 +43,8 @@ const ProductCard = ({ navigation, name, id, availability, description, imageUrl
 
         if (response.ok) {
           console.log('Produit supprimé du panier avec succès !');
-
-          setCartQuantity(cartQuantity - 1);
+          setQuantity(prevQuantity => prevQuantity - 1);
+          console.log('quantity : ', quantity)
         } else {
           console.error('Erreur lors de la requête : ', response.status);
         }
@@ -57,9 +53,6 @@ const ProductCard = ({ navigation, name, id, availability, description, imageUrl
       }
     }
   };
-
-
-
 
   return (
     <View style={styles.card}>
@@ -76,13 +69,12 @@ const ProductCard = ({ navigation, name, id, availability, description, imageUrl
           <TouchableOpacity onPress={handleAddToCart} style={[styles.button, styles.roundButton]}>
             <Text style={styles.buttonText}>+</Text>
           </TouchableOpacity>
-          
-          <Text style={[styles.cartQuantity, cartQuantity === 0 && { display: 'none' }]}>{cartQuantity}</Text>
+
+          <Text style={[styles.cartQuantity, quantity === 0 && { display: 'none' }]}>{quantity}</Text>
           
           <TouchableOpacity
-            onPress={handleRemoveFromCart}
-            style={[styles.button, cartQuantity === 0 && { display: 'none' }, styles.roundButton]}
-          >
+              onPress={handleRemoveFromCart}
+              style={[styles.button, quantity === 0 && { display: 'none' }, styles.roundButton]}>
           <Text style={styles.buttonText}>-</Text>
           </TouchableOpacity>
 

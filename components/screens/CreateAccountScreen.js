@@ -24,8 +24,7 @@ const CreateAccountScreen = ({navigation}) => {
   const [modalText, setModalText] = useState('');
 
   const handleChangeNom = (value) => { 
-    console.log("HELLO0");
-    setNom(value); console.log("nom : ", value)
+    setNom(value);
   };
   const handleChangePrenom = (value) => { setPrenom(value); };
   const handleChangeMail = (value) => { setMail(value); };
@@ -36,7 +35,7 @@ const CreateAccountScreen = ({navigation}) => {
   const handleCreateAccount = async () => {
     if (mdp === confMdp) {
       try {
-        const response = await fetch('http://localhost:8080/api/auth/register', {
+        const response = await fetch('http://localhost:8080/api/auth/register/user', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -68,14 +67,7 @@ const CreateAccountScreen = ({navigation}) => {
       setIsModalVisible(true);
     }
   };
-  
-    // Effectue la requête lorsque le token change
-    useEffect(() => {
-      if (token) {
-        // Faites quelque chose avec le token, par exemple, stockez-le localement
-        console.log('Token enregistré : ', token);
-      }
-    }, [token]);
+
 
     return (
         <View style={styles.container}>

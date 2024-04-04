@@ -1,67 +1,37 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import CartItem from './CartItem';
 import colors from "./../assets/colors";
+import {AuthContext} from "./AuthContext";
 
 const ShopCartSummary = ({ store, navigation, shopName }) => {
-  const removeFromCart = (productIdToRemove) => {
-    // Logique pour retirer un produit du panier
+  const { token, updateToken } = useContext(AuthContext);
+  let amount = 0;
+  const handleValidate = () => {
+    /*const totalAmount = store.products.reduce((acc, product) => {
+      return 100;
+      //return acc + product.price * product.quantity;
+    }, 0);*/
+
+    navigation.navigate("RecapCartScreen", { TotalAmount: amount, navigation: navigation });
   };
-
-// Fonction pour augmenter la quantité d'un produit dans le panier
-const handleIncrease = (productId) => {
-  console.log("Ajout du produit d'id : ", productId)
-  // Trouver le produit dans le panier en fonction de son ID (productId)
-  //const updatedProducts = store.products.map((product) => {
-  //  if (product.id === productId) {
-  //    return { ...product, quantity: product.quantity + 1 };
-  //  }
-  //  return product;
-  //S});
-
-  // Mettre à jour le panier avec la quantité mise à jour du produit
-  //setStore({ ...store, products: updatedProducts });
-};
-
-// Fonction pour diminuer la quantité d'un produit dans le panier
-const handleDecrease = (productId) => {
-  console.log("Retrait du produit d'id : ", productId)
-
-  // Trouver le produit dans le panier en fonction de son ID (productId)
-  //const updatedProducts = store.products.map((product) => {
-  //  if (product.id === productId && product.quantity > 0) {
-  //    return { ...product, quantity: product.quantity - 1 };
-  //  }
-  //  return product;
-  //});
-
-  // Mettre à jour le panier avec la quantité mise à jour du produit
-};
-
-const handleValidate = () => {
-  const totalAmount = store.products.reduce((acc, product) => {
-    return acc + product.price * product.quantity;
-  }, 0);
-
-  navigation.navigate("RecapCartScreen", { TotalAmount: totalAmount, navigation: navigation });
-};
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading2}>{shopName}</Text>
 
-      {store.map((product) => (
-        <CartItem
-          key={product.id}
-          name={product.productName}
-          price={product.price}
-          quantity={product.quantity}
-          imageUrl={product.imageUrl}
-          handleIncrease={() => handleIncrease(product.id)}
-          handleDecrease={() => handleDecrease(product.id)}
-          removeFromCart={() => removeFromCart(product.id)}
-        />
-      ))}
+      {store.map((product) => {
+        amount = amount + product.price*product.quantity;
+        return (<CartItem
+                key={product.id}
+                productId={product.id}
+                name={product.productName}
+                price={product.price}
+                qty={product.quantity}
+                imageUrl={product.imageUrl}
+            />)
+      })
+      }
       <TouchableOpacity style={styles.button} onPress={handleValidate}>
         <Text style={styles.buttonText}>
           Valider
