@@ -9,18 +9,18 @@ import colors from "../../../assets/colors";
 
 const ShopUpdateProduct = ({ route, navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
-    const { id } = route.params;
+    const { product } = route.params;
 
-    console.log(token);
+    console.log("product", product);
 
-    const [product, setProduct] = useState(null);
-    const [name, setName] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [price, setPrice] = useState('');
-    const [description, setDescription] = useState('');
+    const [id, setId] = useState(product.id);
+    const [imageUrl, setImageUrl] = useState(product.imageUrl);
+    const [name, setName] = useState(product.name);
+    const [availability, setAvailability] = useState(product.availability);
+    const [price, setPrice] = useState(product.price);
+    const [description, setDescription] = useState(product.description);
 
-
-    useEffect(() => {
+    /*useEffect(() => {
         const fetchProductData = async () => {
             try {
                 const response = await fetch(`http://localhost:8080/api/product/${id}`, {
@@ -35,7 +35,7 @@ const ShopUpdateProduct = ({ route, navigation }) => {
                     console.log("data", response);
                     setProduct(data);
                     setName(data.name);
-                    setQuantity(data.quantity.toString());
+                    setAvailability(data.availability.toString());
                     setPrice(data.price.toString());
                     setDescription(data.description);
                 } else {
@@ -47,26 +47,25 @@ const ShopUpdateProduct = ({ route, navigation }) => {
         };
 
         fetchProductData();
-    }, [id, token]);
+    }, [id, token]);*/
 
     const handleUpdateProduct = async () => {
         try {
             const response = await fetch(`http://localhost:8080/api/product/${id}`, {
-                method: 'PUT',
+                method: 'PATCH',
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     name,
-                    quantity: parseInt(quantity),
+                    availability: parseInt(availability),
                     price: parseFloat(price),
                     description,
                 }),
             });
             if (response.ok) {
                 console.log('Produit mis à jour avec succès');
-                // Rediriger vers une autre page ou effectuer une action supplémentaire si nécessaire
             } else {
                 console.error('Erreur lors de la mise à jour du produit');
             }
@@ -119,8 +118,8 @@ const ShopUpdateProduct = ({ route, navigation }) => {
             />
             <TextInput
                 style={styles.input}
-                value={quantity}
-                onChangeText={setQuantity}
+                value={availability}
+                onChangeText={setAvailability}
                 placeholder="Quantité"
                 keyboardType="numeric"
             />
@@ -138,6 +137,13 @@ const ShopUpdateProduct = ({ route, navigation }) => {
                 placeholder="Description"
                 multiline={true}
             />
+            <TextInput
+                style={styles.input}
+                value={imageUrl}
+                onChangeText={setImageUrl}
+                placeholder="URL de l'image du produit"
+            />
+            <Image source={imageUrl} style={styles.image}/>
             <TouchableOpacity style={styles.button} onPress={handleUpdateProduct}>
                 <Text style={styles.buttonText}>Enregistrer</Text>
             </TouchableOpacity>
@@ -214,6 +220,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    image:{
+        height:100,
+        width:100
+    }
 });
 
 export default ShopUpdateProduct;

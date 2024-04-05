@@ -2,8 +2,6 @@ import { Image, StatusBar, View } from "react-native";
 import CustomNavBar from "./../CustomNavBar";
 import CustomSearchBar from "./../CustomSearchBar"
 import { StyleSheet } from "react-native";
-import { Text } from "react-native";
-import { SearchBar } from 'react-native-elements';
 import { ScrollView } from "react-native";
 import ShopCard from "../ShopCard";
 import logo from "./../../assets/logo.png";

@@ -1,13 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 //import colors from './../assets/colors';
 
-const ShopProduct = ({ navigation, id, imageUrl, name, quantity, price, description }) => {
+const ShopProduct = ({ navigation, product}) => {
+    //id={product.id}
+    //imageUrl={product.imageUrl}
+    //name={product.name}
+    //quantity={product.quantity}
+    //price={product.price}
+    //description={product.description}
+
+    const [id, setId] = useState(product.id);
+    const [imageUrl, setImageUrl] = useState(product.imageUrl);
+    const [name, setName] = useState(product.name);
+    const [availability, setAvailability] = useState(product.availability);
+    const [price, setPrice] = useState(product.price);
+    const [description, setDescription] = useState(product.description);
+
+    console.log(product, " : ", id, imageUrl, name, availability, price, description);
+
     const truncatedDescription = description.length > 30 ? `${description.substring(0, 27)}...` : description;
 
-    function handleUpdate(id) {
-        navigation.navigate('ShopUpdateProduct', { id });
+    function handleUpdate() {
+        navigation.navigate('ShopUpdateProduct', { product });
     }
 
     return (
@@ -17,13 +33,13 @@ const ShopProduct = ({ navigation, id, imageUrl, name, quantity, price, descript
                 <View style={styles.productInfo}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>{name} -</Text>
-                        <Text style={styles.details}>{quantity} -</Text>
+                        <Text style={styles.details}>{availability} -</Text>
                         <Text style={styles.details}>{price}€</Text>
                     </View>
                     <Text style={styles.description}>{truncatedDescription}</Text>
                 </View>
             </View>
-            <TouchableOpacity style={styles.editButton} onPress={() => handleUpdate(id)}>
+            <TouchableOpacity style={styles.editButton} onPress={() => handleUpdate()}>
                 <Ionicons name="pencil" size={24} color="white" />
             </TouchableOpacity>
         </View>

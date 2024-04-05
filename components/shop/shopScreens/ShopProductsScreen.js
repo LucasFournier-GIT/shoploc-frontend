@@ -12,20 +12,51 @@ import ShopProduct from "../shopComponents/ShopProduct";
 
 const ShopProductsScreen = ({ navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
+    const [shopId, setShopId] = useState(0);
 
-    //TODO recuperer le token du magasin 
-    //const [products, setProducts] = useState([]);
-
-    /*useEffect(() => {
-        // Fonction pour récupérer les produits du magasin
-        const fetchShopProducts = async () => {
+    useEffect(() => {
+        const fetchUserData = async () => {
             try {
-                // Assurez-vous d'ajuster l'URL en fonction de votre API
-                const response = await fetch(`http://localhost:8080/api/product/shop/${token}`);
+                const response = await fetch('http://localhost:8080/api/user', {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
                 if (response.ok) {
                     const data = await response.json();
-                    // Mettez à jour l'état avec les produits récupérés
-                    setProducts(data.products);
+                    console.log('Shop data:', data);
+                    setShopId(data.id);
+                } else {
+                    console.error('Error fetching user:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+
+        fetchUserData();
+    }, [token]);
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const fetchShopProducts = async () => {
+            setShopId(1);
+            try {
+                // Assurez-vous d'ajuster l'URL en fonction de votre API
+                const response = await fetch(`http://localhost:8080/api/product/shop/202`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setProducts(data);
                 } else {
                     console.error('Erreur lors de la récupération des produits');
                 }
@@ -34,28 +65,9 @@ const ShopProductsScreen = ({ navigation }) => {
             }
         };
 
-        // Appelez la fonction pour récupérer les produits lorsque le composant est monté
         fetchShopProducts();
-    }, [token]); // Assurez-vous de passer [token] comme dépendance pour que cette requête soit effectuée à chaque changement de token
-     */
-    const products = [
-        {
-            id: 1,
-            name: 'Product 1',
-            description: 'Description du produit 1',
-            imageUrl: 'https://i-sam.unimedias.fr/2023/02/09/istock-1222018207.jpg?auto=format%2Ccompress&crop=faces&cs=tinysrgb&fit=crop&h=501&w=890',
-            price: '$10.00',
-            quantity: 5,
-        },
-        {
-            id: 2,
-            name: 'Product 2',
-            description: 'Longue description pour le produit numero 2',
-            imageUrl: 'https://leblogdulait.fr/wp-content/uploads/2015/06/bouteils-de-lait.jpg',
-            price: '$15.00',
-            quantity: 0,
-        },
-    ];
+    }, [token]);
+
 
     return (
         <View style={styles.container}>
@@ -74,13 +86,8 @@ const ShopProductsScreen = ({ navigation }) => {
                     {products.map(product => (
                         <ShopProduct
                             key={product.id}
-                            id={product.id}
+                            product={product}
                             navigation={navigation}
-                            imageUrl={product.imageUrl}
-                            name={product.name}
-                            quantity={product.quantity}
-                            price={product.price}
-                            description={product.description}
                         />
                     ))}
                 </View>
@@ -100,8 +107,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-        paddingHorizontal: 5, 
-        paddingBottom: "25%", 
+        paddingHorizontal: 5,
+        paddingBottom: "25%",
         backgroundColor: colors.background,
     },
     logo: {
@@ -117,7 +124,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
         position: 'sticky',
         top: 0,
-        zIndex: 1, 
+        zIndex: 1,
         padding: 10,
     },
     title: {
