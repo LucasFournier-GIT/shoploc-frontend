@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Linking} from 'react-native';
+import {View, Text, StyleSheet, Image, ScrollView, Linking, Pressable} from 'react-native';
 import { AuthContext } from '../AuthContext';
 import colors from "../../assets/colors";
 import logo from "../../assets/logo.png";
@@ -8,7 +8,7 @@ import EditProfileForm from "../Profile/EditProfileForm";
 import {MaterialIcons} from "@expo/vector-icons";
 import Config from "react-native-config";
 
-const ProfileInfo = () => {
+const ProfileInfo = ( { navigation } ) => {
   const { token } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -96,9 +96,9 @@ const ProfileInfo = () => {
               <View style={styles.container}>
                 <View style={styles.titleContainer}>
                   <Text style={styles.headOfContainer}>{userInfo.firstname} {userInfo.lastname}</Text>
-                  <TouchableOpacity style={styles.editButton} onPress={handleEditButtonClick}>
+                  <Pressable style={styles.editButton} onPress={handleEditButtonClick}>
                     <MaterialIcons name="edit" size={28} color={colors.primary}/>
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
                 <View style={styles.row}>
                   <View style={styles.leftColumn}>
@@ -118,11 +118,11 @@ const ProfileInfo = () => {
                 </View>
               </View>
           )}
-            <TouchableOpacity style={styles.moreInfoButton}>
+            <Pressable style={styles.moreInfoButton}>
                 <Text style={{color: 'white', fontSize: 16}} onPress={redirectToPbi}>Plus d'informations</Text>
-            </TouchableOpacity>
+            </Pressable>
         </ScrollView>
-        <CustomNavBar navigation={navigation} screen="HomeScreen" />
+        <CustomNavBar navigation={navigation} screen="ProfileScreen" />
       </View>
   );
 };

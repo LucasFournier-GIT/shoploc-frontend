@@ -13,8 +13,8 @@ const CustomNavBar = ({navigation, screen}) => {
         navigation.navigate('HomeScreen');
     }
 
-    const handleGoLoginScreen = () => {
-        navigation.navigate('LoginScreen')
+    const handleGoRouteScreen = () => {
+        navigation.navigate('RouteScreen')
     }
 
     const handleGoCartScreen = () => {
@@ -38,11 +38,10 @@ const CustomNavBar = ({navigation, screen}) => {
                 color="white" />
             </TouchableOpacity>
             <TouchableOpacity
-                disabled={true}
-                onPress={handleGoLoginScreen}
-                style={screen === 'LoginScreen' ? styles.active : ""}
+                onPress={handleGoRouteScreen}
+                style={screen === 'RouteScreen' ? styles.active : ""}
                 >
-                {screen === 'MapScreen' ? (
+                {screen === 'RouteScreen' ? (
                     <MaterialIcons name="location-pin" size={30} color="white" />
                 ) : (
                     <Feather name="map-pin" size={25} color="white" />
@@ -62,8 +61,8 @@ const CustomNavBar = ({navigation, screen}) => {
                 style={screen === 'ProfileScreen' ? styles.active : ""}
                 >
                 <Ionicons
-                    name={screen === "LoginScreen" ? "person" : "person-outline"}
-                    size={screen === "LoginScreen" ? 30 : 25}
+                    name={screen === "ProfileScreen" ? "person" : "person-outline"}
+                    size={screen === "ProfileScreen" ? 30 : 25}
                     color="white" />
             </TouchableOpacity>
         </View>
