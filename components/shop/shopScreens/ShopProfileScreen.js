@@ -1,27 +1,75 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, Image} from 'react-native';
 import colors from '../../../assets/colors';
 import ShopNavbar from "../shopComponents/ShopNavbar";
 import logo from "../../../assets/logo.png";
+import {AuthContext} from "../../AuthContext";
 
 const ShopProfileScreen = ({navigation}) => {
-    // Supposons que vous avez déjà les informations du magasin
-    const shopInfo = {
-        id: 1,
-        nom: 'Exemple nom magasin',
-        adresse: 'Ex Adresse du Magasin',
-        mail: 'exexample@example.com',
-        coordonnees_gps: 'EXX.XXXXX, EYY.YYYYY',
-        status: 'ExStatus du Magasin',
-        horaire: 'EXHoraires du Magasin',
-        mot_de_passe: 'ExMot de passe du Magasin',
-        image_url: 'ExURL de l\'image du Magasin',
-    };
+    const [shopId, setShopId] = useState(0);
+    const { token, updateToken } = useContext(AuthContext);
+    const [shop, setShop] = useState({});
+
+
+    //Recuperation des infos du magasin
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/api/user', {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('User Shop data:', data);
+                    setShopId(data.id)
+                } else {
+                    console.error('Error fetching user:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+
+        fetchUserData();
+    }, [token]);
+
+    const testShopId = 202;
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/shop/${testShopId}`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Shop info:', data);
+                    setShop(data);
+                } else {
+                    console.error('Error fetching user:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+
+        fetchUserData();
+    }, [token]);
 
     // Fonction pour gérer le clic sur le bouton "Modifier"
     const handleEditProfile = () => {
         // Naviguer vers l'écran de modification du profil
-        navigation.navigate('ShopUpdateProfileScreen', { shopInfo });
+        navigation.navigate('ShopUpdateProfileScreen', { shop });
     };
 
     return (
@@ -34,41 +82,42 @@ const ShopProfileScreen = ({navigation}) => {
             <ScrollView>
                 <View style={styles.profileContainer}>
                     <Text style={styles.title}>Profil du Magasin</Text>
+                    <Image source={{ uri: shop.image_url }} style={styles.image} />
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>ID:</Text>
-                        <Text style={styles.value}>{shopInfo.id}</Text>
+                        <Text style={styles.value}>{shop.id}</Text>
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Nom:</Text>
-                        <Text style={styles.value}>{shopInfo.nom}</Text>
+                        <Text style={styles.value}>{shop.name}</Text>
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Adresse:</Text>
-                        <Text style={styles.value}>{shopInfo.adresse}</Text>
+                        <Text style={styles.value}>{shop.address}</Text>
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Mail:</Text>
-                        <Text style={styles.value}>{shopInfo.mail}</Text>
+                        <Text style={styles.value}>{shop.email}</Text>
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Coordonnées GPS:</Text>
-                        <Text style={styles.value}>{shopInfo.coordonnees_gps}</Text>
+                        <Text style={styles.value}>{shop.gps_coordinates}</Text>
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Status:</Text>
-                        <Text style={styles.value}>{shopInfo.status}</Text>
+                        <Text style={styles.value}>"a calculer"</Text>
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Horaires:</Text>
-                        <Text style={styles.value}>{shopInfo.horaire}</Text>
+                        <Text style={styles.value}>{shop.opening_hours}</Text>
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Mot de passe:</Text>
-                        <Text style={styles.value}>{shopInfo.mot_de_passe}</Text>
+                        <Text style={styles.value}>**************</Text>
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Image URL:</Text>
-                        <Text style={styles.value}>{shopInfo.image_url}</Text>
+                        <Text style={styles.value}>{shop.image_url}</Text>
                     </View>
                 </View>
             </ScrollView>
@@ -134,6 +183,11 @@ const styles = StyleSheet.create({
             position: 'sticky',
             top: 0,
             zIndex: 1,
+    },
+    image:{
+        width:100,
+        height:100,
+        alignSelf:"center"
     }
 });
 
