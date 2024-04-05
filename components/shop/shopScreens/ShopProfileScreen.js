@@ -11,7 +11,6 @@ const ShopProfileScreen = ({navigation}) => {
     const [shop, setShop] = useState({});
 
 
-    //Recuperation des infos du magasin
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -25,7 +24,6 @@ const ShopProfileScreen = ({navigation}) => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log('User Shop data:', data);
                     setShopId(data.id)
                 } else {
                     console.error('Error fetching user:', response.status);
@@ -40,36 +38,33 @@ const ShopProfileScreen = ({navigation}) => {
 
     const testShopId = 202;
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/api/shop/${testShopId}`, {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
+    const refreshProfile = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/shop/${testShopId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Shop info:', data);
-                    setShop(data);
-                } else {
-                    console.error('Error fetching user:', response.status);
-                }
-            } catch (error) {
-                console.error('Error fetching user:', error);
+            if (response.ok) {
+                const data = await response.json();
+                setShop(data);
+            } else {
+                console.error('Error fetching user:', response.status);
             }
-        };
+        } catch (error) {
+            console.error('Error fetching user:', error);
+        }
+    };
 
-        fetchUserData();
-    }, [token]);
+    useEffect(() => {
+        refreshProfile();
+    }, [testShopId, token]);
 
-    // Fonction pour gérer le clic sur le bouton "Modifier"
     const handleEditProfile = () => {
-        // Naviguer vers l'écran de modification du profil
-        navigation.navigate('ShopUpdateProfileScreen', { shop });
+        navigation.navigate('ShopUpdateProfileScreen', { shop, refreshProfile });
     };
 
     return (
@@ -102,10 +97,6 @@ const ShopProfileScreen = ({navigation}) => {
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Coordonnées GPS:</Text>
                         <Text style={styles.value}>{shop.gps_coordinates}</Text>
-                    </View>
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Status:</Text>
-                        <Text style={styles.value}>"a calculer"</Text>
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Horaires:</Text>

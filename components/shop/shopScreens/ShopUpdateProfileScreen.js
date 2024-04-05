@@ -6,20 +6,47 @@ import logo from "../../../assets/logo.png";
 import {AuthContext} from "../../AuthContext";
 
 const ShopUpdateProfile = ({ route, navigation }) => {
-    const { shopInfo } = route.params;
+
+    const[shopInfo, setShopInfo] = useState(route.params.shop);
+    const{refreshProfile, setRefreshProfile} = useState(route.params.refreshProfile);
     const { token, updateToken } = useContext(AuthContext);
 
-    const [nom, setNom] = useState(shopInfo.nom);
-    const [adresse, setAdresse] = useState(shopInfo.adresse);
-    const [mail, setMail] = useState(shopInfo.mail);
-    const [coordonneesGPS, setCoordonneesGPS] = useState(shopInfo.coordonnees_gps);
-    const [status, setStatus] = useState(shopInfo.status);
-    const [horaires, setHoraires] = useState(shopInfo.horaire);
-    const [motDePasse, setMotDePasse] = useState(shopInfo.mot_de_passe);
+    const [id, setId] = useState(shopInfo.id)
+    const [nom, setNom] = useState(shopInfo.name);
+    const [adresse, setAdresse] = useState(shopInfo.address);
+    const [mail, setMail] = useState(shopInfo.email);
+    const [coordonneesGPS, setCoordonneesGPS] = useState(shopInfo.gps_coordinates);
+    const [horaires, setHoraires] = useState(shopInfo.opening_hours);
+    const [motDePasse, setMotDePasse] = useState(shopInfo.password);
     const [imageUrl, setImageUrl] = useState(shopInfo.image_url);
 
-    const handleSaveChanges = () => {
-        // TODO Enregistrer les modifications du formulaire ici
+    const handleSaveChanges = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/shop/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: nom,
+                    address: adresse,
+                    email: mail,
+                    gps_coordinates: coordonneesGPS,
+                    opening_hours: horaires,
+                    password: motDePasse,
+                    image_url: imageUrl,
+                }),
+            });
+            if (response.ok) {
+                console.log('Magasin mis à jour avec succès');
+                await route.params.refreshProfile();
+            } else {
+                console.error('Erreur lors de la mise à jour du magasin');
+            }
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour du magasin : ', error);
+        }
     };
 
     return (
@@ -57,12 +84,6 @@ const ShopUpdateProfile = ({ route, navigation }) => {
                     />
                     <TextInput
                         style={styles.input}
-                        value={status}
-                        onChangeText={setStatus}
-                        placeholder="Status du magasin"
-                    />
-                    <TextInput
-                        style={styles.input}
                         value={horaires}
                         onChangeText={setHoraires}
                         placeholder="Horaires du magasin"
@@ -80,6 +101,7 @@ const ShopUpdateProfile = ({ route, navigation }) => {
                         onChangeText={setImageUrl}
                         placeholder="URL de l'image du magasin"
                     />
+                    <Image source={{ uri: imageUrl }} style={styles.image} />
                     <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
                         <Text style={styles.saveButtonText}>Enregistrer les modifications</Text>
                     </TouchableOpacity>
@@ -137,6 +159,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    image:{
+        width:100,
+        height:100
+    }
 });
 
 export default ShopUpdateProfile;
