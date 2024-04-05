@@ -36,11 +36,11 @@ const ShopProfileScreen = ({navigation}) => {
         fetchUserData();
     }, [token]);
 
-    const testShopId = 202;
+    //const testShopId = 202;
 
     const refreshProfile = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/shop/${testShopId}`, {
+            const response = await fetch(`http://localhost:8080/api/shop/${shopId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -61,7 +61,7 @@ const ShopProfileScreen = ({navigation}) => {
 
     useEffect(() => {
         refreshProfile();
-    }, [testShopId, token]);
+    }, [shopId, token]);
 
     const handleEditProfile = () => {
         navigation.navigate('ShopUpdateProfileScreen', { shop, refreshProfile });
