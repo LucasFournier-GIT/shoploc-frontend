@@ -73,7 +73,7 @@ const ProfileCityScreen = ( { navigation } ) => {
             setIsEditing(false);
         } catch (e) {
             // TODO: Afficher une notif sur le front
-            console.error('Erreur lors de la mise à jour des informations client : ', error);
+            console.error('Erreur lors de la mise à jour des informations client : ', e);
         }
     }
 

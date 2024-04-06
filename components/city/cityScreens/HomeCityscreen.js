@@ -34,10 +34,7 @@ const HomeCityscreen = ({ navigation }) => {
                 return res.json();
             }).then((data)=>{
                 setShops(data);
-                console.log("THE DATA", data);
             });
-
-            // Reste du code pour gérer la réponse de la requête...
         } catch (error) {
             console.error('Erreur lors de la requête : ', error);
         }
@@ -71,6 +68,32 @@ const HomeCityscreen = ({ navigation }) => {
             console.error('Error deleting shop:', error.message);
         }
     }
+
+    //TODO a bouger dans un screen AddShop
+    const handleAddShop = async (shop) => {
+        console.log('add shop', shop);
+        try {
+            const response = await fetch(`${backendUrl}/api/shop`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage || 'Failed to create shop');
+            }
+
+            fetchShopData();
+            setSelectedShop(null);
+            console.log('Shop created successfully');
+        } catch (error) {
+            console.error('Error creating shop:', error.message);
+        }
+    }
+
 
     return (
         <View style={styles.pageContainer}>

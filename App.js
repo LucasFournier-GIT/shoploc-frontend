@@ -29,7 +29,6 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="LoginScreen">
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="CreateAccountScreen" component={CreateAccountScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="ShopScreen" component={ShopScreen} options={{headerShown: false}} />
           <Stack.Screen name="CartScreen" component={CartScreen} options={{headerShown: false}} />
