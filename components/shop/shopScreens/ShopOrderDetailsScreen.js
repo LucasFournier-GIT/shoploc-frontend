@@ -9,10 +9,10 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 
 
 const ShopOrderDetailsScreen = ({ route, navigation }) => {
-    const { orderId } = route.params;
-
+    const { order } = route.params;
+    console.log("ORDER : ", order);
     //TODO recuperer les données de la commande
-    const order = {
+    /*const order = {
         id: 1,
         date: '2024-03-25',
         status: 'en cours',
@@ -23,7 +23,7 @@ const ShopOrderDetailsScreen = ({ route, navigation }) => {
             { name: 'Product 2', quantity: 1, price: 30 }
         ],
         idUser: 1
-    };
+    };*/
 
     // Texte du statut de la commande
     const statusText = order.status === 'terminée' ? 'Terminée' : 'En préparation';
@@ -40,30 +40,27 @@ const ShopOrderDetailsScreen = ({ route, navigation }) => {
     // Fonction pour activer le scanner
     const activateScanner = () => {
         setIsScannerActive(true);
-        setScannedData(null); // Réinitialise les données scannées précédemment
+        setScannedData(null);
     };
 
     return (
         <View style={styles.container}>
-            {/* En-tête */}
             <View style={styles.head}>
                 <Image source={logo} style={styles.logo} />
                 <Text style={styles.title}>Mes produits</Text>
             </View>
 
-            {/* Contenu de la page */}
             <View style={styles.content}>
                 <Text style={styles.title}>Détails de la commande #{order.id}</Text>
-                <Text>Nombre de produits: {order.listProducts.length}</Text>
-                <Text>Montant: {order.montant}</Text>
-                <Text>Statut: {statusText}</Text>
-                <Text>{order.estPayee ? 'Payée' : 'Non payée'}</Text>
+                <Text>Nombre de produits: {order.products?.length}</Text>
+                <Text>Montant: {order.amount}</Text>
+                <Text>Status: {order.status}</Text>
+                <Text>Id du client: {order.userId}</Text>
+                <Text>{order.paid ? 'Payée' : 'Non payée'}</Text>
                 <Text>Liste des produits:</Text>
-                {/* Affichage de la liste des produits */}
-                {order.listProducts.map((product, index) => (
+                {order.products?.map((product, index) => (
                     <Text key={index}>{product.name}</Text>
                 ))}
-                {/* Bouton "Scanner" */}
             </View>
 
             <View style={styles.content}>

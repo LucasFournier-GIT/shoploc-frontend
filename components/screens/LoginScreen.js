@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import CustomInput from '../CustomInput';
 import CustomButton from '../CustomButton';
-import { useNavigation } from '@react-navigation/native';
 import colors from "./../../assets/colors";
-import { AuthContext } from '../AuthContext';
-import { Modal } from 'react-native';
+import {AuthContext} from '../AuthContext';
 import CustomModal from '../CustomModal';
-import { RadioButton } from 'react-native-paper';
+import {RadioButton} from 'react-native-paper';
 
 const LoginScreen = ({ navigation }) => {
 

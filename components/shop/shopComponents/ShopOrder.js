@@ -3,13 +3,14 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import colors from '../../../assets/colors';
 
 const ShopOrder = ({ order, onPress }) => {
-    const { id, date, status, montant, estPayee, listProducts, idUser } = order;
+    console.log(order);
+    const { id, date, status, amount, paid, products } = order;
 
-    let borderColor = estPayee ? colors.valid : colors.error;
-    const statusText = status === 'terminée' ? 'Terminée' : 'En préparation';
+
+    let borderColor = paid ? colors.valid : colors.error;
 
     const handlePress = () => {
-        onPress(id);
+        onPress(order);
     };
 
     const containerStyle = [styles.container];
@@ -26,7 +27,7 @@ const ShopOrder = ({ order, onPress }) => {
             <TouchableOpacity onPress={handlePress}>
                 <View style={styles.innerContainer}>
                     <Text style={textStyle}><b>Commande #{id}</b></Text>
-                    <Text style={textStyle}>{listProducts.length} produit(s) | {statusText} | {estPayee ? 'Payée' : 'Non payée'}</Text>
+                    <Text style={textStyle}>{products?.length} produit(s) | {status} | {paid ? 'Payée' : 'Non payée'}</Text>
                 </View>
             </TouchableOpacity>
         </View>
