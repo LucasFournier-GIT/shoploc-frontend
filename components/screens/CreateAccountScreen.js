@@ -2,10 +2,10 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import CustomInput from '../CustomInput';
 import CustomButton from '../CustomButton';
 import { useContext, useState } from 'react';
-import colors from "./../../assets/colors";
 import { useEffect } from 'react';
 import { AuthContext } from '../AuthContext';
 import CustomModal from '../CustomModal';
+import Config from "react-native-config";
 
 const CreateAccountScreen = ({navigation}) => {
 
@@ -24,8 +24,7 @@ const CreateAccountScreen = ({navigation}) => {
   const [modalText, setModalText] = useState('');
 
   const handleChangeNom = (value) => { 
-    console.log("HELLO0");
-    setNom(value); console.log("nom : ", value)
+    setNom(value);
   };
   const handleChangePrenom = (value) => { setPrenom(value); };
   const handleChangeMail = (value) => { setMail(value); };
@@ -36,7 +35,8 @@ const CreateAccountScreen = ({navigation}) => {
   const handleCreateAccount = async () => {
     if (mdp === confMdp) {
       try {
-        const response = await fetch('http://localhost:8080/api/auth/register', {
+
+        const response = await fetch(`${backendUrl}/api/auth/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ const CreateAccountScreen = ({navigation}) => {
             password: mdp,
           }),
         });
-  
+
         if (response.status === 409) {
           setModalText("Cet utilisateur existe déjà");
           setIsModalVisible(true);
@@ -68,14 +68,7 @@ const CreateAccountScreen = ({navigation}) => {
       setIsModalVisible(true);
     }
   };
-  
-    // Effectue la requête lorsque le token change
-    useEffect(() => {
-      if (token) {
-        // Faites quelque chose avec le token, par exemple, stockez-le localement
-        console.log('Token enregistré : ', token);
-      }
-    }, [token]);
+
 
     return (
         <View style={styles.container}>
@@ -136,18 +129,18 @@ const styles = StyleSheet.create({
       borderTopLeftRadius: 50,
       borderTopRightRadius: 50,
       padding:'10%',
-      
+
     },
     createAccountText: {
       marginTop: 10,
       color: '#5D3528',
       fontSize: 15,
-      alignSelf: 'flex-end', 
+      alignSelf: 'flex-end',
     },
     createAccountLink: {
       fontWeight: 'bold',
       color:"#275C50",
-  
+
     },
     footer :{
       color:"#5D3528",

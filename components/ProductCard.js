@@ -1,17 +1,53 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import colors  from './../assets/colors';
+import {AuthContext} from "./AuthContext";
 
-const ProductCard = ({ navigation, name, id, quantity, description, imageUrl, price }) => {
-  const [cartQuantity, setCartQuantity] = useState(0);
+const ProductCard = ({ name, id, availability, description, imageUrl, price, qty }) => {
+  const { token, updateToken } = useContext(AuthContext);
+  const [quantity, setQuantity] = useState(qty)
 
-  const handleAddToCart = () => {
-    setCartQuantity(cartQuantity + 1);
+  const handleAddToCart = async () => {
+    try {
+      const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product_in_cart/add/${id}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        console.log('Produit ajouté au panier avec succès !');
+        setQuantity(prevQuantity => prevQuantity + 1);
+        console.log('quantity : ', quantity)
+      } else {
+        console.error('Erreur lors de la requête : ', response.status);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la requête : ', error);
+    }
   };
 
-  const handleRemoveFromCart = () => {
-    if (cartQuantity > 0) {
-      setCartQuantity(cartQuantity - 1);
+  const handleRemoveFromCart = async () => {
+    if (quantity > 0) {
+      try {
+        const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product_in_cart/remove/${id}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.ok) {
+          console.log('Produit supprimé du panier avec succès !');
+          setQuantity(prevQuantity => prevQuantity - 1);
+          console.log('quantity : ', quantity)
+        } else {
+          console.error('Erreur lors de la requête : ', response.status);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la requête : ', error);
+      }
     }
   };
 
@@ -20,26 +56,22 @@ const ProductCard = ({ navigation, name, id, quantity, description, imageUrl, pr
         <Image source={{ uri: imageUrl }} style={styles.image} />
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.description}>{price}</Text>
-        <Text style={[styles.quantity, { color: quantity === 0 ? colors.error : colors.valid }]}>
-          {quantity === 0 ? 'Rupture de stock' : `En stock: ${quantity}`}
+        <Text style={[styles.availability, { color: availability === 0 ? colors.error : colors.valid }]}>
+          {availability === 0 ? 'Rupture de stock' : `En stock: ${availability}`}
         </Text>
         <Text style={styles.description}>{description}</Text>
 
-      {quantity > 0 && (
+      {availability > 0 && !disabledInteraction && (
         <View style={styles.addToCart}>
           <TouchableOpacity onPress={handleAddToCart} style={[styles.button, styles.roundButton]}>
             <Text style={styles.buttonText}>+</Text>
           </TouchableOpacity>
-          
-          <Text style={[styles.cartQuantity, cartQuantity === 0 && { display: 'none' }]}>{cartQuantity}</Text>
-          
+          <Text style={[styles.cartQuantity, quantity === 0 && { display: 'none' }]}>{quantity}</Text>
           <TouchableOpacity
-            onPress={handleRemoveFromCart}
-            style={[styles.button, cartQuantity === 0 && { display: 'none' }, styles.roundButton]}
-          >
+              onPress={handleRemoveFromCart}
+              style={[styles.button, quantity === 0 && { display: 'none' }, styles.roundButton]}>
           <Text style={styles.buttonText}>-</Text>
           </TouchableOpacity>
-
         </View>
       )}
     </View>
@@ -71,7 +103,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
   },
-  quantity: {
+  availability: {
     fontSize: 15,
     fontStyle: 'italic',
     textAlign: 'center',
@@ -88,8 +120,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   addToCart: {
-    position: 'absolute', // Utilisation d'une position absolue
-    top: 5, // Ajustez ces valeurs pour positionner "addToCart"
+    position: 'absolute',
+    top: 5,
     right: 5,
     backgroundColor: colors.secondary,
     borderRadius: 50,

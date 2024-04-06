@@ -1,5 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, Text, View } from "react-native";
 import CustomButton from "../CustomButton";
 import CustomNavBar from "../CustomNavBar";
 import colors from './../../assets/colors';

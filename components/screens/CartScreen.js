@@ -1,19 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, ScrollViewBase } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import ShopCartSummary from './../ShopCartSummary';
 import CustomNavBar from '../CustomNavBar';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
 
 const CartScreen = ({ navigation }) => {
-    
+
   const [userCarts, setUserCarts] = useState([]);
   const { token, updateToken } = useContext(AuthContext);
 
-  useEffect(() => {
+    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
+
+
+    useEffect(() => {
     const fetchUserCarts = async () => {
       try {
-        const response = await fetch('http://localhost:8080/product_in_cart/user_carts', {
+        const response = await fetch(`${backendUrl}/api/product_in_cart`, {
+
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -23,7 +27,6 @@ const CartScreen = ({ navigation }) => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log('Données des paniers de l\'utilisateur :', data);
           setUserCarts(data);
         } else {
           console.error('La requête a échoué');
@@ -45,19 +48,18 @@ const CartScreen = ({ navigation }) => {
             }, 0)
           );
         }, 0);
-
         navigation.navigate("RecapCartScreen", { TotalAmount: totalAmount, navigation: navigation });
-
       };
-      
+
   return (
     <View style={styles.container}>
         <Text style={styles.heading}>Paniers</Text>
-        <Text>{token}</Text>
         <ScrollView style={styles.card}>
 
           {userCarts.map((cart) => (
-            <ShopCartSummary navigation={navigation} key={cart.id} store={cart} />
+            <ShopCartSummary navigation={navigation}
+                             shopName={cart.shopName}
+                             key={cart.id} store={cart.products} />
           ))}
       </ScrollView>
 
@@ -75,7 +77,6 @@ const styles = StyleSheet.create({
       flex: 1,
       top: 0,
       backgroundColor: colors.background,
-      
     },
     content: {
       bottom: 125,
@@ -96,12 +97,13 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
       position: 'absolute',
-      bottom: 85, 
+      bottom: 95,
+
       width: '100%',
       alignItems: 'center',
-      
+
     },
   });
-  
+
 
 export default CartScreen;
