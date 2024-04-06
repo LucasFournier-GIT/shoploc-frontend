@@ -7,7 +7,6 @@ import ShopOrder from './../shopComponents/ShopOrder';
 import colors from "../../../assets/colors";
 import logo from "./../../../assets/logo.png";
 
-
 const ShopOrdersScreen = ({ navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
     const [orders, setOrders] = useState([])

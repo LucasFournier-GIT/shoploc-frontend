@@ -14,10 +14,13 @@ const HomeScreen = ({ navigation }) => {
     const [shops, setShops] = useState([]);
     const { token, updateToken } = useContext(AuthContext);
 
+    //const backendUrl = Config.BACKEND_URL;
+    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
+
     useEffect(() => {
       const fetchShopData = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/shop', {
+          const response = await fetch(`${backendUrl}/api/shop`, {
             method: 'GET',
             headers: {
               Authorization: `Bearer ${token}`,
@@ -52,15 +55,15 @@ const HomeScreen = ({ navigation }) => {
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 {shops.map((shop) => (
-                <ShopCard
-                    key={shop.id}
-                    name={shop.name}
-                    status={true}
-                    hours={shop.opening_hours}
-                    imageUrl={shop.image_url}
-                    navigation={navigation}
-                    id={shop.id}
-                />
+                  <ShopCard
+                      key={shop.id}
+                      name={shop.name}
+                      status={true}
+                      hours={shop.opening_hours}
+                      imageUrl={shop.image_url}
+                      navigation={navigation}
+                      id={shop.id}
+                  />
                 ))}
             </ScrollView>
             <CustomNavBar navigation={navigation} screen="HomeScreen" />
@@ -71,7 +74,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     View: {
         flex: 1,
-        backgroundColor: "colors.background",
+        backgroundColor: colors.background,
         height: "100%"
     },
     searchBarContainer: {

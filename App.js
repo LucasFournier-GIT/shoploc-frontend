@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/screens/LoginScreen';
 import CreateAccountScreen from './components/screens/CreateAccountScreen';
-import Homescreen from './components/screens/HomeScreen';
+import HomeScreen from './components/screens/HomeScreen';
 import ShopScreen from './components/screens/ShopScreen';
 import CartScreen from './components/screens/CartScreen';
 import PaymentScreen from './components/screens/PaymentScreen';
@@ -11,9 +11,12 @@ import RecapCart from './components/screens/RecapCartScreen';
 import ShopProductsScreen from './components/shop/shopScreens/ShopProductsScreen';
 import ShopOrdersScreen from './components/shop/shopScreens/ShopOrdersScreen';
 import ShopProfileScreen from './components/shop/shopScreens/ShopProfileScreen';
-import { AuthProvider } from './components/AuthContext';
+import {AuthProvider} from './components/AuthContext';
 import ShopUpdateProduct from "./components/shop/shopScreens/ShopUpdateProduct";
 import ShopOrderDetailsScreen from "./components/shop/shopScreens/ShopOrderDetailsScreen";
+import ProfileScreen from "./components/screens/ProfileScreen";
+import RouteScreen from "./components/screens/RouteScreen";
+import RegisterScreen from "./components/register/RegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -25,7 +28,7 @@ export default function App() {
         <Stack.Navigator initialRouteName="LoginScreen">
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="CreateAccountScreen" component={CreateAccountScreen} options={{ headerShown: false }}/>
-          <Stack.Screen name="HomeScreen" component={Homescreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}/>
           <Stack.Screen name="ShopScreen" component={ShopScreen} options={{headerShown: false}} />
           <Stack.Screen name="CartScreen" component={CartScreen} options={{headerShown: false}} />
           <Stack.Screen name="RecapCartScreen" component={RecapCart} options={{headerShown: false}} />
@@ -35,6 +38,9 @@ export default function App() {
           <Stack.Screen name="ShopProfileScreen" component={ShopProfileScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopUpdateProduct" component={ShopUpdateProduct} options={{headerShown: false}} />
           <Stack.Screen name="ShopOrderDetailsScreen" component={ShopOrderDetailsScreen} options={{headerShown: false}} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
+          <Stack.Screen name="RouteScreen" component={RouteScreen} options={{headerShown: false}} />
+          <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

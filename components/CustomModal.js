@@ -1,7 +1,6 @@
 import React from 'react';
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, StyleSheet, Text, View } from 'react-native';
 import CustomButton from './CustomButton';
-import colors from "./../assets/colors";
 
 const CustomModal = ({ isVisible, onClose, modalText }) => {
   return (
@@ -29,6 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
+    marginHorizontal: 20,
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 20,

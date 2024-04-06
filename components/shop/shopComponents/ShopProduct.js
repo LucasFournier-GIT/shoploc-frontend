@@ -13,18 +13,17 @@ const ShopProduct = ({ navigation, product}) => {
     const [price, setPrice] = useState(product.price);
     const [description, setDescription] = useState(product.description);
 
-    console.log(product, " : ", id, imageUrl, name, availability, price, description);
-
     const truncatedDescription = description.length > 30 ? `${description.substring(0, 27)}...` : description;
 
     function handleUpdate() {
         navigation.navigate('ShopUpdateProduct', { product });
     }
 
+
     return (
         <View style={styles.container}>
             <View style={styles.productContainer}>
-                <Image source={{ uri: imageUrl }} style={styles.image} />
+                <Image source={{ uri: product.imageUrl }} style={styles.image} />
                 <View style={styles.productInfo}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>{name} -</Text>

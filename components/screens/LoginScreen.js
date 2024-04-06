@@ -1,9 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+
+import React, {useContext, useState} from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import CustomInput from '../CustomInput';
 import CustomButton from '../CustomButton';
 import colors from "./../../assets/colors";
-import {AuthContext} from '../AuthContext';
+import { AuthContext } from '../AuthContext';
 import CustomModal from '../CustomModal';
 import {RadioButton} from 'react-native-paper';
 
@@ -17,18 +18,18 @@ const LoginScreen = ({ navigation }) => {
   const handleEmailChange = (value) => { setEmail(value); };
   const handlePasswordChange = (value) => { setPassword(value); };
   const { updateToken } = useContext(AuthContext);
-  const [userType, setUserType] = useState('client'); 
+  const [userType, setUserType] = useState('client');
 
-  const handleUserTypeChange = (value) => { setUserType(value); }; 
+  const handleUserTypeChange = (value) => { setUserType(value); };
+
+  const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
   const handleConnexion = async () => {
-    console.log(email);
-    console.log(password);
-    console.log(userType);
+
     switch (userType) {
       case "client":
         try {
-          const response = await fetch('http://localhost:8080/api/auth/authenticate', {
+          const response = await fetch(`${backendUrl}/api/auth/authenticate`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -47,7 +48,7 @@ const LoginScreen = ({ navigation }) => {
             console.log('Token reçu : ', receivedToken);
             navigation.navigate('HomeScreen');
           }else if (response.status === 403) {
-            setIsModalVisible(true); 
+            setIsModalVisible(true);
           }else {
             console.error('La requête a échoué');
           }
@@ -58,7 +59,7 @@ const LoginScreen = ({ navigation }) => {
       case "shop":
         try {
           //TODO connexion en tant que magasin
-          const response = await fetch('http://localhost:8080/api/auth/authenticate', {
+          const response = await fetch(`${backendUrl}/api/auth/authenticate`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -91,7 +92,7 @@ const LoginScreen = ({ navigation }) => {
         console.error('Erreur lors de la requête : Mauvais userType selectionné');
         break;
       }
-    
+
   };
 
   return (
@@ -114,10 +115,10 @@ const LoginScreen = ({ navigation }) => {
           type={"password"}
           label={"Votre mot de passe"}
           placeholder={"Entrez votre mot de passe"}
-          onChange={handlePasswordChange} 
+          onChange={handlePasswordChange}
         />
         <View style={styles.radioButtonGroup}>
-          
+
           <RadioButton.Group onValueChange={handleUserTypeChange} value={userType}>
             <View style={styles.radioButton}>
               <RadioButton value="admin" color={colors.primary} />
@@ -136,7 +137,7 @@ const LoginScreen = ({ navigation }) => {
 
         <CustomButton text={"Se connecter "}  onPress={handleConnexion}/>
         <Text style={styles.createAccountText}>
-          Pas de compte ? <Text style={styles.createAccountLink} onPress={() => navigation.navigate('CreateAccountScreen')}>Créer un compte</Text>
+          Pas de compte ? <Text style={styles.createAccountLink} onPress={() => navigation.navigate('RegisterScreen')}>Créer un compte</Text>
         </Text>
         <Text style={styles.footer}>
             ShopLoc by SEQI
@@ -173,13 +174,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     padding:'10%',
-    
+
   },
   createAccountText: {
     marginTop: 10,
     color: colors.primary,
     fontSize: 15,
-    alignSelf: 'flex-end', 
+    alignSelf: 'flex-end',
   },
   createAccountLink: {
     fontWeight: 'bold',

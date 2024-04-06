@@ -1,9 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { AuthContext } from './../../AuthContext';
+import { AuthContext } from '../../AuthContext';
 import ShopNavbar from "../shopComponents/ShopNavbar";
-import ShopProductsScreen from "./ShopProductsScreen";
 import logo from "../../../assets/logo.png";
 import colors from "../../../assets/colors";
 
@@ -11,47 +9,18 @@ const ShopUpdateProduct = ({ route, navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
     const { product } = route.params;
 
-    console.log("product", product);
-
     const [id, setId] = useState(product.id);
     const [imageUrl, setImageUrl] = useState(product.imageUrl);
     const [name, setName] = useState(product.name);
     const [availability, setAvailability] = useState(product.availability);
     const [price, setPrice] = useState(product.price);
     const [description, setDescription] = useState(product.description);
-
-    /*useEffect(() => {
-        const fetchProductData = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/api/product/${id}`, {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                if (response.ok) {
-                    const data = await response;
-                    console.log("data", response);
-                    setProduct(data);
-                    setName(data.name);
-                    setAvailability(data.availability.toString());
-                    setPrice(data.price.toString());
-                    setDescription(data.description);
-                } else {
-                    console.error('Erreur lors de la récupération des informations du produit');
-                }
-            } catch (error) {
-                console.error('Erreur lors de la récupération des informations du produit : ', error);
-            }
-        };
-
-        fetchProductData();
-    }, [id, token]);*/
+  
+    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
     const handleUpdateProduct = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/product/${id}`, {
+            const response = await fetch(`${backendUrl}/api/product/${id}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -62,6 +31,7 @@ const ShopUpdateProduct = ({ route, navigation }) => {
                     availability: parseInt(availability),
                     price: parseFloat(price),
                     description,
+                    imageUrl
                 }),
             });
             if (response.ok) {
@@ -84,7 +54,7 @@ const ShopUpdateProduct = ({ route, navigation }) => {
 
     const handleDeleteProduct = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/product/${id}`, {
+            const response = await fetch(`${backendUrl}/api/product/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -92,6 +62,7 @@ const ShopUpdateProduct = ({ route, navigation }) => {
             });
             if (response.ok) {
                 console.log('Produit supprimé avec succès');
+                await refreshProducts();
                 navigation.navigate("ShopProductsScreen");
             } else {
                 console.error('Erreur lors de la suppression du produit');
@@ -100,7 +71,6 @@ const ShopUpdateProduct = ({ route, navigation }) => {
             console.error('Erreur lors de la suppression du produit : ', error);
         }
     };
-
 
     return (
         <View style={styles.container}>
