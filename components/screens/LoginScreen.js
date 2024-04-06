@@ -57,7 +57,6 @@ const LoginScreen = ({ navigation }) => {
         break;
       case "shop":
         try {
-          //TODO connexion en tant que magasin
           const response = await fetch(`${backendUrl}/api/auth/authenticate`, {
             method: 'POST',
             headers: {
@@ -86,8 +85,37 @@ const LoginScreen = ({ navigation }) => {
           console.error('Erreur lors de la requête : ', error);
         }
         break;
+      case "admin":
+          try {
+            const response = await fetch(`${backendUrl}/api/auth/authenticate`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                email: email,
+                password: password,
+              }),
+            });
 
-      default:
+            if (response.ok) {
+              const data = await response.json();
+              const receivedToken = data.token;
+              setToken(receivedToken);
+              updateToken(receivedToken);
+              console.log('Token reçu : ', receivedToken);
+              navigation.navigate('HomeCityScreen');
+
+            }else if (response.status === 403) {
+              setIsModalVisible(true);
+            }else {
+              console.error('La requête a échoué');
+            }
+          } catch (error) {
+            console.error('Erreur lors de la requête : ', error);
+          }
+          break;
+        default:
         console.error('Erreur lors de la requête : Mauvais userType selectionné');
         break;
       }
