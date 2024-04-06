@@ -4,6 +4,7 @@ import logo from "../../assets/logo.png";
 import colors from "../../assets/colors";
 import { AuthContext } from '../AuthContext';
 import CustomModal from "../CustomModal";
+import {backendUrl} from "../../assets/backendUrl";
 
 const RegisterScreen = ({ navigation }) => {
     const { updateToken } = useContext(AuthContext);
@@ -16,8 +17,6 @@ const RegisterScreen = ({ navigation }) => {
     const [carRegistrationNumber, setCarRegistrationNumber] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalText, setModalText] = useState('');
-
-    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com"
 
     const handleSubmit = () => {
         if (!firstname || !lastname || !email || !password || !confirmPassword) {

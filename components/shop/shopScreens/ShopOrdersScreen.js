@@ -6,6 +6,7 @@ import ShopNavbar from './../shopComponents/ShopNavbar';
 import ShopOrder from './../shopComponents/ShopOrder';
 import colors from "../../../assets/colors";
 import logo from "./../../../assets/logo.png";
+import {backendUrl} from "../../../assets/backendUrl";
 
 const ShopOrdersScreen = ({ navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
@@ -14,7 +15,7 @@ const ShopOrdersScreen = ({ navigation }) => {
     useEffect(() => {
         const autoLogin = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/auth/authenticate', {
+                const response = await fetch(`${backendUrl}/api/auth/authenticate`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -43,7 +44,7 @@ const ShopOrdersScreen = ({ navigation }) => {
         React.useCallback(() => {
             const fetchData = async () => {
                 try {
-                    const response = await fetch('http://localhost:8080/api/order/shop', {
+                    const response = await fetch(`${backendUrl}/api/order/shop`, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
@@ -72,13 +73,10 @@ const ShopOrdersScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar
-                animated={true}
-                backgroundColor={colors.primary}
-            />
             <View style={styles.head} >
                 <Image source={logo} style={styles.logo} />
-                <Text style={styles.title}>Orders</Text>
+                <Text style={styles.heading}>Commandes</Text>
+                <View/>
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 {orders.length > 0 ? (
@@ -109,22 +107,26 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: colors.primary,
     },
-    logo: {
+    logo:{
         width: 50,
         height: 50,
-        margin: 15,
-        marginRight: 0
+        margin:15,
+        marginRight:0
     },
     head: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1,
         backgroundColor: colors.background,
-        paddingHorizontal: 20,
-        paddingTop: 20,
-        paddingBottom: 10,
-        borderBottomWidth: 3,
-        borderBottomColor: colors.primary,
+    },
+    heading: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: colors.primary,
+        alignSelf: 'center',
     },
 });
 

@@ -8,14 +8,12 @@ import logo from "./../../assets/logo.png";
 import colors from "./../../assets/colors";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../AuthContext";
+import {backendUrl} from "../../assets/backendUrl";
 
 const HomeScreen = ({ navigation }) => {
 
     const [shops, setShops] = useState([]);
     const { token, updateToken } = useContext(AuthContext);
-
-    //const backendUrl = Config.BACKEND_URL;
-    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
     useEffect(() => {
       const fetchShopData = async () => {

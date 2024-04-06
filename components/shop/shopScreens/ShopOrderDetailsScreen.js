@@ -7,14 +7,13 @@ import logo from "../../../assets/logo.png";
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import {AuthContext} from "../../AuthContext";
 import ProductCard from "../../ProductCard";
+import {backendUrl} from "../../../assets/backendUrl";
 
 
 
 const ShopOrderDetailsScreen = ({ route, navigation }) => {
     const { order } = route.params;
     const { token } = useContext(AuthContext);
-
-    const backUrl = 'http://localhost:8080'
 
     const [isScannerActive, setIsScannerActive] = useState(false);
     const [scannedData, setScannedData] = useState(null);
@@ -34,7 +33,7 @@ const ShopOrderDetailsScreen = ({ route, navigation }) => {
 
     const handlePay = async () => {
         try {
-            const response = await fetch(`${backUrl}/api/order/${order.id}`, {
+            const response = await fetch(`${backendUrl}/api/order/${order.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,7 +55,7 @@ const ShopOrderDetailsScreen = ({ route, navigation }) => {
 
     const orderInProgress = async () => {
         try {
-            const response = await fetch(`${backUrl}/api/order/${order.id}`, {
+            const response = await fetch(`${backendUrl}/api/order/${order.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -78,7 +77,7 @@ const ShopOrderDetailsScreen = ({ route, navigation }) => {
 
     const orderReady = async () => {
         try {
-            const response = await fetch(`${backUrl}/api/order/${order.id}`, {
+            const response = await fetch(`${backendUrl}/api/order/${order.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -100,7 +99,7 @@ const ShopOrderDetailsScreen = ({ route, navigation }) => {
 
     const deleteOrder = async () => {
         try {
-            const response = await fetch(`${backUrl}/api/order/${order.id}`, {
+            const response = await fetch(`${backendUrl}/api/order/${order.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -126,7 +125,7 @@ const ShopOrderDetailsScreen = ({ route, navigation }) => {
                 <Text style={styles.heading}>Mes commandes</Text>
                 <View/>
             </View>
-            <ScrollView style={styles.content}>
+            <ScrollView contentContainerStyle={styles.content}>
                 <View>
                     <View style={styles.detail}>
                         <Text style={styles.headOfContainer}>Détails de la commande #{order.id}</Text>
@@ -228,7 +227,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
     },
     heading: {
-        fontSize: 30,
+        fontSize: 24,
         fontWeight: 'bold',
         color: colors.primary,
         alignSelf: 'center',

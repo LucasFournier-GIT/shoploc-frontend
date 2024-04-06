@@ -7,6 +7,7 @@ import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
 import CustomModal from '../CustomModal';
 import {RadioButton} from 'react-native-paper';
+import {backendUrl} from "../../assets/backendUrl";
 
 const LoginScreen = ({ navigation }) => {
 
@@ -21,8 +22,6 @@ const LoginScreen = ({ navigation }) => {
   const [userType, setUserType] = useState('client');
 
   const handleUserTypeChange = (value) => { setUserType(value); };
-
-  const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
   const handleConnexion = async () => {
 

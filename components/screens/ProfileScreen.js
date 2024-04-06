@@ -6,14 +6,12 @@ import logo from "../../assets/logo.png";
 import CustomNavBar from "../CustomNavBar";
 import EditProfileForm from "../Profile/EditProfileForm";
 import {MaterialIcons} from "@expo/vector-icons";
+import {backendUrl} from "../../assets/backendUrl";
 
 const ProfileInfo = ( { navigation } ) => {
   const { token } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-
-  //const backendUrl = Config.BACKEND_URL;
-  const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
   useEffect(() => {
     const fetchUserInfo = async () => {

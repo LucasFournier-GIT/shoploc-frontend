@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-//import colors from './../assets/colors';
 
 const ShopProduct = ({ navigation, product}) => {
 
@@ -13,23 +12,29 @@ const ShopProduct = ({ navigation, product}) => {
     const [price, setPrice] = useState(product.price);
     const [description, setDescription] = useState(product.description);
 
+    useEffect(() => {
+        setId(product.id);
+        setImageUrl(product.imageUrl);
+        setName(product.name);
+        setAvailability(product.availability);
+        setPrice(product.price);
+        setDescription(product.description);
+    }, [product]);
+
     const truncatedDescription = description.length > 30 ? `${description.substring(0, 27)}...` : description;
 
     function handleUpdate() {
         navigation.navigate('ShopUpdateProduct', { product });
     }
 
-
     return (
         <View style={styles.container}>
             <View style={styles.productContainer}>
                 <Image source={{ uri: product.imageUrl }} style={styles.image} />
-                <View style={styles.productInfo}>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{name} -</Text>
-                        <Text style={styles.details}>{availability} -</Text>
-                        <Text style={styles.details}>{price}€</Text>
-                    </View>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>{name}</Text>
+                    <Text style={styles.details}>{availability}</Text>
+                    <Text style={styles.details}>{price}€</Text>
                     <Text style={styles.description}>{truncatedDescription}</Text>
                 </View>
             </View>
@@ -42,29 +47,26 @@ const ShopProduct = ({ navigation, product}) => {
 
 const styles = StyleSheet.create({
     container: {
-        margin: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
+        alignSelf: 'center',
         backgroundColor: 'white',
         borderRadius: 32.5,
+        padding: 10,
+        paddingHorizontal: 20,
+        marginVertical: 10,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 4,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        right:"10px",
-        width:"100%",
-        padding:'10px',
+        shadowOpacity: 0.3,
+        shadowRadius: 4.65,
+        width: '90%',
     },
     productContainer: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 10,
-        width:"100%"
+        padding: 10,
     },
     image: {
         width: 100,
@@ -72,14 +74,10 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderBottomLeftRadius: 20,
     },
-    productInfo: {
-        flex: 1,
-        marginLeft: 10,
-    },
     titleContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 5,
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'flex-end',
     },
     title: {
         fontSize: 18,
@@ -101,7 +99,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 10,
+        marginVertical: 10,
     },
 });
 export default ShopProduct;
