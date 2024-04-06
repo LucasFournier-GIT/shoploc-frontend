@@ -8,7 +8,6 @@ import logo from "./../../assets/logo.png";
 import colors from "./../../assets/colors";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../AuthContext";
-import Config from "react-native-config";
 
 const HomeScreen = ({ navigation }) => {
 
@@ -16,7 +15,7 @@ const HomeScreen = ({ navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
 
     //const backendUrl = Config.BACKEND_URL;
-    const backendUrl = "http://localhost:8080";
+    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
     useEffect(() => {
       const fetchShopData = async () => {

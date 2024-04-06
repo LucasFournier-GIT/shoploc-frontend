@@ -6,7 +6,6 @@ import logo from "../../assets/logo.png";
 import CustomNavBar from "../CustomNavBar";
 import EditProfileForm from "../Profile/EditProfileForm";
 import {MaterialIcons} from "@expo/vector-icons";
-import Config from "react-native-config";
 
 const ProfileInfo = ( { navigation } ) => {
   const { token } = useContext(AuthContext);
@@ -14,7 +13,7 @@ const ProfileInfo = ( { navigation } ) => {
   const [isEditing, setIsEditing] = useState(false);
 
   //const backendUrl = Config.BACKEND_URL;
-  const backendUrl = "http://localhost:8080";
+  const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -100,21 +99,15 @@ const ProfileInfo = ( { navigation } ) => {
                     <MaterialIcons name="edit" size={28} color={colors.primary}/>
                   </Pressable>
                 </View>
-                <View style={styles.row}>
-                  <View style={styles.leftColumn}>
-                    <Text style={styles.textLeftColumn}>Email :</Text>
-                    <Text style={styles.textLeftColumn}>
-                      Immatriculation :
-                    </Text>
-                    <Text style={styles.textLeftColumn}>Mot de passe:</Text>
-                  </View>
-                  <View style={styles.rightColumn}>
-                    <Text style={styles.text}>{userInfo.email}</Text>
-                    <Text style={userInfo.carRegistrationNumber ? styles.text : styles.textDisabled}>
-                      {userInfo.carRegistrationNumber || 'Aucune'}
-                    </Text>
-                    <Text style={styles.text}>{'**********'}</Text>
-                  </View>
+                <View style={styles.column}>
+                  <Text style={styles.textLeftColumn}>Email :</Text>
+                  <Text style={styles.text}>{userInfo.email}</Text>
+                  <Text style={styles.textLeftColumn}>Immatriculation :</Text>
+                  <Text style={userInfo.carRegistrationNumber ? styles.text : styles.textDisabled}>
+                    {userInfo.carRegistrationNumber || 'Aucune'}
+                  </Text>
+                  <Text style={styles.textLeftColumn}>Mot de passe:</Text>
+                  <Text style={styles.text}>{'**********'}</Text>
                 </View>
               </View>
           )}
