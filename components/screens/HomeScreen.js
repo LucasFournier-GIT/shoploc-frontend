@@ -6,8 +6,8 @@ import { ScrollView } from "react-native";
 import ShopCard from "../ShopCard";
 import logo from "./../../assets/logo.png";
 import colors from "./../../assets/colors";
-import { useContext, useEffect, useState } from "react";  
-import { AuthContext } from "./../AuthContext";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../AuthContext";
 
 const HomeScreen = ({ navigation }) => {
 
@@ -24,7 +24,7 @@ const HomeScreen = ({ navigation }) => {
               'Content-Type': 'application/json',
             },
           }).then((res)=> {
-            return res.json(); 
+            return res.json();
           }).then((data)=>{
             setShops(data);
             console.log("THE DATA", data);
@@ -35,14 +35,13 @@ const HomeScreen = ({ navigation }) => {
           console.error('Erreur lors de la requête : ', error);
         }
       };
-    
+
       fetchShopData();
     }, [token]);
-    
+
 
     return (
         <View style={styles.View}>
-          
             <StatusBar
                 animated={true}
                 backgroundColor={colors.primary}
@@ -53,10 +52,9 @@ const HomeScreen = ({ navigation }) => {
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 {shops.map((shop) => (
-                
                 <ShopCard
                     key={shop.id}
-                    name={shop.name} 
+                    name={shop.name}
                     status={true}
                     hours={shop.opening_hours}
                     imageUrl={shop.image_url}
@@ -66,7 +64,6 @@ const HomeScreen = ({ navigation }) => {
                 ))}
             </ScrollView>
             <CustomNavBar navigation={navigation} screen="HomeScreen" />
-
         </View>
     );
 }
@@ -92,8 +89,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-        paddingHorizontal: 5, 
-        paddingBottom: "25%", 
+        paddingHorizontal: 5,
+        paddingBottom: "25%",
         backgroundColor: colors.background,
       },
     logo:{
@@ -108,7 +105,7 @@ const styles = StyleSheet.create({
       backgroundColor: colors.background,
       position: 'sticky',
       top: 0,
-      zIndex: 1, 
+      zIndex: 1,
       }
 });
 

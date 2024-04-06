@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import colors  from './../assets/colors';
 
-const ProductCard = ({ navigation, name, id, quantity, description, imageUrl, price }) => {
+const ProductCard = ({ navigation, name, id, quantity, description, imageUrl, price, disabledInteraction }) => {
   const [cartQuantity, setCartQuantity] = useState(0);
 
   const handleAddToCart = () => {
@@ -25,14 +25,14 @@ const ProductCard = ({ navigation, name, id, quantity, description, imageUrl, pr
         </Text>
         <Text style={styles.description}>{description}</Text>
 
-      {quantity > 0 && (
+      {quantity > 0 && !disabledInteraction && (
         <View style={styles.addToCart}>
           <TouchableOpacity onPress={handleAddToCart} style={[styles.button, styles.roundButton]}>
             <Text style={styles.buttonText}>+</Text>
           </TouchableOpacity>
-          
+
           <Text style={[styles.cartQuantity, cartQuantity === 0 && { display: 'none' }]}>{cartQuantity}</Text>
-          
+
           <TouchableOpacity
             onPress={handleRemoveFromCart}
             style={[styles.button, cartQuantity === 0 && { display: 'none' }, styles.roundButton]}
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   addToCart: {
-    position: 'absolute', // Utilisation d'une position absolue
-    top: 5, // Ajustez ces valeurs pour positionner "addToCart"
+    position: 'absolute',
+    top: 5,
     right: 5,
     backgroundColor: colors.secondary,
     borderRadius: 50,

@@ -4,7 +4,7 @@ import CustomSearchBar from './../CustomSearchBar';
 import CustomNavBar from './../CustomNavBar';
 import ProductCard from './../ProductCard';
 import logo from './../../assets/logo.png';
-import { Octicons } from '@expo/vector-icons'; 
+import { Octicons } from '@expo/vector-icons';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
 
@@ -24,20 +24,16 @@ const ShopScreen = ({ route, navigation }) => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-        }).then((res)=> {
-          return res.json(); 
-        }).then((data)=>{
-          setProducts(data);
-          console.log("THE DATA", data);
-        });
-
+        })
+        const data = await response.json();
+        setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
 
     fetchProducts();
-  }, [shopId, token]);
+  }, []);
 
 
 
@@ -70,6 +66,7 @@ const ShopScreen = ({ route, navigation }) => {
             navigation={navigation}
             id={product.id}
             price={product.price}
+            disabledInteraction={false}
           />
         ))}
       </ScrollView>

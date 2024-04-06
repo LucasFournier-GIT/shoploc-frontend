@@ -16,10 +16,8 @@ const ShopOrder = ({ order, onPress }) => {
     const containerStyle = [styles.container];
     const textStyle = [styles.text];
 
-    if (status === 'terminée') {
-        containerStyle.push(styles.disabled);
-        textStyle.push(styles.disabledText);
-        borderColor = "#9C9C9C";
+    if(status === 'En préparation') {
+        borderColor = "#F2C94C";
     }
 
     return (

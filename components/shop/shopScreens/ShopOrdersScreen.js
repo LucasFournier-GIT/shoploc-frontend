@@ -1,5 +1,6 @@
 import {Image, ScrollView, StatusBar, StyleSheet, Text, View} from "react-native";
 import React, {useContext, useEffect, useState} from "react";
+import { useFocusEffect } from '@react-navigation/native';
 import {AuthContext} from "../../AuthContext";
 import ShopNavbar from './../shopComponents/ShopNavbar';
 import ShopOrder from './../shopComponents/ShopOrder';
@@ -8,42 +9,65 @@ import logo from "./../../../assets/logo.png";
 
 
 const ShopOrdersScreen = ({ navigation }) => {
-    const { token } = useContext(AuthContext);
+    const { token, updateToken } = useContext(AuthContext);
     const [orders, setOrders] = useState([])
 
     useEffect(() => {
-        const fetchData = async () => {
+        const autoLogin = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/order/shop', {
+                const response = await fetch('http://localhost:8080/api/auth/authenticate', {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
+                    },
+                    body: JSON.stringify({
+                        email: "lucasfournierpro@gmail.com",
+                        password: "18"
+                    }),
+                });
 
                 if (!response.ok) {
                     throw new Error('Erreur lors de la requête');
                 }
 
                 const data = await response.json();
-                setOrders(data)
+                updateToken(data.token);
             } catch (error) {
-                console.error('Erreur lors de la récupération des commandes :', error);
+                console.error('Erreur lors de l\'auto-login : ', error);
             }
         };
 
-        fetchData().then(() => console.log(orders))
+        autoLogin();
     }, []); // Cette fonction s'exécute une seule fois après le montage du composant
 
-    /*const orders = [
-        { id: 1, date: '2024-03-25', status: 'en cours', montant: 50, estPayee: false, listProducts: [{ name: 'Product 1' }, { name: 'Product 2' }], idUser: 1 },
-        { id: 2, date: '2024-03-24', status: 'terminée', montant: 100, estPayee: true, listProducts: [{ name: 'Product 3' }, { name: 'Product 4' }], idUser: 2 },
-        { id: 3, date: '2024-03-23', status: 'en préparation', montant: 75, estPayee: true, listProducts: [{ name: 'Product 5' }, { name: 'Product 6' }], idUser: 3 }
-    ];*/
+    useFocusEffect(
+        React.useCallback(() => {
+            const fetchData = async () => {
+                try {
+                    const response = await fetch('http://localhost:8080/api/order/shop', {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la requête');
+                    }
+
+                    const data = await response.json();
+                    setOrders(data)
+                } catch (error) {
+                    console.error('Erreur lors de la récupération des commandes :', error);
+                }
+            };
+
+            fetchData()
+        }, [token])
+    );
 
 
     function handleOrderPressed(order) {
-        console.log("SEND ORDER", order);
         navigation.navigate('ShopOrderDetailsScreen', { order, navigation });
     }
 
