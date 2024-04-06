@@ -4,12 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 //import colors from './../assets/colors';
 
 const ShopProduct = ({ navigation, product}) => {
-    //id={product.id}
-    //imageUrl={product.imageUrl}
-    //name={product.name}
-    //quantity={product.quantity}
-    //price={product.price}
-    //description={product.description}
+
 
     const [id, setId] = useState(product.id);
     const [imageUrl, setImageUrl] = useState(product.imageUrl);
