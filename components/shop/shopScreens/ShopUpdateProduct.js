@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
-import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {View, Text, TextInput, StyleSheet, Image, ScrollView, Pressable} from 'react-native';
 import { AuthContext } from '../../AuthContext';
 import ShopNavbar from "../shopComponents/ShopNavbar";
 import logo from "../../../assets/logo.png";
 import colors from "../../../assets/colors";
+import {backendUrl} from "../../../assets/backendUrl";
 
 const ShopUpdateProduct = ({ route, navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
@@ -15,8 +16,6 @@ const ShopUpdateProduct = ({ route, navigation }) => {
     const [availability, setAvailability] = useState(product.availability);
     const [price, setPrice] = useState(product.price);
     const [description, setDescription] = useState(product.description);
-  
-    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
     const handleUpdateProduct = async () => {
         try {
@@ -36,6 +35,7 @@ const ShopUpdateProduct = ({ route, navigation }) => {
             });
             if (response.ok) {
                 console.log('Produit mis à jour avec succès');
+                navigation.navigate("ShopProductsScreen");
             } else {
                 console.error('Erreur lors de la mise à jour du produit');
             }
@@ -62,7 +62,6 @@ const ShopUpdateProduct = ({ route, navigation }) => {
             });
             if (response.ok) {
                 console.log('Produit supprimé avec succès');
-                await refreshProducts();
                 navigation.navigate("ShopProductsScreen");
             } else {
                 console.error('Erreur lors de la suppression du produit');
@@ -76,51 +75,54 @@ const ShopUpdateProduct = ({ route, navigation }) => {
         <View style={styles.container}>
             <View style={styles.head} >
                 <Image source={logo} style={styles.logo} />
-                <Text style={styles.title}>Mes produits</Text>
+                <Text style={styles.heading}>Mon produit</Text>
+                <View/>
             </View>
-
-            <Text style={styles.title}>Modifier le produit</Text>
-            <TextInput
-                style={styles.input}
-                value={name}
-                onChangeText={setName}
-                placeholder="Nom du produit"
-            />
-            <TextInput
-                style={styles.input}
-                value={availability}
-                onChangeText={setAvailability}
-                placeholder="Quantité"
-                keyboardType="numeric"
-            />
-            <TextInput
-                style={styles.input}
-                value={price}
-                onChangeText={setPrice}
-                placeholder="Prix"
-                keyboardType="numeric"
-            />
-            <TextInput
-                style={[styles.input, styles.textArea]}
-                value={description}
-                onChangeText={setDescription}
-                placeholder="Description"
-                multiline={true}
-            />
-            <TextInput
-                style={styles.input}
-                value={imageUrl}
-                onChangeText={setImageUrl}
-                placeholder="URL de l'image du produit"
-            />
-            <Image source={imageUrl} style={styles.image}/>
-            <TouchableOpacity style={styles.button} onPress={handleUpdateProduct}>
-                <Text style={styles.buttonText}>Enregistrer</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteProduct}>
-                <Text style={styles.deleteButtonText}>Supprimer le produit</Text>
-            </TouchableOpacity>
-
+            <ScrollView contentContainerStyle={styles.content}>
+                <View style={styles.textGroup}>
+                    <Text style={styles.title}>Modifier le produit</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={name}
+                        onChangeText={setName}
+                        placeholder="Nom du produit"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        value={availability}
+                        onChangeText={setAvailability}
+                        placeholder="Quantité"
+                        keyboardType="numeric"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        value={price}
+                        onChangeText={setPrice}
+                        placeholder="Prix"
+                        keyboardType="numeric"
+                    />
+                    <TextInput
+                        style={[styles.input, styles.textArea]}
+                        value={description}
+                        onChangeText={setDescription}
+                        placeholder="Description"
+                        multiline={true}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        value={imageUrl}
+                        onChangeText={setImageUrl}
+                        placeholder="URL de l'image du produit"
+                    />
+                    <Image source={imageUrl} style={styles.image}/>
+                </View>
+                <Pressable style={styles.button} onPress={handleUpdateProduct}>
+                    <Text style={styles.buttonText}>Enregistrer</Text>
+                </Pressable>
+                <Pressable style={styles.deleteButton} onPress={handleDeleteProduct}>
+                    <Text style={styles.deleteButtonText}>Supprimer le produit</Text>
+                </Pressable>
+            </ScrollView>
             <ShopNavbar navigation={navigation} screen={"ShopProductsScreen"}></ShopNavbar>
         </View>
     );
@@ -129,8 +131,14 @@ const ShopUpdateProduct = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
         backgroundColor: colors.background,
+    },
+    content: {
+        flex: 1,
+    },
+    textGroup: {
+        width: '90%',
+        alignSelf: 'center',
     },
     title: {
         fontSize: 24,
@@ -153,8 +161,24 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: colors.secondary,
         padding: 15,
-        borderRadius: 5,
+        borderRadius: 50,
         alignItems: 'center',
+        alignSelf: 'center',
+        width: '90%',
+    },
+    deleteButton: {
+        backgroundColor: colors.error,
+        padding: 15,
+        borderRadius: 50,
+        marginVertical: 10,
+        alignItems: 'center',
+        alignSelf: 'center',
+        width: '90%',
+    },
+    deleteButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     buttonText: {
         color: '#fff',
@@ -164,35 +188,28 @@ const styles = StyleSheet.create({
     head: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: colors.background,
+        alignItems: 'center',
         position: 'sticky',
         top: 0,
         zIndex: 1,
+        backgroundColor: colors.background,
     },
-    logo: {
+    heading: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: colors.primary,
+        alignSelf: 'center',
+    },
+    logo:{
         width: 50,
         height: 50,
-        margin: 15,
-        marginRight: 0
-    },
-    deleteButton: {
-        backgroundColor: colors.error,
-        padding: 15,
-        borderRadius: 5,
-        alignItems: 'center',
-        position: 'absolute',
-        bottom: 85,
-        left: 20,
-        right: 20,
-    },
-    deleteButtonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
+        margin:15,
     },
     image:{
         height:100,
-        width:100
+        width:100,
+        marginVertical:10,
+        alignSelf:"center"
     }
 });
 

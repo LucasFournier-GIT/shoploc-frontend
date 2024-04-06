@@ -1,73 +1,241 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Image, StatusBar, View } from "react-native";
-import { StyleSheet } from "react-native";
-import { Text } from "react-native";
-import { SearchBar } from 'react-native-elements';
-import { ScrollView } from "react-native";
-import logo from "./../../../assets/logo.png";
-import colors from "../../../assets/colors";
-import { AuthContext } from "./../../AuthContext";
-import ShopNavbar from './../shopComponents/ShopNavbar';
-const ShopProfileScreen = ({ navigation }) => {
+import React, {useContext, useEffect, useState} from 'react';
+import {View, Text, StyleSheet, ScrollView, Image, Linking, Pressable} from 'react-native';
+import colors from '../../../assets/colors';
+import ShopNavbar from "../shopComponents/ShopNavbar";
+import logo from "../../../assets/logo.png";
+import {AuthContext} from "../../AuthContext";
+import {backendUrl} from "../../../assets/backendUrl";
 
+const ShopProfileScreen = ({navigation}) => {
+    const [shopId, setShopId] = useState(0);
     const { token, updateToken } = useContext(AuthContext);
-    
+    const [shop, setShop] = useState({});
+
+    useEffect(() => {
+        const autoLogin = async () => {
+            try {
+                const response = await fetch(`${backendUrl}/api/auth/authenticate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: "lucasfournierpro@gmail.com",
+                        password: "18"
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la requête');
+                }
+
+                const data = await response.json();
+                updateToken(data.token);
+            } catch (error) {
+                console.error('Erreur lors de l\'auto-login : ', error);
+            }
+        };
+
+        autoLogin();
+    }, []);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch(`${backendUrl}/api/user`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setShopId(data.id)
+                } else {
+                    console.error('Error fetching user:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+
+        fetchUserData();
+    }, [token]);
+
+    //const testShopId = 202;
+
+    const refreshProfile = async () => {
+        try {
+            const response = await fetch(`${backendUrl}/api/shop/${shopId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data)
+                setShop(data);
+            } else {
+                console.error('Error fetching user:', response.status);
+            }
+        } catch (error) {
+            console.error('Error fetching user:', error);
+        }
+    };
+
+    useEffect(() => {
+        refreshProfile();
+    }, [shopId, token]);
+
+    const handleEditProfile = () => {
+        navigation.navigate('ShopUpdateProfileScreen', { shop, refreshProfile });
+    };
+
+    const handleGoPBI = () => {
+        const url = "https://app.powerbi.com/view?r=eyJrIjoiODIyOTQ5ZjItZWI4OC00NjVhLTk4N2MtM2JlYWE0NzhiMDMzIiwidCI6IjIyMTNkOWRmLWNlZDYtNGIwYi1hMjUwLWVlOGQxOWZiY2M5YiIsImMiOjh9"
+        Linking.openURL(url);
+    }
 
     return (
         <View style={styles.container}>
-            <StatusBar
-                animated={true}
-                backgroundColor={colors.primary}
-            />
             <View style={styles.head} >
-              <Image source={logo} style={styles.logo} />
-              <Text>Profile</Text>
+                <Image source={logo} style={styles.logo} />
+                <Text style={styles.heading}>Mon commerce</Text>
+                <View/>
             </View>
-            <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                
+            <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+                <View style={styles.profileContainer}>
+                    <Text style={styles.title}>Profil du Magasin</Text>
+                    <Image source={{ uri: shop.image_url }} style={styles.image} />
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.label}>ID:</Text>
+                        <Text style={styles.value}>{shop.id}</Text>
+                    </View>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.label}>Nom:</Text>
+                        <Text style={styles.value}>{shop.name}</Text>
+                    </View>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.label}>Adresse:</Text>
+                        <Text style={styles.value}>{shop.address}</Text>
+                    </View>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.label}>Mail:</Text>
+                        <Text style={styles.value}>{shop.email}</Text>
+                    </View>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.label}>Coordonnées GPS:</Text>
+                        <Text style={styles.value}>{shop.gps_coordinates}</Text>
+                    </View>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.label}>Horaires:</Text>
+                        <Text style={styles.value}>{shop.opening_hours}</Text>
+                    </View>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.label}>Mot de passe:</Text>
+                        <Text style={styles.value}>**************</Text>
+                    </View>
+                    <Pressable style={styles.pbiButton} onPress={handleGoPBI}>
+                        <Text style={styles.editButtonText}>Plus d'informations</Text>
+                    </Pressable>
+                </View>
+                <Pressable style={styles.editButton} onPress={handleEditProfile}>
+                    <Text style={styles.editButtonText}>Modifier</Text>
+                </Pressable>
             </ScrollView>
-            <ShopNavbar navigation={navigation} screen="ShopProfileScreen" />
+            <ShopNavbar navigation={navigation} screen={"ShopProfileScreen"}/>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.background,
     },
-    searchBarContainer: {
-        backgroundColor: colors.background,
-        borderWidth: 1.5,
-        borderColor: colors.primary,
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-        paddingHorizontal: 10,
-        height: "150%",
-        flexDirection: "row",
-        flex: 1,
+    profileContainer: {
+        backgroundColor: "white",
+        borderRadius: 20,
+        shadowOffset: {
+            width: 2,
+            height: 2,
+        },
+        shadowRadius: 6,
+        shadowOpacity: 0.50,
+        padding: 20,
+        marginTop: 20,
+        width: '90%',
+        alignSelf: 'center',
     },
-    scrollViewContent: {
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: colors.primary,
+        marginBottom: 10,
+    },
+    infoContainer: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-evenly',
-        paddingHorizontal: 5, 
-        paddingBottom: "25%", 
-        backgroundColor: colors.background,
+        alignItems: 'center',
+        marginBottom: 10,
     },
-    logo: {
+    logo:{
         width: 50,
         height: 50,
-        margin: 15,
-        marginRight: 0
+        margin:15,
+        marginRight:0
     },
     head: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: colors.background,
+        alignItems: 'center',
         position: 'sticky',
         top: 0,
-        zIndex: 1, 
+        zIndex: 1,
+        backgroundColor: colors.background,
+    },
+    heading: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: colors.primary,
+        alignSelf: 'center',
+    },
+    label: {
+        fontWeight: 'bold',
+        marginRight: 10,
+    },
+    value: {
+        flex: 1,
+    },
+    editButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colors.secondary,
+        padding: 20,
+        borderRadius: 50,
+        marginVertical: 20,
+        width: '90%',
+    },
+    pbiButton:{
+        backgroundColor: colors.secondary,
+        paddingVertical: 15,
+        borderRadius: 50,
+        alignItems: 'center',
+        margin:10
+    },
+    editButtonText: {
+        color: '#FFF',
+        fontSize: 18,
+    },
+    image:{
+        width:100,
+        height:100,
+        alignSelf:"center"
     }
 });
 

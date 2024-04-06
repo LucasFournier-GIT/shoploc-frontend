@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import colors from "./../assets/colors";
 import {AuthContext} from "./AuthContext";
+import {backendUrl} from "../assets/backendUrl";
 
 const CartItem = ({ name,  price, qty, imageUrl, productId}) => {
 
@@ -11,7 +12,7 @@ const CartItem = ({ name,  price, qty, imageUrl, productId}) => {
   // Fonction pour augmenter la quantité d'un produit dans le panier
   const handleIncrease = async () => {
     try {
-      const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product_in_cart/add/${productId}`, {
+      const response = await fetch(`${backendUrl}/api/product_in_cart/add/${productId}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -33,7 +34,7 @@ const CartItem = ({ name,  price, qty, imageUrl, productId}) => {
 // Fonction pour diminuer la quantité d'un produit dans le panier
   const handleDecrease = async () => {
     try {
-      const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product_in_cart/remove/${productId}`, {
+      const response = await fetch(`${backendUrl}/api/product_in_cart/remove/${productId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

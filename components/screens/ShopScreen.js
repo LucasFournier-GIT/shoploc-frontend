@@ -7,6 +7,7 @@ import logo from './../../assets/logo.png';
 import { Octicons } from '@expo/vector-icons';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
+import {backendUrl} from "../../assets/backendUrl";
 
 
 const ShopScreen = ({ route, navigation }) => {
@@ -15,9 +16,6 @@ const ShopScreen = ({ route, navigation }) => {
 
   const [products, setProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
-
-  //const backendUrl = Config.BACKEND_URL;
-  const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -29,21 +27,17 @@ const ShopScreen = ({ route, navigation }) => {
             'Content-Type': 'application/json',
           },
         })
-        
+
         if (response.ok) {
           const data = await response.json();
           setProducts(data);
         }
-        
-        const data = await response.json();
-        setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
 
     fetchProducts();
-  }, []);
 
     const fetchCartProducts = async () => {
       try {
@@ -103,28 +97,15 @@ const ShopScreen = ({ route, navigation }) => {
                   id={product.id}
                   price={product.price}
                   qty={quantity}
+                  disabledInteraction={false}
               />
           );
         })}
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            name={product.name}
-            quantity={product.availability}
-            description={product.description}
-            imageUrl={product.imageUrl}
-            navigation={navigation}
-            id={product.id}
-            price={product.price}
-            disabledInteraction={false}
-          />
-        ))}
       </ScrollView>
         <CustomNavBar navigation={navigation} screen="HomeScreen" />
       </View>
-  );
-};
+    );
+}
 
 const styles = StyleSheet.create({
   container: {
