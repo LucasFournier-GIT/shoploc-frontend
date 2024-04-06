@@ -4,14 +4,12 @@ import ShopCartSummary from './../ShopCartSummary';
 import CustomNavBar from '../CustomNavBar';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
+import {backendUrl} from "../../assets/backendUrl";
 
 const CartScreen = ({ navigation }) => {
 
   const [userCarts, setUserCarts] = useState([]);
   const { token, updateToken } = useContext(AuthContext);
-
-    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
-
 
     useEffect(() => {
     const fetchUserCarts = async () => {

@@ -2,14 +2,15 @@ import React, {useContext, useState} from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import colors  from './../assets/colors';
 import {AuthContext} from "./AuthContext";
+import {backendUrl} from "../assets/backendUrl";
 
-const ProductCard = ({ name, id, availability, description, imageUrl, price, qty }) => {
+const ProductCard = ({ name, id, availability, description, imageUrl, price, qty, disabledInteraction }) => {
   const { token, updateToken } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(qty)
 
   const handleAddToCart = async () => {
     try {
-      const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product_in_cart/add/${id}`, {
+      const response = await fetch(`${backendUrl}/api/product_in_cart/add/${id}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -31,7 +32,7 @@ const ProductCard = ({ name, id, availability, description, imageUrl, price, qty
   const handleRemoveFromCart = async () => {
     if (quantity > 0) {
       try {
-        const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product_in_cart/remove/${id}`, {
+        const response = await fetch(`${backendUrl}/api/product_in_cart/remove/${id}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,

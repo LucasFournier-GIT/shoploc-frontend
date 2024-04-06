@@ -2,7 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/screens/LoginScreen';
-import CreateAccountScreen from './components/screens/CreateAccountScreen';
 import HomeScreen from './components/screens/HomeScreen';
 import ShopScreen from './components/screens/ShopScreen';
 import CartScreen from './components/screens/CartScreen';
@@ -19,6 +18,7 @@ import RouteScreen from "./components/screens/RouteScreen";
 import HomeCityscreen from "./components/city/cityScreens/HomeCityscreen";
 import ProfileCityscreen from "./components/city/cityScreens/ProfileCityScreen";
 import RegisterScreen from "./components/register/RegisterScreen";
+import ShopUpdateProfileScreen from "./components/shop/shopScreens/ShopUpdateProfileScreen";
 
 const Stack = createStackNavigator();
 
@@ -40,6 +40,7 @@ export default function App() {
           <Stack.Screen name="ShopProfileScreen" component={ShopProfileScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopUpdateProduct" component={ShopUpdateProduct} options={{headerShown: false}} />
           <Stack.Screen name="ShopOrderDetailsScreen" component={ShopOrderDetailsScreen} options={{headerShown: false}} />
+          <Stack.Screen name="ShopUpdateProfileScreen" component={ShopUpdateProfileScreen} options={{headerShown: false}} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
           <Stack.Screen name="RouteScreen" component={RouteScreen} options={{headerShown: false}} />
           <Stack.Screen name="HomeCityScreen" component={HomeCityscreen} options={{headerShown: false}} />
