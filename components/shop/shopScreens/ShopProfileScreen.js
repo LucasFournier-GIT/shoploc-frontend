@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, ScrollView, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Linking} from 'react-native';
 import colors from '../../../assets/colors';
 import ShopNavbar from "../shopComponents/ShopNavbar";
 import logo from "../../../assets/logo.png";
@@ -67,6 +67,11 @@ const ShopProfileScreen = ({navigation}) => {
         navigation.navigate('ShopUpdateProfileScreen', { shop, refreshProfile });
     };
 
+    const handleGoPBI = () => {
+        const url = "https://app.powerbi.com/view?r=eyJrIjoiODIyOTQ5ZjItZWI4OC00NjVhLTk4N2MtM2JlYWE0NzhiMDMzIiwidCI6IjIyMTNkOWRmLWNlZDYtNGIwYi1hMjUwLWVlOGQxOWZiY2M5YiIsImMiOjh9"
+        Linking.openURL(url);
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.head} >
@@ -110,7 +115,11 @@ const ShopProfileScreen = ({navigation}) => {
                         <Text style={styles.label}>Image URL:</Text>
                         <Text style={styles.value}>{shop.image_url}</Text>
                     </View>
+                    <TouchableOpacity style={styles.pbiButton} onPress={handleGoPBI}>
+                        <Text style={styles.editButtonText}>Voir mes informations</Text>
+                    </TouchableOpacity>
                 </View>
+
             </ScrollView>
             <TouchableOpacity style={styles.editButton} onPress={handleEditProfile}>
                 <Text style={styles.editButtonText}>Modifier</Text>
@@ -156,6 +165,13 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
         bottom:70
+    },
+    pbiButton:{
+        backgroundColor: colors.secondary,
+        paddingVertical: 15,
+        borderRadius: 5,
+        alignItems: 'center',
+        margin:10
     },
     editButtonText: {
         color: '#FFF',
