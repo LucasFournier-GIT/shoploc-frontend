@@ -1,13 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 //import colors from './../assets/colors';
 
-const ShopProduct = ({ navigation, product, refreshProducts }) => {
-    const truncatedDescription = product.description.length > 30 ? `${product.description.substring(0, 27)}...` : product.description;
+const ShopProduct = ({ navigation, product}) => {
 
-    function handleUpdate(product) {
-        navigation.navigate('ShopUpdateProduct', { product, refreshProducts });
+
+    const [id, setId] = useState(product.id);
+    const [imageUrl, setImageUrl] = useState(product.imageUrl);
+    const [name, setName] = useState(product.name);
+    const [availability, setAvailability] = useState(product.availability);
+    const [price, setPrice] = useState(product.price);
+    const [description, setDescription] = useState(product.description);
+
+    const truncatedDescription = description.length > 30 ? `${description.substring(0, 27)}...` : description;
+
+    function handleUpdate() {
+        navigation.navigate('ShopUpdateProduct', { product });
     }
 
 
@@ -17,14 +26,14 @@ const ShopProduct = ({ navigation, product, refreshProducts }) => {
                 <Image source={{ uri: product.imageUrl }} style={styles.image} />
                 <View style={styles.productInfo}>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{product.name} -</Text>
-                        <Text style={styles.details}>{product.availability} -</Text>
-                        <Text style={styles.details}>{product.price}€</Text>
+                        <Text style={styles.title}>{name} -</Text>
+                        <Text style={styles.details}>{availability} -</Text>
+                        <Text style={styles.details}>{price}€</Text>
                     </View>
                     <Text style={styles.description}>{truncatedDescription}</Text>
                 </View>
             </View>
-            <TouchableOpacity style={styles.editButton} onPress={() => handleUpdate(product)}>
+            <TouchableOpacity style={styles.editButton} onPress={() => handleUpdate()}>
                 <Ionicons name="pencil" size={24} color="white" />
             </TouchableOpacity>
         </View>

@@ -28,24 +28,22 @@ const ShopScreen = ({ route, navigation }) => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-        }).then((res)=> {
-          return res.json();
-        }).then((data)=>{
-          setProducts(data);
-          console.log("THE DATA", data);
-        });
+        })
+        
         if (response.ok) {
           const data = await response.json();
           setProducts(data);
-        } else {
-          console.error('Error fetching products:', response.status);
         }
+        
+        const data = await response.json();
+        setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
 
     fetchProducts();
+  }, []);
 
     const fetchCartProducts = async () => {
       try {
@@ -108,9 +106,21 @@ const ShopScreen = ({ route, navigation }) => {
               />
           );
         })}
-
-        </ScrollView>
-
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            name={product.name}
+            quantity={product.availability}
+            description={product.description}
+            imageUrl={product.imageUrl}
+            navigation={navigation}
+            id={product.id}
+            price={product.price}
+            disabledInteraction={false}
+          />
+        ))}
+      </ScrollView>
         <CustomNavBar navigation={navigation} screen="HomeScreen" />
       </View>
   );
@@ -166,4 +176,5 @@ const styles = StyleSheet.create({
     height:"9%"
   },
 });
+
 export default ShopScreen;

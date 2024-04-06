@@ -10,16 +10,53 @@ import ShopProduct from "../shopComponents/ShopProduct";
 
 const ShopProductsScreen = ({ navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
+    const [shopId, setShopId] = useState(0);
 
-    let shopId = 1;
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/api/user', {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Shop data:', data);
+                    setShopId(data.id);
+                } else {
+                    console.error('Error fetching user:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+
+        fetchUserData();
+    }, [token]);
+
     const [products, setProducts] = useState([]);
 
-    const fetchShopProducts = async () => {
-        try {
-            const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product/shop/${shopId}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
+    useEffect(() => {
+        const fetchShopProducts = async () => {
+            setShopId(1);
+            try {
+                // Assurez-vous d'ajuster l'URL en fonction de votre API
+                const response = await fetch(`http://localhost:8080/api/product/shop/202`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setProducts(data);
+                } else {
+                    console.error('Erreur lors de la récupération des produits');
                 }
             });
             if (response.ok) {
@@ -33,13 +70,8 @@ const ShopProductsScreen = ({ navigation }) => {
         }
     };
 
-    useEffect(() => {
         fetchShopProducts();
-    }, [shopId, token]);
-
-    const refreshProducts = () => {
-        fetchShopProducts();
-    };
+    }, [token]);
 
 
     return (
@@ -59,9 +91,8 @@ const ShopProductsScreen = ({ navigation }) => {
                     {products.map(product => (
                         <ShopProduct
                             key={product.id}
-                            navigation={navigation}
                             product={product}
-                            refreshProducts={refreshProducts}
+                            navigation={navigation}
                         />
                     ))}
                 </View>

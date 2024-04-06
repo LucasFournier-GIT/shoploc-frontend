@@ -45,7 +45,6 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View style={styles.View}>
-
             <StatusBar
                 animated={true}
                 backgroundColor={colors.primary}
@@ -56,20 +55,18 @@ const HomeScreen = ({ navigation }) => {
             </View>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 {shops.map((shop) => (
-
-                <ShopCard
-                    key={shop.id}
-                    name={shop.name}
-                    status={true}
-                    hours={shop.opening_hours}
-                    imageUrl={shop.image_url}
-                    navigation={navigation}
-                    id={shop.id}
-                />
+                  <ShopCard
+                      key={shop.id}
+                      name={shop.name}
+                      status={true}
+                      hours={shop.opening_hours}
+                      imageUrl={shop.image_url}
+                      navigation={navigation}
+                      id={shop.id}
+                  />
                 ))}
             </ScrollView>
             <CustomNavBar navigation={navigation} screen="HomeScreen" />
-
         </View>
     );
 }

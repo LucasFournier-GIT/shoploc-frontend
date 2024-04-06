@@ -8,11 +8,11 @@ const ShopNavBar = ({ navigation, screen }) => {
     const handleGoShopProductsScreen = () => {
         navigation.navigate('ShopProductsScreen');
     }
-    
+
     const handleGoShopOrdersScreen = () => {
         navigation.navigate('ShopOrdersScreen');
     }
-    
+
     const handleGoShopProfileScreen = () => {
         navigation.navigate('ShopProfileScreen');
     }
@@ -57,27 +57,27 @@ const styles = StyleSheet.create({
     navBar: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        height: 70,
+        height: 60,
         backgroundColor: colors.primary,
         paddingHorizontal: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        position:"absolute",
+        position: "sticky",
         width:"90%",
-        bottom:"0px",
+        bottom: 0,
         alignSelf:"center",
     },
     active: {
         backgroundColor: colors.primary,
         alignItems: "center",
-        height: "80px",
-        width: "80px",
         borderRadius:"100%",
-        bottom: "10px",
-        paddingTop: "10px"
+        bottom: 10,
+        padding: 10,
+        marginBottom: 10,
     },
     inactive: {
         padding: 10,
+        justifyContent: "center",
     },
 });
 
