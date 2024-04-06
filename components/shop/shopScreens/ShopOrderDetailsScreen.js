@@ -10,23 +10,9 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 
 const ShopOrderDetailsScreen = ({ route, navigation }) => {
     const { order } = route.params;
-    console.log("ORDER : ", order);
-    //TODO recuperer les données de la commande
-    /*const order = {
-        id: 1,
-        date: '2024-03-25',
-        status: 'en cours',
-        montant: 50,
-        estPayee: false,
-        listProducts: [
-            { name: 'Product 1', quantity: 2, price: 20 },
-            { name: 'Product 2', quantity: 1, price: 30 }
-        ],
-        idUser: 1
-    };*/
 
     // Texte du statut de la commande
-    const statusText = order.status === 'terminée' ? 'Terminée' : 'En préparation';
+    const statusText = order.status === 'Terminée' ? 'Terminée' : 'En préparation';
 
     const [isScannerActive, setIsScannerActive] = useState(false);
     const [scannedData, setScannedData] = useState(null);
@@ -42,6 +28,24 @@ const ShopOrderDetailsScreen = ({ route, navigation }) => {
         setIsScannerActive(true);
         setScannedData(null);
     };
+
+    let buttonText;
+    let buttonAction;
+    if (order.status === 'En attente') {
+        buttonText = 'Préparer';
+        buttonAction = () => handleUpdateState('En préparation');
+    } else if (order.status === 'En préparation') {
+        buttonText = 'Terminer';
+        buttonAction = () => handleUpdateState('Terminée');
+    }
+
+    const handlePay = () =>{
+        //TODO update order
+    }
+
+    const handleUpdateState = (newState) => {
+        //TODO update order
+    }
 
     return (
         <View style={styles.container}>
@@ -64,6 +68,12 @@ const ShopOrderDetailsScreen = ({ route, navigation }) => {
             </View>
 
             <View style={styles.content}>
+                <TouchableOpacity disabled={order.paid} style={styles.button} onPress={handlePay}>
+                    <Text style={styles.buttonText}>Payer</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={buttonAction}>
+                    <Text style={styles.buttonText}>{buttonText}</Text>
+                </TouchableOpacity>
                 {/* Affichage du scanner si activé */}
                 {isScannerActive && (
                     <View style={styles.scannerContainer}>
@@ -131,6 +141,10 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         padding: 20,
+        backgroundColor: '#FFF',
+        borderRadius: 32.5,
+        elevation: 10,
+        marginBottom: 20,
     },
     button: {
         flexDirection: 'row',
@@ -139,6 +153,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.secondary,
         padding: 10,
         borderRadius: 5,
+        margin:5
     },
     buttonText: {
         color: '#FFF',
