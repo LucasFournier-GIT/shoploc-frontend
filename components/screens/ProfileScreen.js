@@ -90,7 +90,7 @@ const ProfileInfo = ( { navigation } ) => {
         </View>
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           {isEditing && (
-              <EditProfileForm userInfo={userInfo} onFormSubmit={submitUserData} />
+              <EditProfileForm userInfo={userInfo} showCarNumber={true} onFormSubmit={submitUserData} />
           )}
           { !isEditing && (
               <View style={styles.container}>
@@ -238,7 +238,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
+
 });
 
 export default ProfileInfo;

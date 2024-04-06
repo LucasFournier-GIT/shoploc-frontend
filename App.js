@@ -15,6 +15,8 @@ import {AuthProvider} from './components/AuthContext';
 import ShopUpdateProduct from "./components/shop/shopScreens/ShopUpdateProduct";
 import ProfileScreen from "./components/screens/ProfileScreen";
 import RouteScreen from "./components/screens/RouteScreen";
+import HomeCityscreen from "./components/city/cityScreens/HomeCityscreen";
+import ProfileCityscreen from "./components/city/cityScreens/ProfileCityScreen";
 
 const Stack = createStackNavigator();
 
@@ -37,6 +39,8 @@ export default function App() {
           <Stack.Screen name="ShopUpdateProduct" component={ShopUpdateProduct} options={{headerShown: false}} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
           <Stack.Screen name="RouteScreen" component={RouteScreen} options={{headerShown: false}} />
+          <Stack.Screen name="HomeCityScreen" component={HomeCityscreen} options={{headerShown: false}} />
+          <Stack.Screen name="ProfileCityScreen" component={ProfileCityscreen} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 import colors from "../../assets/colors";
 
-const EditProfileForm = ({userInfo, onFormSubmit}) => {
+const EditProfileForm = ({userInfo, onFormSubmit, showCarNumber}) => {
     const [email, setEmail] = useState(userInfo.email);
     const [carRegistrationNumber, setCarRegistrationNumber] = useState(userInfo.carRegistrationNumber || '');
     const [password, setPassword] = useState('');
@@ -35,12 +35,16 @@ const EditProfileForm = ({userInfo, onFormSubmit}) => {
                 value={email}
                 onChangeText={setEmail}
             />
-            <Text style={styles.text}>Immatriculation :</Text>
-            <TextInput
-                style={styles.input}
-                value={carRegistrationNumber}
-                onChangeText={setCarRegistrationNumber}
-            />
+            {showCarNumber && (
+                <View>
+                    <Text style={styles.text}>Immatriculation :</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={carRegistrationNumber}
+                        onChangeText={setCarRegistrationNumber}
+                    />
+                </View>
+            )}
             <Text style={styles.text}>Mot de passe:</Text>
             <TextInput
                 style={styles.input}
