@@ -2,7 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/screens/LoginScreen';
-import CreateAccountScreen from './components/screens/CreateAccountScreen';
 import HomeScreen from './components/screens/HomeScreen';
 import ShopScreen from './components/screens/ShopScreen';
 import CartScreen from './components/screens/CartScreen';
