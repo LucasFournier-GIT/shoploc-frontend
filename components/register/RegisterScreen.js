@@ -3,6 +3,7 @@ import {Alert, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View} 
 import logo from "../../assets/logo.png";
 import colors from "../../assets/colors";
 import { AuthContext } from '../AuthContext';
+import CustomModal from "../CustomModal";
 
 const RegisterScreen = ({ navigation }) => {
     const { updateToken } = useContext(AuthContext);
@@ -13,12 +14,15 @@ const RegisterScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [carRegistrationNumber, setCarRegistrationNumber] = useState('');
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalText, setModalText] = useState('');
 
     const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com"
 
     const handleSubmit = () => {
         if (!firstname || !lastname || !email || !password || !confirmPassword) {
-            Alert.alert('Erreur de saisie', 'Les champs nom, prénom, adresse mail et les deux mots de passe sont obligatoires');
+            setModalText("Les mots de passe saisis ne correspondent pas");
+            setIsModalVisible(true);
             return;
         }
 
@@ -48,7 +52,15 @@ const RegisterScreen = ({ navigation }) => {
                 body: JSON.stringify(usedFields)
             });
 
+            if (response.status === 409) {
+                setModalText("Cet utilisateur existe déjà");
+                setIsModalVisible(true);
+                throw new Error('Erreur lors de la requête');
+            }
+
             if (!response.ok) {
+                setModalText("Erreur lors de l'inscription");
+                setIsModalVisible(true);
                 throw new Error('Erreur lors de la requête');
             }
 
@@ -126,6 +138,11 @@ const RegisterScreen = ({ navigation }) => {
                     <Text style={{color: 'white', fontSize: 16}}>S'inscrire</Text>
                 </Pressable>
             </View>
+            <CustomModal
+                isVisible={isModalVisible}
+                modalText={modalText}
+                onClose={() => setIsModalVisible(false)}
+            />
         </View>
     )
 }
