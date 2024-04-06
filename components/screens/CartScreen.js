@@ -12,13 +12,13 @@ const CartScreen = ({ navigation }) => {
   const { token, updateToken } = useContext(AuthContext);
 
   //const backendUrl = Config.BACKEND_URL;
-    const backendUrl = "http://localhost:8080";
+    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
 
     useEffect(() => {
     const fetchUserCarts = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/product_in_cart', {
+        const response = await fetch(`${backendUrl}/api/product_in_cart`, {
 
           method: 'GET',
           headers: {

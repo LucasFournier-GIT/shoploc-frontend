@@ -15,6 +15,7 @@ import {AuthProvider} from './components/AuthContext';
 import ShopUpdateProduct from "./components/shop/shopScreens/ShopUpdateProduct";
 import ProfileScreen from "./components/screens/ProfileScreen";
 import RouteScreen from "./components/screens/RouteScreen";
+import RegisterScreen from "./components/register/RegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,7 @@ export default function App() {
           <Stack.Screen name="ShopUpdateProduct" component={ShopUpdateProduct} options={{headerShown: false}} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
           <Stack.Screen name="RouteScreen" component={RouteScreen} options={{headerShown: false}} />
+          <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

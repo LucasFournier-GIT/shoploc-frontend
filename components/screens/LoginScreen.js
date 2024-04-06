@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useState} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import CustomInput from '../CustomInput';
 import CustomButton from '../CustomButton';
@@ -6,7 +6,6 @@ import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
 import CustomModal from '../CustomModal';
 import { RadioButton } from 'react-native-paper';
-import Config from "react-native-config";
 
 const LoginScreen = ({ navigation }) => {
 
@@ -22,8 +21,7 @@ const LoginScreen = ({ navigation }) => {
 
   const handleUserTypeChange = (value) => { setUserType(value); };
 
-  //const backendUrl = Config.BACKEND_URL;
-  const backendUrl = "http://localhost:8080";
+  const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
   const handleConnexion = async () => {
 
@@ -138,7 +136,7 @@ const LoginScreen = ({ navigation }) => {
 
         <CustomButton text={"Se connecter "}  onPress={handleConnexion}/>
         <Text style={styles.createAccountText}>
-          Pas de compte ? <Text style={styles.createAccountLink} onPress={() => navigation.navigate('CreateAccountScreen')}>Créer un compte</Text>
+          Pas de compte ? <Text style={styles.createAccountLink} onPress={() => navigation.navigate('RegisterScreen')}>Créer un compte</Text>
         </Text>
         <Text style={styles.footer}>
             ShopLoc by SEQI

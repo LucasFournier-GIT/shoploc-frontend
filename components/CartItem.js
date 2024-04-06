@@ -11,7 +11,7 @@ const CartItem = ({ name,  price, qty, imageUrl, productId}) => {
   // Fonction pour augmenter la quantité d'un produit dans le panier
   const handleIncrease = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/product_in_cart/add/${productId}`, {
+      const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product_in_cart/add/${productId}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -33,7 +33,7 @@ const CartItem = ({ name,  price, qty, imageUrl, productId}) => {
 // Fonction pour diminuer la quantité d'un produit dans le panier
   const handleDecrease = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/product_in_cart/remove/${productId}`, {
+      const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product_in_cart/remove/${productId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

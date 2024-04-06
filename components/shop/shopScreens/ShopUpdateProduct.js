@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import { AuthContext } from './../../AuthContext';
+import { AuthContext } from '../../AuthContext';
 import ShopNavbar from "../shopComponents/ShopNavbar";
 import logo from "../../../assets/logo.png";
 import colors from "../../../assets/colors";
@@ -15,10 +15,12 @@ const ShopUpdateProduct = ({ route, navigation }) => {
     const [description, setDescription] = useState(product.description);
     const [imageUrl, setImageUrl] = useState(product.imageUrl);
 
+    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
+
     const handleUpdateProduct = async () => {
         try {
             console.log(name, availability, price, description, imageUrl);
-            const response = await fetch(`http://localhost:8080/api/product/${id}`, {
+            const response = await fetch(`${backendUrl}/api/product/${id}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -53,7 +55,7 @@ const ShopUpdateProduct = ({ route, navigation }) => {
 
     const handleDeleteProduct = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/product/${id}`, {
+            const response = await fetch(`${backendUrl}/api/product/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,

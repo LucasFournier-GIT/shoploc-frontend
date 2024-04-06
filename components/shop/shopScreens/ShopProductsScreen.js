@@ -18,7 +18,7 @@ const ShopProductsScreen = ({ navigation }) => {
 
     const fetchShopProducts = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/product/shop/${shopId}`, {
+            const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product/shop/${shopId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-        paddingHorizontal: 5, 
-        paddingBottom: "25%", 
+        paddingHorizontal: 5,
+        paddingBottom: "25%",
         backgroundColor: colors.background,
     },
     logo: {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
         position: 'sticky',
         top: 0,
-        zIndex: 1, 
+        zIndex: 1,
         padding: 10,
     },
     title: {
