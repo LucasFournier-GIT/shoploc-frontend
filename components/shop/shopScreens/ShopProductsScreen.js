@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Image, StatusBar, View, ScrollView } from "react-native"; // Importez ScrollView pour rendre la liste scrollable
+import { Image, StatusBar, View, ScrollView } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native";
-import { SearchBar } from 'react-native-elements';
 import logo from "./../../../assets/logo.png";
 import colors from "../../../assets/colors";
 import { AuthContext } from "../../AuthContext";
 import ShopNavbar from '../shopComponents/ShopNavbar';
-import ProductCard from './../../ProductCard';
 import ShopProduct from "../shopComponents/ShopProduct";
 
 const ShopProductsScreen = ({ navigation }) => {

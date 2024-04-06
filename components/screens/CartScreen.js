@@ -4,14 +4,12 @@ import ShopCartSummary from './../ShopCartSummary';
 import CustomNavBar from '../CustomNavBar';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
-import Config from "react-native-config";
 
 const CartScreen = ({ navigation }) => {
 
   const [userCarts, setUserCarts] = useState([]);
   const { token, updateToken } = useContext(AuthContext);
 
-  //const backendUrl = Config.BACKEND_URL;
     const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
 
