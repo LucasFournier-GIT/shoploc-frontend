@@ -1,24 +1,26 @@
 import React, { useContext, useState } from 'react';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import { AuthContext } from './../../AuthContext';
+import { AuthContext } from '../../AuthContext';
 import ShopNavbar from "../shopComponents/ShopNavbar";
 import logo from "../../../assets/logo.png";
 import colors from "../../../assets/colors";
 
 const ShopUpdateProduct = ({ route, navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
-    const {product, refreshProducts} = route.params;
-    const [ id, setId ] = useState(product.id);
+    const { product } = route.params;
+
+    const [id, setId] = useState(product.id);
+    const [imageUrl, setImageUrl] = useState(product.imageUrl);
     const [name, setName] = useState(product.name);
     const [availability, setAvailability] = useState(product.availability);
     const [price, setPrice] = useState(product.price);
     const [description, setDescription] = useState(product.description);
-    const [imageUrl, setImageUrl] = useState(product.imageUrl);
+  
+    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
     const handleUpdateProduct = async () => {
         try {
-            console.log(name, availability, price, description, imageUrl);
-            const response = await fetch(`http://localhost:8080/api/product/${id}`, {
+            const response = await fetch(`${backendUrl}/api/product/${id}`, {
                 method: 'PATCH',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -34,7 +36,6 @@ const ShopUpdateProduct = ({ route, navigation }) => {
             });
             if (response.ok) {
                 console.log('Produit mis à jour avec succès');
-                await refreshProducts();
             } else {
                 console.error('Erreur lors de la mise à jour du produit');
             }
@@ -53,7 +54,7 @@ const ShopUpdateProduct = ({ route, navigation }) => {
 
     const handleDeleteProduct = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/product/${id}`, {
+            const response = await fetch(`${backendUrl}/api/product/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -107,17 +108,14 @@ const ShopUpdateProduct = ({ route, navigation }) => {
                 multiline={true}
             />
             <TextInput
-                style={[styles.input, styles.input]}
+                style={styles.input}
                 value={imageUrl}
                 onChangeText={setImageUrl}
-                placeholder="UR de l'image"
+                placeholder="URL de l'image du produit"
             />
-            <Image
-                source={imageUrl ? { uri: imageUrl } : require('../../../assets/logo.png')}
-                style={styles.image}
-            />
-            <TouchableOpacity style={styles.button} >
-                <Text style={styles.buttonText} onPress={handleUpdateProduct} s>Enregistrer</Text>
+            <Image source={imageUrl} style={styles.image}/>
+            <TouchableOpacity style={styles.button} onPress={handleUpdateProduct}>
+                <Text style={styles.buttonText}>Enregistrer</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteProduct}>
                 <Text style={styles.deleteButtonText}>Supprimer le produit</Text>
@@ -192,13 +190,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    image: {
-        width: 100,
-        height: 100,
-        borderRadius: 10,
-        marginBottom: 10,
-    },
-
+    image:{
+        height:100,
+        width:100
+    }
 });
 
 export default ShopUpdateProduct;

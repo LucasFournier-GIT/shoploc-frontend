@@ -4,13 +4,12 @@ import colors  from './../assets/colors';
 import {AuthContext} from "./AuthContext";
 
 const ProductCard = ({ name, id, availability, description, imageUrl, price, qty }) => {
-  console.log("qty", qty)
   const { token, updateToken } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(qty)
 
   const handleAddToCart = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/product_in_cart/add/${id}`, {
+      const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product_in_cart/add/${id}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -32,7 +31,7 @@ const ProductCard = ({ name, id, availability, description, imageUrl, price, qty
   const handleRemoveFromCart = async () => {
     if (quantity > 0) {
       try {
-        const response = await fetch(`http://localhost:8080/api/product_in_cart/remove/${id}`, {
+        const response = await fetch(`https://shoploc-9d37a142d75a.herokuapp.com/api/product_in_cart/remove/${id}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -62,20 +61,17 @@ const ProductCard = ({ name, id, availability, description, imageUrl, price, qty
         </Text>
         <Text style={styles.description}>{description}</Text>
 
-      {availability > 0 && (
+      {availability > 0 && !disabledInteraction && (
         <View style={styles.addToCart}>
           <TouchableOpacity onPress={handleAddToCart} style={[styles.button, styles.roundButton]}>
             <Text style={styles.buttonText}>+</Text>
           </TouchableOpacity>
-
           <Text style={[styles.cartQuantity, quantity === 0 && { display: 'none' }]}>{quantity}</Text>
-          
           <TouchableOpacity
               onPress={handleRemoveFromCart}
               style={[styles.button, quantity === 0 && { display: 'none' }, styles.roundButton]}>
           <Text style={styles.buttonText}>-</Text>
           </TouchableOpacity>
-
         </View>
       )}
     </View>
@@ -124,8 +120,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   addToCart: {
-    position: 'absolute', // Utilisation d'une position absolue
-    top: 5, // Ajustez ces valeurs pour positionner "addToCart"
+    position: 'absolute',
+    top: 5,
     right: 5,
     backgroundColor: colors.secondary,
     borderRadius: 50,

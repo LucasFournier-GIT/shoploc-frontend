@@ -7,7 +7,6 @@ import logo from './../../assets/logo.png';
 import { Octicons } from '@expo/vector-icons';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
-import Config from "react-native-config";
 
 
 const ShopScreen = ({ route, navigation }) => {
@@ -18,7 +17,7 @@ const ShopScreen = ({ route, navigation }) => {
   const [cartProducts, setCartProducts] = useState([]);
 
   //const backendUrl = Config.BACKEND_URL;
-  const backendUrl = "http://localhost:8080";
+  const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com";
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -29,28 +28,26 @@ const ShopScreen = ({ route, navigation }) => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-        }).then((res)=> {
-          return res.json();
-        }).then((data)=>{
-          setProducts(data);
-          console.log("THE DATA", data);
-        });
+        })
+        
         if (response.ok) {
           const data = await response.json();
           setProducts(data);
-        } else {
-          console.error('Error fetching products:', response.status);
         }
+        
+        const data = await response.json();
+        setProducts(data);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
 
     fetchProducts();
+  }, []);
 
     const fetchCartProducts = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/product_in_cart/shop/${shopId}`, {
+        const response = await fetch(`${backendUrl}/api/product_in_cart/shop/${shopId}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -109,9 +106,21 @@ const ShopScreen = ({ route, navigation }) => {
               />
           );
         })}
-
-        </ScrollView>
-
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            name={product.name}
+            quantity={product.availability}
+            description={product.description}
+            imageUrl={product.imageUrl}
+            navigation={navigation}
+            id={product.id}
+            price={product.price}
+            disabledInteraction={false}
+          />
+        ))}
+      </ScrollView>
         <CustomNavBar navigation={navigation} screen="HomeScreen" />
       </View>
   );
@@ -167,4 +176,5 @@ const styles = StyleSheet.create({
     height:"9%"
   },
 });
+
 export default ShopScreen;

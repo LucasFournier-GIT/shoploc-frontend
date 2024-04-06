@@ -13,10 +13,12 @@ import ShopOrdersScreen from './components/shop/shopScreens/ShopOrdersScreen';
 import ShopProfileScreen from './components/shop/shopScreens/ShopProfileScreen';
 import {AuthProvider} from './components/AuthContext';
 import ShopUpdateProduct from "./components/shop/shopScreens/ShopUpdateProduct";
+import ShopOrderDetailsScreen from "./components/shop/shopScreens/ShopOrderDetailsScreen";
 import ProfileScreen from "./components/screens/ProfileScreen";
 import RouteScreen from "./components/screens/RouteScreen";
 import HomeCityscreen from "./components/city/cityScreens/HomeCityscreen";
 import ProfileCityscreen from "./components/city/cityScreens/ProfileCityScreen";
+import RegisterScreen from "./components/register/RegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -37,10 +39,12 @@ export default function App() {
           <Stack.Screen name="ShopOrdersScreen" component={ShopOrdersScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopProfileScreen" component={ShopProfileScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopUpdateProduct" component={ShopUpdateProduct} options={{headerShown: false}} />
+          <Stack.Screen name="ShopOrderDetailsScreen" component={ShopOrderDetailsScreen} options={{headerShown: false}} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{headerShown: false}} />
           <Stack.Screen name="RouteScreen" component={RouteScreen} options={{headerShown: false}} />
           <Stack.Screen name="HomeCityScreen" component={HomeCityscreen} options={{headerShown: false}} />
           <Stack.Screen name="ProfileCityScreen" component={ProfileCityscreen} options={{headerShown: false}} />
+          <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

@@ -9,7 +9,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const RouteScreen = ( { navigation } ) => {
     const { token, updateToken } = useContext(AuthContext)
-    const backendUrl = "http://localhost:8080" //Config.BACKEND_URL;
+    const backendUrl = "https://shoploc-9d37a142d75a.herokuapp.com" //Config.BACKEND_URL;
     const [selectedOrder, setSelectedOrder] = React.useState(null);
     const [orders, setOrders] = React.useState([]);
 
