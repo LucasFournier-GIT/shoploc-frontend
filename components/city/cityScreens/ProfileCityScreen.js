@@ -3,19 +3,15 @@ import {View, Text, StyleSheet, Image, ScrollView, Linking, Pressable} from 'rea
 import { AuthContext } from '../../AuthContext';
 import colors from "../../../assets/colors";
 import logo from "../../../assets/logo.png";
-import CustomNavBar from "../../CustomNavBar";
 import EditProfileForm from "../../Profile/EditProfileForm";
 import {MaterialIcons} from "@expo/vector-icons";
-import Config from "react-native-config";
 import CityNavbar from "../cityComponents/CityNavbar";
+import {backendUrl} from "../../../assets/backendUrl";
 
 const ProfileCityScreen = ( { navigation } ) => {
     const { token } = useContext(AuthContext);
     const [userInfo, setUserInfo] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-
-    //const backendUrl = Config.BACKEND_URL;
-    const backendUrl = "http://localhost:8080";
 
     useEffect(() => {
         const fetchUserInfo = async () => {
