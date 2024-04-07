@@ -1,5 +1,5 @@
-import {Image, ScrollView, StatusBar, StyleSheet, Text, View} from "react-native";
-import React, {useContext, useEffect, useState} from "react";
+import {Image, ScrollView, StyleSheet, Text, View} from "react-native";
+import React, {useContext, useState} from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import {AuthContext} from "../../AuthContext";
 import ShopNavbar from './../shopComponents/ShopNavbar';
@@ -11,34 +11,6 @@ import {backendUrl} from "../../../assets/backendUrl";
 const ShopOrdersScreen = ({ navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
     const [orders, setOrders] = useState([])
-
-    useEffect(() => {
-        const autoLogin = async () => {
-            try {
-                const response = await fetch(`${backendUrl}/api/auth/authenticate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: "lucasfournierpro@gmail.com",
-                        password: "18"
-                    }),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erreur lors de la requête');
-                }
-
-                const data = await response.json();
-                updateToken(data.token);
-            } catch (error) {
-                console.error('Erreur lors de l\'auto-login : ', error);
-            }
-        };
-
-        autoLogin();
-    }, []); // Cette fonction s'exécute une seule fois après le montage du composant
 
     useFocusEffect(
         React.useCallback(() => {

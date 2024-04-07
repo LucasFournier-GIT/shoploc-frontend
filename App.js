@@ -19,6 +19,7 @@ import HomeCityscreen from "./components/city/cityScreens/HomeCityscreen";
 import ProfileCityscreen from "./components/city/cityScreens/ProfileCityScreen";
 import RegisterScreen from "./components/register/RegisterScreen";
 import ShopUpdateProfileScreen from "./components/shop/shopScreens/ShopUpdateProfileScreen";
+import CreateProductScreen from "./components/shop/shopScreens/CreateProductScreen";
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ export default function App() {
           <Stack.Screen name="RecapCartScreen" component={RecapCart} options={{headerShown: false}} />
           <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopProductsScreen" component={ShopProductsScreen} options={{headerShown: false}} />
+          <Stack.Screen name="CreateProductScreen" component={CreateProductScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopOrdersScreen" component={ShopOrdersScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopProfileScreen" component={ShopProfileScreen} options={{headerShown: false}} />
           <Stack.Screen name="ShopUpdateProduct" component={ShopUpdateProduct} options={{headerShown: false}} />

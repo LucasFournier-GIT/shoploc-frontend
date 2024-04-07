@@ -12,34 +12,6 @@ const ShopProfileScreen = ({navigation}) => {
     const [shop, setShop] = useState({});
 
     useEffect(() => {
-        const autoLogin = async () => {
-            try {
-                const response = await fetch(`${backendUrl}/api/auth/authenticate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: "lucasfournierpro@gmail.com",
-                        password: "18"
-                    }),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erreur lors de la requête');
-                }
-
-                const data = await response.json();
-                updateToken(data.token);
-            } catch (error) {
-                console.error('Erreur lors de l\'auto-login : ', error);
-            }
-        };
-
-        autoLogin();
-    }, []);
-
-    useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const response = await fetch(`${backendUrl}/api/user`, {
