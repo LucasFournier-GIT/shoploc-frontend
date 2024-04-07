@@ -1,19 +1,13 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import CartItem from './CartItem';
 import colors from "./../assets/colors";
-import {AuthContext} from "./AuthContext";
 
-const ShopCartSummary = ({ store, navigation, shopName }) => {
-  const { token, updateToken } = useContext(AuthContext);
+const ShopCartSummary = ({ store, navigation, shopName, shopId }) => {
+
   let amount = 0;
   const handleValidate = () => {
-    /*const totalAmount = store.products.reduce((acc, product) => {
-      return 100;
-      //return acc + product.price * product.quantity;
-    }, 0);*/
-
-    navigation.navigate("RecapCartScreen", { TotalAmount: amount, navigation: navigation });
+    navigation.navigate("RecapCartScreen", { TotalAmount: amount, navigation: navigation, shopId: shopId });
   };
 
   return (
@@ -45,17 +39,23 @@ const styles = StyleSheet.create({
   heading2: {
     color: colors.primary,
     fontSize: 20,
-    marginBottom: 15
+    margin: 10,
   },
   container: {
-    // Styles pour le conteneur global du composant ShopCartSummary
+    backgroundColor: 'white',
+    padding: 10,
+    margin: 10,
+    borderRadius: 32.5,
+    elevation: 5
   },
   button: {
     backgroundColor: colors.secondary,
+    width: '100%',
+    marginVertical: 10,
     padding: 5,
     borderRadius: 32.5,
     elevation: 5,
-    alignSelf: "flex-end",
+    alignSelf: 'center',
     alignItems: 'center',
   },
   buttonText: {

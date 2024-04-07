@@ -83,7 +83,7 @@ const ShopScreen = ({ route, navigation }) => {
         </View>
 
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          {cartProducts.length > 0 && products.map((product) => {
+          {products.map((product) => {
           const cartProduct = cartProducts.find((cartProduct) => cartProduct.id === product.id);
           const quantity = cartProduct ? cartProduct.quantity : 0;
           return (

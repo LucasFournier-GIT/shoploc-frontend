@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Pressable, Image} from 'react-native';
 import ShopCartSummary from './../ShopCartSummary';
 import CustomNavBar from '../CustomNavBar';
 import colors from "./../../assets/colors";
 import { AuthContext } from '../AuthContext';
 import {backendUrl} from "../../assets/backendUrl";
+import logo from "../../assets/logo.png";
 
 const CartScreen = ({ navigation }) => {
 
@@ -51,20 +52,21 @@ const CartScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.heading}>Paniers</Text>
-        <ScrollView style={styles.card}>
-
+        <View style={styles.head} >
+            <Image source={logo} style={styles.logo} />
+            <Text style={styles.heading}>Mes commandes</Text>
+            <View/>
+        </View>
+        <ScrollView contentContainerStyle={styles.card}>
           {userCarts.map((cart) => (
             <ShopCartSummary navigation={navigation}
                              shopName={cart.shopName}
-                             key={cart.id} store={cart.products} />
+                             key={cart.id} store={cart.products} shopId={cart.shopId} />
           ))}
+        <Pressable onPress={handleValidateAll} style={styles.allButton}>
+            <Text style={{color: 'white'}}>Tout valider</Text>
+        </Pressable>
       </ScrollView>
-
-      <View style={styles.buttonContainer}>
-        <Button title="Valider tout" onPress={handleValidateAll} color={"#275C50"} />
-      </View>
-
       <CustomNavBar navigation={navigation} screen="CartScreen" />
     </View>
   );
@@ -73,11 +75,21 @@ const CartScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      top: 0,
       backgroundColor: colors.background,
     },
-    content: {
-      bottom: 125,
+    head: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1,
+        backgroundColor: colors.background,
+    },
+    logo:{
+        width: 50,
+        height: 50,
+        margin:15,
     },
     heading: {
       fontSize: 30,
@@ -86,21 +98,19 @@ const styles = StyleSheet.create({
       color: colors.primary,
       alignSelf: 'center',
     },
-    card: {
-      backgroundColor: "white",
-      borderRadius: 32.5,
-      margin: 10,
-      marginBottom:135,
-      padding:5,
+    ScrollView: {
+        flex: 1,
+        width: '90%',
+        paddingBottom:10,
     },
-    buttonContainer: {
-      position: 'absolute',
-      bottom: 95,
-
-      width: '100%',
-      alignItems: 'center',
-
-    },
+    allButton: {
+        backgroundColor: colors.secondary,
+        padding: 20,
+        borderRadius: 50,
+        width: '90%',
+        alignItems: 'center',
+        alignSelf: 'center',
+    }
   });
 
 

@@ -36,8 +36,6 @@ const ShopProfileScreen = ({navigation}) => {
         fetchUserData();
     }, [token]);
 
-    //const testShopId = 202;
-
     const refreshProfile = async () => {
         try {
             const response = await fetch(`${backendUrl}/api/shop/${shopId}`, {

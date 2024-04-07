@@ -59,13 +59,13 @@ const CreateShopScreen = ({ navigation }) => {
         let userId = await getUserId();
 
         let shopInfo = {
+            id: userId,
             name: shopName,
             image_url: shopImage,
             address: shopAddress,
             email: shopEmail,
             gps_coordinates: shopGps,
             opening_hours: shopOpening,
-            userId: userId
         };
 
         await submitAddShop(shopInfo);

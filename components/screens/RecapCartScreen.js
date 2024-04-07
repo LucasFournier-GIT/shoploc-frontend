@@ -4,14 +4,14 @@ import CustomNavBar from "../CustomNavBar";
 import colors from './../../assets/colors';
 
 const RecapCart = ({ navigation, route }) => {
-  const { TotalAmount } = route.params;
+  const { TotalAmount, shopId } = route.params;
 
   const handleCancel = () => {
     navigation.navigate("CartScreen");
   }
 
   const handleValidate = () => {
-    navigation.navigate("PaymentScreen", { navigation: navigation, TotalAmount: TotalAmount });
+    navigation.navigate("PaymentScreen", { navigation: navigation, TotalAmount: TotalAmount, shopId: shopId });
   }
 
   return (

@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     marginBottom:5
   },
   name: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
     textAlign: 'center',
@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
     paddingRight:5,
   },
   status: {
-    fontSize: 17,
+    fontSize: 16,
     fontStyle: 'italic',
     textAlign: 'center', // Centrage du texte
     paddingLeft:5,
     paddingRight:5,
   },
   hours: {
-    fontSize: 17,
+    fontSize: 14,
     fontStyle: 'italic',
     color: colors.primary,
     textAlign: 'center', // Centrage du texte

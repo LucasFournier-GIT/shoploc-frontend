@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, {useContext, useState} from 'react';
+import {View, StyleSheet, TouchableOpacity, Text, Pressable} from 'react-native';
 import CustomNavBar from '../CustomNavBar';
 import CustomInput from '../CustomInput';
 import CustomButton from '../CustomButton';
 import colors from './../../assets/colors';
 import CustomModal from './../CustomModal';
+import {backendUrl} from "../../assets/backendUrl";
+import {AuthContext} from "../AuthContext";
 
-const PaymentScreen = ({ navigation, TotalAmount }) => {
+const PaymentScreen = ({ navigation, route }) => {
+  const { TotalAmount, shopId } = route.params;
   const [paymentOption, setPaymentOption] = useState(TotalAmount);
   const [number, setNumber] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { token, setToken } = useContext(AuthContext);
 
   const handleOptionSelection = (option) => {
     setPaymentOption(option);
@@ -19,7 +23,8 @@ const PaymentScreen = ({ navigation, TotalAmount }) => {
     setNumber(value);
   };
 
-  const handleValidate = () => {
+  const handleValidate = async () => {
+    await createOrder(true);
     setIsModalVisible(true);
   };
 
@@ -28,18 +33,45 @@ const PaymentScreen = ({ navigation, TotalAmount }) => {
     navigation.navigate('HomeScreen');
   };
 
+  const createOrder = async (paid) => {
+    try {
+      console.log({
+        status: 'En attente',
+        paid: paid,
+        amount: TotalAmount,
+        shopId: shopId,
+        date: new Date().toISOString()
+      })
+      const response = await fetch(`${backendUrl}/api/order`, {
+        method: 'POST',
+        headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              status: 'En attente',
+              paid: paid,
+              amount: TotalAmount,
+              shopId: shopId,
+              date: new Date().toISOString()
+            })
+        }
+        );
+    } catch (e) {
+      console.error('Error fetching user:', e);
+    }
+
+    navigation.navigate('HomeScreen');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
         <View style={styles.option}>
-          <TouchableOpacity style={styles.optionHead} onPress={() => handleOptionSelection('magasin')}>
+          <Pressable style={styles.optionHead} onPress={() => handleOptionSelection('magasin')}>
             <Text style={styles.optionText}>Payer en magasin</Text>
-          </TouchableOpacity>
-          {paymentOption === 'magasin' && (
-            <Text>Valider votre commande maintenant et payez-la en magasin au moment de la retirer, sur présentation de votre code ShopLoc</Text>
-          )}
+          </Pressable>
         </View>
-
         <View style={styles.option}>
           <TouchableOpacity style={styles.optionHead} onPress={() => handleOptionSelection('ligne')}>
             <Text style={styles.optionText}>Payer en ligne</Text>
@@ -55,9 +87,7 @@ const PaymentScreen = ({ navigation, TotalAmount }) => {
           )}
         </View>
       </View>
-
       <CustomModal isVisible={isModalVisible} onClose={handleCloseModal} modalText={'Le paiement a bien été effectué'} />
-
       <View style={styles.bottomNavBar}>
         <CustomNavBar navigation={navigation} screen="CartScreen" />
       </View>
@@ -93,6 +123,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
+  },
+  validateButton: {
+    backgroundColor: colors.secondary,
+    padding: 10,
+    borderRadius: 32.5,
+    width: '10%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    margin: 10,
   },
 });
 

@@ -41,6 +41,7 @@ const ShopUpdateProfile = ({ route, navigation }) => {
             if (response.ok) {
                 console.log('Magasin mis à jour avec succès');
                 await route.params.refreshProfile();
+                navigation.navigate('ShopProfileScreen');
             } else {
                 console.error('Erreur lors de la mise à jour du magasin');
             }
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     saveButton: {
         backgroundColor: colors.secondary,
         paddingVertical: 15,
-        borderRadius: 5,
+        borderRadius: 50,
         alignItems: 'center',
     },
     saveButtonText: {
