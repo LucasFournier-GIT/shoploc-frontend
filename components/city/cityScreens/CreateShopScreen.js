@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react";
 import {Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import logo from "../../../assets/logo.png";
 import colors from "../../../assets/colors";
-import { AuthContext } from '../../AuthContext';
+import {AuthContext} from '../../AuthContext';
 import CustomModal from "../../CustomModal";
 import {backendUrl} from "../../../assets/backendUrl";
 
@@ -22,7 +22,7 @@ const CreateShopScreen = ({ navigation }) => {
 
     const getUserId = async () => {
         try {
-            const response = await fetch(`${backendUrl}/api/user`, {
+            const response = await fetch(`${backendUrl}/api/user/${email}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -34,8 +34,7 @@ const CreateShopScreen = ({ navigation }) => {
                 throw new Error('Erreur lors de la requête');
             }
 
-            const data = await response.json();
-            return data.id;
+            return await response.json();
         } catch (error) {
             console.error('Erreur lors de l\'appel de getUserId : ', error);
         }
