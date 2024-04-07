@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Image, StatusBar, View, ScrollView } from "react-native";
+import {Image, View, ScrollView, Pressable} from "react-native";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native";
 import logo from "./../../../assets/logo.png";
@@ -9,6 +9,7 @@ import ShopNavbar from '../shopComponents/ShopNavbar';
 import ShopProduct from "../shopComponents/ShopProduct";
 import {backendUrl} from "../../../assets/backendUrl";
 import {useFocusEffect} from "@react-navigation/native";
+import {Ionicons} from "@expo/vector-icons";
 
 const ShopProductsScreen = ({ navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
@@ -64,6 +65,9 @@ const ShopProductsScreen = ({ navigation }) => {
         }, [shopId])
     );
 
+    const handleAddProduct = () => {
+        navigation.navigate('CreateProductScreen', { shopId });
+    };
 
     return (
         <View style={styles.container}>
@@ -81,6 +85,9 @@ const ShopProductsScreen = ({ navigation }) => {
                     />
                 ))}
             </ScrollView>
+            <Pressable style={styles.addButton} onPress={handleAddProduct}>
+                <Ionicons name="add" size={32} color="white" />
+            </Pressable>
             <ShopNavbar navigation={navigation} screen="ShopProductsScreen" />
         </View>
     );
@@ -119,6 +126,23 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: colors.primary,
+    },
+    addButton: {
+        position: 'sticky', // Position absolue pour le rendre fixe
+        right: 20, // Positionné à droite
+        alignSelf: 'flex-end',
+        bottom: 80, // Positionné au-dessus de la navbar
+        width: 60,
+        height: 60,
+        borderRadius: 50, // Pour le rendre circulaire
+        backgroundColor: colors.secondary, // Couleur de fond
+        justifyContent: 'center', // Centrer l'icône verticalement
+        alignItems: 'center', // Centrer l'icône horizontalement
+        elevation: 10, // Pour Android
+        shadowColor: '#000', // Pour iOS
+        shadowOffset: { width: 0, height: 2 }, // Pour iOS
+        shadowOpacity: 0.25, // Pour iOS
+        shadowRadius: 3.84, // Pour iOS
     },
 });
 
