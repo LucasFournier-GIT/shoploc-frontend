@@ -97,15 +97,11 @@ const ProfileCityScreen = ( { navigation } ) => {
                                 <MaterialIcons name="edit" size={28} color={colors.primary}/>
                             </Pressable>
                         </View>
-                        <View style={styles.row}>
-                            <View style={styles.leftColumn}>
-                                <Text style={styles.textLeftColumn}>Email :</Text>
-                                <Text style={styles.textLeftColumn}>Mot de passe:</Text>
-                            </View>
-                            <View style={styles.rightColumn}>
-                                <Text style={styles.text}>{userInfo.email}</Text>
-                                <Text style={styles.text}>{'**********'}</Text>
-                            </View>
+                        <View style={styles.column}>
+                            <Text style={styles.textLeftColumn}>Email :</Text>
+                            <Text style={styles.text}>{userInfo.email}</Text>
+                            <Text style={styles.textLeftColumn}>Mot de passe:</Text>
+                            <Text style={styles.text}>{'**********'}</Text>
                         </View>
                     </View>
                 )}

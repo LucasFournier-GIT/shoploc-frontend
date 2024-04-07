@@ -69,12 +69,12 @@ const ProfileInfo = ( { navigation } ) => {
       setIsEditing(false);
     } catch (e) {
       // TODO: Afficher une notif sur le front
-      console.error('Erreur lors de la mise à jour des informations client : ', error);
+      console.error('Erreur lors de la mise à jour des informations client : ', e);
     }
   }
 
   const redirectToPbi = () => {
-    const url = process.env.USER_RAPPORT_PBI_URL
+    const url = "https://app.powerbi.com/view?r=eyJrIjoiMTY0MDU4ZjItYzVlNi00ZjY1LWFjNGEtNzUwZDkxZWRhZDA2IiwidCI6IjIyMTNkOWRmLWNlZDYtNGIwYi1hMjUwLWVlOGQxOWZiY2M5YiIsImMiOjh9"
     Linking.openURL(url);
   }
 
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   scrollViewContent: {
-    alignItems: 'flex-start', // Aligne les éléments enfants au début de l'axe transversal
+    alignItems: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-evenly',
