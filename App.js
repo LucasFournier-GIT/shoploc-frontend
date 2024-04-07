@@ -20,6 +20,7 @@ import ProfileCityscreen from "./components/city/cityScreens/ProfileCityScreen";
 import RegisterScreen from "./components/register/RegisterScreen";
 import ShopUpdateProfileScreen from "./components/shop/shopScreens/ShopUpdateProfileScreen";
 import CreateProductScreen from "./components/shop/shopScreens/CreateProductScreen";
+import CreateShopScreen from "./components/city/cityScreens/CreateShopScreen";
 
 const Stack = createStackNavigator();
 
@@ -47,6 +48,7 @@ export default function App() {
           <Stack.Screen name="HomeCityScreen" component={HomeCityscreen} options={{headerShown: false}} />
           <Stack.Screen name="ProfileCityScreen" component={ProfileCityscreen} options={{headerShown: false}} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}} />
+          <Stack.Screen name="CreateShopScreen" component={CreateShopScreen} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

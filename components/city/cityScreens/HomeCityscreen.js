@@ -68,8 +68,6 @@ const HomeCityscreen = ({ navigation }) => {
             console.error('Error deleting shop:', error.message);
         }
     }
-
-    //TODO a bouger dans un screen AddShop
     const handleAddShop = async (shop) => {
         console.log('add shop', shop);
         try {
@@ -94,12 +92,20 @@ const HomeCityscreen = ({ navigation }) => {
         }
     }
 
+    const handleGoAddShop = () => {
+        navigation.navigate("CreateShopScreen");
+    }
 
     return (
         <View style={styles.pageContainer}>
             <View style={styles.head} >
                 <Image source={logo} style={styles.logo} />
                 <Text style={styles.heading}>Magasins</Text>
+                <Pressable style={styles.addButton } onPress={()=> {
+                    handleGoAddShop();
+                }}>
+                    <MaterialIcons name="add" size={28} color={colors.primary}/>
+                </Pressable>
                 <View/>
             </View>
             <ScrollView contentContainerStyle={styles.container}>
@@ -170,17 +176,6 @@ const styles = StyleSheet.create({
     buttons: {
         flexDirection: "row",
     },
-    button: {
-        borderRadius: 50,
-        padding: 8,
-        shadowColor: "black",
-        shadowOffset: {
-            width: 2,
-            height: 2,
-        },
-        shadowRadius: 6,
-        shadowOpacity: 0.50,
-    },
     selectedShopDetails: {
         backgroundColor: "#FFF",
         borderRadius: 10,
@@ -218,6 +213,29 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+    },
+    button: {
+        borderRadius: 50,
+        padding: 8,
+        shadowColor: "black",
+        shadowOffset: {
+            width: 2,
+            height: 2,
+        },
+        shadowRadius: 6,
+        shadowOpacity: 0.50,
+    },
+    addButton:{
+        borderRadius: 50,
+        padding: 8,
+        shadowColor: "black",
+        shadowOffset: {
+            width: 2,
+            height: 2,
+        },
+        shadowRadius: 6,
+        shadowOpacity: 0.50,
+        alignSelf:"center",
     }
 });
 export  default HomeCityscreen;
