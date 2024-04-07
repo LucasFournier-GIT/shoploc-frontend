@@ -76,12 +76,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.tertiary,
-    paddingVertical: 10,
-    paddingHorizontal: 5,
+    borderRadius: 32.5,
+    padding: 10,
     backgroundColor: colors.background,
-    marginBottom: 2,
+    marginVertical: 5,
   },
   productName: {
     fontSize: 16,
@@ -110,8 +108,10 @@ const styles = StyleSheet.create({
     color: "white"
   },
   image:{
+    marginHorizontal:10,
     width:"50px",
-    height:"50px"
+    height:"50px",
+    borderRadius: 10,
   }
 });
 

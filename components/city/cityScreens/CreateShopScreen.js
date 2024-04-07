@@ -1,11 +1,10 @@
 import React, {useContext, useState} from "react";
-import {Alert, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
+import {Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import logo from "../../../assets/logo.png";
 import colors from "../../../assets/colors";
 import { AuthContext } from '../../AuthContext';
 import CustomModal from "../../CustomModal";
 import {backendUrl} from "../../../assets/backendUrl";
-import {MaterialIcons} from "@expo/vector-icons";
 
 const CreateShopScreen = ({ navigation }) => {
     const { token, updateToken } = useContext(AuthContext);
@@ -21,8 +20,29 @@ const CreateShopScreen = ({ navigation }) => {
     const [modalText, setModalText] = useState('Erreur');
     const [isModalVisible, setIsModalVisible] = useState(false);
 
+    const getUserId = async () => {
+        try {
+            const response = await fetch(`${backendUrl}/api/user`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
 
-    const handleSubmit = () => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la requête');
+            }
+
+            const data = await response.json();
+            return data.id;
+        } catch (error) {
+            console.error('Erreur lors de l\'appel de getUserId : ', error);
+        }
+    }
+
+
+    const handleSubmit = async () => {
         if (!email || !shopEmail || !shopName || !shopAddress || !shopGps || !shopOpening || !shopImage) {
             setModalText("Des informations sont manquantes");
             setIsModalVisible(true);
@@ -30,25 +50,25 @@ const CreateShopScreen = ({ navigation }) => {
         }
 
         const regex = /^\d{2}:\d{2}-\d{2}:\d{2}$/;
-        if(!regex.test(shopOpening)){
+        if (!regex.test(shopOpening)) {
             setModalText("Les horaires doivent être au format hh:mm-hh:mm (ex : 09:00-17:00)");
             setIsModalVisible(true);
             return;
         }
 
-        let userId = 1 //TODO CHANGER POUR LE BON ID récupéré grâce au mail
+        let userId = await getUserId();
 
         let shopInfo = {
-            id : userId,
-            address : shopAddress,
-            email : shopEmail,
-            gps_coordinates : shopGps,
-            image_url : shopImage,
-            name : shopName,
-            opening_hours : shopOpening,
+            id: userId,
+            name: shopName,
+            image_url: shopImage,
+            address: shopAddress,
+            email: shopEmail,
+            gps_coordinates: shopGps,
+            opening_hours: shopOpening,
         };
 
-        submitAddShop(shopInfo);
+        await submitAddShop(shopInfo);
     };
 
     const submitAddShop = async (shopInfo) => {
@@ -56,6 +76,7 @@ const CreateShopScreen = ({ navigation }) => {
             const response = await fetch(`${backendUrl}/api/shop`, {
                 method: 'POST',
                 headers: {
+                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(shopInfo)

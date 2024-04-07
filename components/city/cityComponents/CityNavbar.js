@@ -30,7 +30,7 @@ const CityNavbar = ({ navigation, screen }) => {
                 style={screen === 'ProfileCityScreen' ? styles.active : styles.inactive}
             >
                 <Ionicons
-                    name={screen === 'ProfileCityScreen' ? 'basket' : 'basket-outline'}
+                    name={screen === 'ProfileCityScreen' ? 'person' : 'person-outline'}
                     size={screen === 'ProfileCityScreen' ? 40 : 24}
                     color="white"
                 />
@@ -43,14 +43,14 @@ const styles = StyleSheet.create({
     navBar: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        height: 70,
+        height: 60,
         backgroundColor: colors.primary,
         paddingHorizontal: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         position:"sticky",
         width:"90%",
-        bottom:"0px",
+        bottom: 0,
         alignSelf:"center",
     },
     active: {
@@ -59,11 +59,12 @@ const styles = StyleSheet.create({
         height: "80px",
         width: "80px",
         borderRadius:"100%",
-        bottom: "10px",
-        paddingTop: "10px"
+        bottom: 10,
+        paddingTop: 10
     },
     inactive: {
         padding: 10,
+        justifyContent: "center",
     },
 });
 

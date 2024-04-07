@@ -1,16 +1,17 @@
 import {Text, View, StyleSheet, ScrollView, TouchableOpacity, Image, Pressable} from "react-native";
 import CityNavbar from "../cityComponents/CityNavbar";
 import colors from '../../../assets/colors';
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useState} from "react";
 import {AuthContext} from "../../AuthContext";
 import logo from "../../../assets/logo.png";
 import {MaterialIcons} from "@expo/vector-icons";
+import {backendUrl} from "../../../assets/backendUrl";
+import {useFocusEffect} from "@react-navigation/native";
 
 const HomeCityscreen = ({ navigation }) => {
 
     const [shops, setShops] = useState([]);
     const { token, updateToken } = useContext(AuthContext);
-    const backendUrl = "http://localhost:8080";
     const [selectedShop, setSelectedShop] = useState(null);
 
     const handleShopPress = (shop) => {
@@ -41,9 +42,11 @@ const HomeCityscreen = ({ navigation }) => {
     };
 
 
-    useEffect(()=>{
-        fetchShopData();
-    }, [token]);
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchShopData();
+        }, [token])
+    );
 
     const handleDeleteShop = async (delShopId) => {
         console.log('delete shop', delShopId);
@@ -101,11 +104,6 @@ const HomeCityscreen = ({ navigation }) => {
             <View style={styles.head} >
                 <Image source={logo} style={styles.logo} />
                 <Text style={styles.heading}>Magasins</Text>
-                <Pressable style={styles.addButton } onPress={()=> {
-                    handleGoAddShop();
-                }}>
-                    <MaterialIcons name="add" size={28} color={colors.primary}/>
-                </Pressable>
                 <View/>
             </View>
             <ScrollView contentContainerStyle={styles.container}>
@@ -125,19 +123,24 @@ const HomeCityscreen = ({ navigation }) => {
                         </View>
                         {selectedShop?.id===shop.id && (
                             <View style={styles.selectedShopDetails}>
-                                <Text style={styles.detailText}>ID: {selectedShop.id}</Text>
-                                <Text style={styles.detailText}>Name: <Text style={styles.bold}>{selectedShop.name}</Text></Text>
-                                <Text style={styles.detailText}>Image URL: {selectedShop.image_url}</Text>
-                                <Text style={styles.detailText}>Address: {selectedShop.address}</Text>
-                                <Text style={styles.detailText}>Email: {selectedShop.email}</Text>
-                                <Text style={styles.detailText}>GPS Coordinates: {selectedShop.gps_coordinates}</Text>
-                                <Text style={styles.detailText}>Opening Hours: {selectedShop.opening_hours}</Text>
+                                <Text style={styles.detailText}>ID: <Text>{selectedShop.id}</Text></Text>
+                                <Text style={styles.detailText}>Name: <Text style={styles.text}>{selectedShop.name}</Text></Text>
+                                <Text style={styles.detailText}>Image URL: <Text style={styles.text}>{selectedShop.image_url}</Text></Text>
+                                <Text style={styles.detailText}>Address: <Text style={styles.text}>{selectedShop.address}</Text></Text>
+                                <Text style={styles.detailText}>Email: <Text style={styles.text}>{selectedShop.email}</Text></Text>
+                                <Text style={styles.detailText}>GPS Coordinates: <Text style={styles.text}>{selectedShop.gps_coordinates}</Text></Text>
+                                <Text style={styles.detailText}>Opening Hours: <Text style={styles.text}>{selectedShop.opening_hours}</Text></Text>
                             </View>
                         )}
                     </TouchableOpacity>
                 ))}
 
             </ScrollView>
+            <Pressable style={styles.addButton} onPress={()=> {
+                handleGoAddShop();
+            }}>
+                <MaterialIcons name="add" size={34} color='white'/>
+            </Pressable>
             <CityNavbar navigation={navigation} screen={"HomeCityScreen"}/>
         </View>
     )
@@ -184,10 +187,11 @@ const styles = StyleSheet.create({
     },
     detailText: {
         marginBottom: 10,
-    },
-    bold: {
-        fontWeight: "bold",
         color: colors.primary,
+        fontWeight: "bold",
+    },
+    text: {
+        fontWeight: "normal",
     },
     logo:{
         width: 50,
@@ -225,17 +229,22 @@ const styles = StyleSheet.create({
         shadowRadius: 6,
         shadowOpacity: 0.50,
     },
-    addButton:{
-        borderRadius: 50,
-        padding: 8,
-        shadowColor: "black",
-        shadowOffset: {
-            width: 2,
-            height: 2,
-        },
-        shadowRadius: 6,
-        shadowOpacity: 0.50,
-        alignSelf:"center",
-    }
+    addButton: {
+        position: 'sticky', // Position absolue pour le rendre fixe
+        right: 20, // Positionné à droite
+        alignSelf: 'flex-end',
+        bottom: 80, // Positionné au-dessus de la navbar
+        width: 60,
+        height: 60,
+        borderRadius: 50, // Pour le rendre circulaire
+        backgroundColor: colors.secondary, // Couleur de fond
+        justifyContent: 'center', // Centrer l'icône verticalement
+        alignItems: 'center', // Centrer l'icône horizontalement
+        elevation: 10, // Pour Android
+        shadowColor: '#000', // Pour iOS
+        shadowOffset: { width: 0, height: 2 }, // Pour iOS
+        shadowOpacity: 0.25, // Pour iOS
+        shadowRadius: 3.84, // Pour iOS
+    },
 });
-export  default HomeCityscreen;
+export default HomeCityscreen;
